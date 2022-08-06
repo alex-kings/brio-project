@@ -2,7 +2,10 @@ import Vector2D from "./Vector2D.js"
 
 const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext('2d')
-const center = new Vector2D(canvas.width/2, canvas.height/2)
+//Set canvas width and height depending on window dimensions
+canvas.width = window.innerWidth
+canvas.height = 0.8*window.innerHeight
+const center = new Vector2D(canvas.width/2, canvas.height/2) // Center of the canvas
 
 // Clears the canvas and sets background
 function clearCanvas(){

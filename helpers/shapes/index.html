@@ -8,8 +8,17 @@
     <link rel="stylesheet" href="./index.css">
 </head>
 <body>
-    <div class="main-container">
-        <canvas id="canvas" width="400" height="400"></canvas>
+    <div class="canvas-container">
+        <canvas class="canvas" id="canvas"></canvas>
+    </div>
+    <div class="inputs-container">
+        <div class="rectangle-inputs">
+            <input type="text" class="input" id="height-input" placeholder="height">
+            <input type="text" class="input" id="width-input" placeholder="width">
+            <input type="text" class="input" id="angle-input" placeholder="angle">
+            <button class="btn" id="plot-btn">plot</button>
+            <button class="btn" id="delete-btn">delete</button>
+        </div>
     </div>
     <script src="./index.js" type="module"></script>
 </body>
