@@ -7,14 +7,14 @@ export default class CanvasDrawer{
         this.bgColor = '#BBBBFF'
         this.setCanvasSize()
         this.clear()
-        // Center of the canvas
-        this.center = new Vector2D(this.canvas.width/2, this.canvas.height/2)
     }
 
     //Set canvas width and height depending on window dimensions
     setCanvasSize(){
         this.canvas.width = this.canvas.clientWidth
         this.canvas.height = this.canvas.clientHeight
+        // Center of the canvas
+        this.center = new Vector2D(this.canvas.width/2, this.canvas.height/2)
     }
 
     clear(){

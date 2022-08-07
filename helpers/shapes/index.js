@@ -16,7 +16,7 @@ const figures = {
 }
 
 
-// Event listeners
+// Plot a new rectangle
 plotBtn.addEventListener('click',()=>{
     // Get inputs
     let w = parseFloat(wInput.value)
@@ -43,4 +43,8 @@ plotBtn.addEventListener('click',()=>{
     cd.drawFigures(figures)
 })
 
-
+// Reset canvas sizes on window resize
+window.addEventListener('resize',()=>{
+    cd.setCanvasSize()
+    cd.drawFigures(figures)
+})
