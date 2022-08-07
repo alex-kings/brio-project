@@ -7,7 +7,6 @@ const aInput = document.getElementById('angle-input')
 const pxInput = document.getElementById('posx-input')
 const pyInput = document.getElementById('posy-input')
 const plotBtn = document.getElementById('plot-btn')
-const delBtn = document.getElementById('delete-btn')
 const cd = new CanvasDrawer(document.getElementById('canvas'))
 
 // Holds the figures to plot on canvas
@@ -41,13 +40,7 @@ plotBtn.addEventListener('click',()=>{
         angle:a
     })
     // Plots figures
-    plotFigures()
+    cd.drawFigures(figures)
 })
 
-// Plot figures on canvas
-function plotFigures(){
-    figures.rectangles.forEach(r=>{
-        cd.drawOBB(r.width/2, r.height/2, r.pos.x, r.pos.y, r.angle)
-    })
-}
 

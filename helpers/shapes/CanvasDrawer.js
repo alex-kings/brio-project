@@ -50,4 +50,12 @@ export default class CanvasDrawer{
         this.ctx.closePath()
         this.ctx.stroke()
     }
+
+    // Draws all the figures specified.
+    drawFigures(figures){
+        this.clear()
+        figures.rectangles.forEach((r)=>{
+            this.drawOBB(r.width/2, r.height/2, r.pos.x, r.pos.y, r.angle)
+        })
+    }
 }
