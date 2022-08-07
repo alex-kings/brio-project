@@ -13,8 +13,8 @@ export default class CanvasDrawer{
 
     //Set canvas width and height depending on window dimensions
     setCanvasSize(){
-        this.canvas.width = window.innerWidth
-        this.canvas.height = 0.8*window.innerHeight
+        this.canvas.width = this.canvas.clientWidth
+        this.canvas.height = this.canvas.clientHeight
     }
 
     clear(){

@@ -8,20 +8,26 @@
     <link rel="stylesheet" href="./index.css">
 </head>
 <body>
-    <div class="canvas-container">
-        <canvas class="canvas" id="canvas"></canvas>
-    </div>
     <div class="inputs-container">
-        <div class="rectangle-inputs">
+        <div class="inputs-line">
             <input type="text" class="input" id="height-input" placeholder="height">
             <input type="text" class="input" id="width-input" placeholder="width">
             <input type="text" class="input" id="posx-input" placeholder="pos x">
             <input type="text" class="input" id="posy-input" placeholder="pos y">
             <input type="text" class="input" id="angle-input" placeholder="angle">
-            <button class="btn" id="plot-btn">draw rectangle</button>
-            <button class="btn" id="delete-btn">delete</button>
+            <button class="btn" id="plot-btn">add rectangle</button>
+        </div>
+        <div class="inputs-line">
+            <input type="text" class="input" id="radius-input" placeholder="radius">
+            <input type="text" class="input" id="posx-circle-input" placeholder="pos x">
+            <input type="text" class="input" id="posy-circle-input" placeholder="pos y">
+            <button class="btn" id="add-circle-btn">add circle</button>
         </div>
     </div>
+    <div class="canvas-container">
+        <canvas class="canvas" id="canvas"></canvas>
+    </div>
+
     <script src="./index.js" type="module"></script>
 </body>
 </html>

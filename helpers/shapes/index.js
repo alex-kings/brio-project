@@ -4,32 +4,50 @@ import CanvasDrawer from "./CanvasDrawer.js"
 const wInput = document.getElementById('width-input')
 const hInput = document.getElementById('height-input')
 const aInput = document.getElementById('angle-input')
+const pxInput = document.getElementById('posx-input')
+const pyInput = document.getElementById('posy-input')
 const plotBtn = document.getElementById('plot-btn')
 const delBtn = document.getElementById('delete-btn')
 const cd = new CanvasDrawer(document.getElementById('canvas'))
 
+// Holds the figures to plot on canvas
+const figures = {
+    rectangles:[],
+    circle:{}
+}
+
 
 // Event listeners
 plotBtn.addEventListener('click',()=>{
-    let w = wInput.value
-    let h = hInput.value
-    let a = aInput.value
-    // At least one input missing
-    if(w==="" || h==="" || a===""){
-        alert('Enter 3 valid inputs to plot rectangle!')
+    // Get inputs
+    let w = parseFloat(wInput.value)
+    let h = parseFloat(hInput.value)
+    let a = parseFloat(aInput.value)
+    let px = parseFloat(pxInput.value)
+    let py = parseFloat(pyInput.value)
+    // Checks if inputs are floats
+    if(isNaN(w)||isNaN(h)||isNaN(a)||isNaN(px)||isNaN(py)){
+        alert('Enter numbers!')
         return
     }
-    // Inputs have to be numeric
-    if(isNaN(w) || isNaN(h) || isNaN(a)){
-        alert('Inputs have to be numeric!')
-        return
-    }
-    cd.drawOBB(parseFloat(w)/2, parseFloat(h)/2,0,0, parseFloat(a))
-    console.log('plotted')
+    // Add a rectangle
+    figures.rectangles.push({
+        width:w,
+        height:h,
+        pos:{
+            x:px,
+            y:py,
+        },
+        angle:a
+    })
+    // Plots figures
+    plotFigures()
 })
 
-delBtn.addEventListener('click',()=>{
-    cd.clear()
-})
-
+// Plot figures on canvas
+function plotFigures(){
+    figures.rectangles.forEach(r=>{
+        cd.drawOBB(r.width/2, r.height/2, r.pos.x, r.pos.y, r.angle)
+    })
+}
 
