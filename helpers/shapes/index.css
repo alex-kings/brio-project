@@ -14,8 +14,9 @@
 }
 .rectangle-inputs{
     display:flex;
-    justify-content: space-evenly;
+    justify-content: left;
+    gap:.1rem
 }
 .input{
-    width:5em;
+    width:3rem;
 }

@@ -1,57 +1,35 @@
-import Vector2D from "./Vector2D.js"
+import CanvasDrawer from "./CanvasDrawer.js"
 
-const canvas = document.getElementById('canvas')
-const ctx = canvas.getContext('2d')
-//Set canvas width and height depending on window dimensions
-canvas.width = window.innerWidth
-canvas.height = 0.8*window.innerHeight
-const center = new Vector2D(canvas.width/2, canvas.height/2) // Center of the canvas
-
-// Clears the canvas and sets background
-function clearCanvas(){
-    ctx.fillStyle = '#BBBBFF'
-    ctx.fillRect(0,0,canvas.width,canvas.height)
-}
-
-// Draws the OBB specified by dimensions, position and angle from x axis
-function drawOBB(size, pos, angle){
-    // Create vertices
-    let vertices = [  // A,B,C,D
-        new Vector2D(-size.x, size.y),
-        new Vector2D(size.x, size.y),
-        new Vector2D(size.x, -size.y),
-        new Vector2D(-size.x, -size.y),
-    ]
-    // Rotate each vertex
-    vertices.forEach(v => {
-        v.rotate(angle)
-    })
-    // Place at position
-    vertices.forEach(v=>{
-        v.add(center)
-        v.add(pos) 
-    })
-    // Draw rectangle
-    ctx.fillStyle='black'
-    //ctx.moveTo(vertices[0].x, vertices[0].y)
-    ctx.beginPath()
-    ctx.lineTo(vertices[1].x, vertices[1].y)
-    ctx.lineTo(vertices[2].x, vertices[2].y)
-    ctx.lineTo(vertices[3].x, vertices[3].y)
-    ctx.lineTo(vertices[0].x, vertices[0].y)
-    ctx.closePath()
-    ctx.stroke()
+// DOM elements
+const wInput = document.getElementById('width-input')
+const hInput = document.getElementById('height-input')
+const aInput = document.getElementById('angle-input')
+const plotBtn = document.getElementById('plot-btn')
+const delBtn = document.getElementById('delete-btn')
+const cd = new CanvasDrawer(document.getElementById('canvas'))
 
 
-    console.log(vertices)
-}
+// Event listeners
+plotBtn.addEventListener('click',()=>{
+    let w = wInput.value
+    let h = hInput.value
+    let a = aInput.value
+    // At least one input missing
+    if(w==="" || h==="" || a===""){
+        alert('Enter 3 valid inputs to plot rectangle!')
+        return
+    }
+    // Inputs have to be numeric
+    if(isNaN(w) || isNaN(h) || isNaN(a)){
+        alert('Inputs have to be numeric!')
+        return
+    }
+    cd.drawOBB(parseFloat(w)/2, parseFloat(h)/2,0,0, parseFloat(a))
+    console.log('plotted')
+})
+
+delBtn.addEventListener('click',()=>{
+    cd.clear()
+})
 
 
-function main(){
-    // Demo
-    clearCanvas()
-    drawOBB(new Vector2D(30,60), new Vector2D(0,0), 2)
-}
-
-
-main()
