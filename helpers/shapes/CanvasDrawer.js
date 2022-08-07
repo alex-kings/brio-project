@@ -51,11 +51,20 @@ export default class CanvasDrawer{
         this.ctx.stroke()
     }
 
+    // Draw the specified circle on canvas
+    drawCircle(radius, posX, posY){
+        this.ctx.fillStyle = 'black'
+        this.ctx.beginPath()
+        this.ctx.arc(posX + this.center.x, posY+this.center.y, radius, 0, 2*Math.PI)
+        this.ctx.stroke()
+    }
+
     // Draws all the figures specified.
     drawFigures(figures){
         this.clear()
         figures.rectangles.forEach((r)=>{
             this.drawOBB(r.width/2, r.height/2, r.pos.x, r.pos.y, r.angle)
         })
+        this.drawCircle(figures.circle.radius, figures.circle.pos.x, figures.circle.pos.y)
     }
 }

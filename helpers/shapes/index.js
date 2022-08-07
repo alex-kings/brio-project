@@ -7,6 +7,10 @@ const aInput = document.getElementById('angle-input')
 const pxInput = document.getElementById('posx-input')
 const pyInput = document.getElementById('posy-input')
 const plotBtn = document.getElementById('plot-btn')
+const rInput = document.getElementById('radius-input')
+const circlePxInput = document.getElementById('posx-circle-input')
+const circlePyInput = document.getElementById('posy-circle-input')
+const circlePlotBtn = document.getElementById('add-circle-btn')
 const cd = new CanvasDrawer(document.getElementById('canvas'))
 
 // Holds the figures to plot on canvas
@@ -40,6 +44,27 @@ plotBtn.addEventListener('click',()=>{
         angle:a
     })
     // Plots figures
+    cd.drawFigures(figures)
+})
+
+// Plot a new circle
+circlePlotBtn.addEventListener('click',()=>{
+    // Get inputs
+    let r = parseFloat(rInput.value)
+    let posX = parseFloat(circlePxInput.value)
+    let posY = parseFloat(circlePyInput.value)
+    // Checks if inputs are floats
+    if(isNaN(r)||isNaN(posX)||isNaN(posY)){
+        alert('Enter numbers!')
+        return
+    }
+    // Replace circle in figures
+    figures.circle.radius = r
+    figures.circle.pos = {
+        x:posX,
+        y:posY
+    }
+    // Plot figures
     cd.drawFigures(figures)
 })
 
