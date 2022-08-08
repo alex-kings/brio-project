@@ -22,9 +22,17 @@ body{
 }
 .inputs-container{
     display:flex;
+}
+.figures-inputs-container{
+    display:flex;
     flex-direction:column;
     gap:.5rem;
     padding:.5rem;
+    border:1px solid black;
+}
+.figures-display-container{
+    display:flex;
+    flex-direction:column;
 }
 .inputs-line{
     display:flex;

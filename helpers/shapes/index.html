@@ -9,19 +9,23 @@
 </head>
 <body>
     <div class="inputs-container">
-        <div class="inputs-line">
-            <input type="text" class="input" id="height-input" placeholder="height">
-            <input type="text" class="input" id="width-input" placeholder="width">
-            <input type="text" class="input" id="posx-input" placeholder="pos x">
-            <input type="text" class="input" id="posy-input" placeholder="pos y">
-            <input type="text" class="input" id="angle-input" placeholder="angle">
-            <button class="btn" id="plot-btn">add rectangle</button>
+        <div class="figures-inputs-container">
+            <div class="inputs-line">
+                <input type="text" class="input" id="height-input" placeholder="height">
+                <input type="text" class="input" id="width-input" placeholder="width">
+                <input type="text" class="input" id="posx-input" placeholder="pos x">
+                <input type="text" class="input" id="posy-input" placeholder="pos y">
+                <input type="text" class="input" id="angle-input" placeholder="angle">
+                <button class="btn" id="plot-btn">add rectangle</button>
+            </div>
+            <div class="inputs-line">
+                <input type="text" class="input" id="radius-input" placeholder="radius">
+                <input type="text" class="input" id="posx-circle-input" placeholder="pos x">
+                <input type="text" class="input" id="posy-circle-input" placeholder="pos y">
+                <button class="btn" id="add-circle-btn">add circle</button>
+            </div>
         </div>
-        <div class="inputs-line">
-            <input type="text" class="input" id="radius-input" placeholder="radius">
-            <input type="text" class="input" id="posx-circle-input" placeholder="pos x">
-            <input type="text" class="input" id="posy-circle-input" placeholder="pos y">
-            <button class="btn" id="add-circle-btn">add circle</button>
+        <div id="figure-display" class="figures-display-container">
         </div>
     </div>
     <div class="canvas-container">

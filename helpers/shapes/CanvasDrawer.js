@@ -65,6 +65,8 @@ export default class CanvasDrawer{
         figures.rectangles.forEach((r)=>{
             this.drawOBB(r.width/2, r.height/2, r.pos.x, r.pos.y, r.angle)
         })
-        this.drawCircle(figures.circle.radius, figures.circle.pos.x, figures.circle.pos.y)
+        if(figures.circle.pos != undefined){
+            this.drawCircle(figures.circle.radius, figures.circle.pos.x, figures.circle.pos.y)
+        }
     }
 }
