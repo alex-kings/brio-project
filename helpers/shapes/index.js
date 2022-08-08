@@ -1,5 +1,8 @@
 import CanvasDrawer from "./CanvasDrawer.js"
 
+// CURRENT IMAGE
+const IMAGE = './track-images/example-tracks.jpg'
+
 // DOM elements
 const wInput = document.getElementById('width-input')
 const hInput = document.getElementById('height-input')
@@ -13,7 +16,7 @@ const circlePyInput = document.getElementById('posy-circle-input')
 const circlePlotBtn = document.getElementById('add-circle-btn')
 const figureDisplay = document.getElementById('figure-display')
 const removeRectBtn = document.getElementById('remove-last-rect')
-const cd = new CanvasDrawer(document.getElementById('canvas'))
+const cd = new CanvasDrawer(document.getElementById('canvas'), IMAGE)
 
 
 
@@ -102,7 +105,6 @@ function removeLastRect(){
     figures.rectangles.pop()
     // Re draw canvas
     cd.drawFigures(figures)
-    console.log(figures)
 }
 
 // Add a circle to canvas and to list of figures displayed

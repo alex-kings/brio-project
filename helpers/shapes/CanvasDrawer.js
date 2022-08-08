@@ -1,12 +1,13 @@
 import Vector2D from './Vector2D.js'
 
 export default class CanvasDrawer{
-    constructor(canvas){
+    constructor(canvas, trackImg){
         this.canvas = canvas
         this.ctx = canvas.getContext('2d')
         this.bgColor = '#BBBBFF'
         this.setCanvasSize()
-        this.clear()
+        this.trackImg = trackImg
+        this.clear(this.trackImg)
     }
 
     //Set canvas width and height depending on window dimensions
@@ -21,6 +22,11 @@ export default class CanvasDrawer{
     clear(){
         this.ctx.fillStyle = this.bgColor
         this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height)
+        let img = new Image()
+        img.onload = ()=>{
+            this.ctx.drawImage(img,this.center.x,this.center.y)
+        }
+        img.src = this.trackImg
     }
 
     // Draws the OBB specified by dimensions, position and angle from x axis
