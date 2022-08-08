@@ -6,8 +6,9 @@ export default class CanvasDrawer{
         this.ctx = canvas.getContext('2d')
         this.bgColor = '#BBBBFF'
         this.setCanvasSize()
-        this.trackImg = trackImg
-        this.clear(this.trackImg)
+        this.img = new Image()
+        this.img.onload = ()=>{this.clear()}
+        this.img.src = trackImg
     }
 
     //Set canvas width and height depending on window dimensions
@@ -22,11 +23,8 @@ export default class CanvasDrawer{
     clear(){
         this.ctx.fillStyle = this.bgColor
         this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height)
-        let img = new Image()
-        img.onload = ()=>{
-            this.ctx.drawImage(img,this.center.x,this.center.y)
-        }
-        img.src = this.trackImg
+        
+        this.ctx.drawImage(this.img,this.center.x,this.center.y)
     }
 
     // Draws the OBB specified by dimensions, position and angle from x axis
