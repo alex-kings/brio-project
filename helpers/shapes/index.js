@@ -12,7 +12,10 @@ const circlePxInput = document.getElementById('posx-circle-input')
 const circlePyInput = document.getElementById('posy-circle-input')
 const circlePlotBtn = document.getElementById('add-circle-btn')
 const figureDisplay = document.getElementById('figure-display')
+const removeRectBtn = document.getElementById('remove-last-rect')
 const cd = new CanvasDrawer(document.getElementById('canvas'))
+
+
 
 // Holds the figures to plot on canvas
 const figures = {
@@ -59,6 +62,11 @@ window.addEventListener('resize',()=>{
     cd.drawFigures(figures)
 })
 
+// Remove last rectangle
+removeRectBtn.addEventListener('click',()=>{
+    removeLastRect()
+})
+
 // Adds a rectangle to canvas and to list of figures.
 function addRectangle(w, h, px, py, a){
     // Add rectangle to list of figures
@@ -77,11 +85,24 @@ function addRectangle(w, h, px, py, a){
 
     // Add a rectangle to list of figures displayed
     let div = document.createElement('div')
-    div.id = `rectangle${figures.rectangles.length}`
+    let rectangleNumber = figures.rectangles.length
+    div.id = `rectangle${rectangleNumber}` 
     figureDisplay.appendChild(div)
     let label = document.createElement('label')
     div.appendChild(label)
-    label.innerHTML = `Rectangle ${figures.rectangles.length} (${w},${h},${px},${py},${a})`
+    label.innerHTML = `Rectangle ${rectangleNumber} (${w},${h},${px},${py},${a})`
+}
+
+// Delete rectangle from canvas and from list of figures
+function removeLastRect(){
+    if(figures.rectangles.length < 1) return
+    // Remove from DOM
+    document.getElementById(`rectangle${figures.rectangles.length}`).remove()
+    // Remove from list
+    figures.rectangles.pop()
+    // Re draw canvas
+    cd.drawFigures(figures)
+    console.log(figures)
 }
 
 // Add a circle to canvas and to list of figures displayed
@@ -89,8 +110,8 @@ function addCircle(r, px, py){
     // Replace circle in figures
     figures.circle.radius = r
     figures.circle.pos = {
-        x:py,
-        y:px
+        x:px,
+        y:py
     }
     // Plot figures
     cd.drawFigures(figures)
@@ -104,8 +125,6 @@ function addCircle(r, px, py){
     // Add circle to list of figures displayed
     let div = document.createElement('div')
     div.id = 'circle'
-
-    
 
     figureDisplay.prepend(div)
     let label = document.createElement('label')

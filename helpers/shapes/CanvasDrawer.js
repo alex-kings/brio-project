@@ -14,7 +14,8 @@ export default class CanvasDrawer{
         this.canvas.width = this.canvas.clientWidth
         this.canvas.height = this.canvas.clientHeight
         // Center of the canvas
-        this.center = new Vector2D(this.canvas.width/2, this.canvas.height/2)
+        //this.center = new Vector2D(this.canvas.width/2, this.canvas.height/2)
+        this.center = new Vector2D(0,0)
     }
 
     clear(){
