@@ -14,8 +14,9 @@ const rInput = document.getElementById('radius-input')
 const circlePxInput = document.getElementById('posx-circle-input')
 const circlePyInput = document.getElementById('posy-circle-input')
 const circlePlotBtn = document.getElementById('add-circle-btn')
-const figureDisplay = document.getElementById('figure-display')
-const removeRectBtn = document.getElementById('remove-last-rect')
+const circleDisplay = document.getElementById('circle-display')
+const removeAll = document.getElementById('remove-all')
+const rectDisplay = document.getElementById('rectangles')
 const cd = new CanvasDrawer(document.getElementById('canvas'), IMAGE)
 
 
@@ -23,7 +24,7 @@ const cd = new CanvasDrawer(document.getElementById('canvas'), IMAGE)
 // Holds the figures to plot on canvas
 const figures = {
     rectangles:[],
-    circle:{}
+    circle:null
 }
 
 
@@ -65,9 +66,11 @@ window.addEventListener('resize',()=>{
     cd.drawFigures(figures)
 })
 
-// Remove last rectangle
-removeRectBtn.addEventListener('click',()=>{
-    removeLastRect()
+// Remove all button
+removeAll.addEventListener('click',()=>{
+    figures.rectangles = []
+    figures.circle = null
+    updateUi()
 })
 
 // Adds a rectangle to canvas and to list of figures.
@@ -82,53 +85,61 @@ function addRectangle(w, h, px, py, a){
         },
         angle:a
     })
-
-    // Draw new rectangle
-    cd.drawFigures(figures)
-
-    // Add a rectangle to list of figures displayed
-    let div = document.createElement('div')
-    let rectangleNumber = figures.rectangles.length
-    div.id = `rectangle${rectangleNumber}` 
-    figureDisplay.appendChild(div)
-    let label = document.createElement('label')
-    div.appendChild(label)
-    label.innerHTML = `Rectangle ${rectangleNumber} (${w},${h},${px},${py},${a})`
-}
-
-// Delete rectangle from canvas and from list of figures
-function removeLastRect(){
-    if(figures.rectangles.length < 1) return
-    // Remove from DOM
-    document.getElementById(`rectangle${figures.rectangles.length}`).remove()
-    // Remove from list
-    figures.rectangles.pop()
-    // Re draw canvas
-    cd.drawFigures(figures)
+    updateUi() // update ui
 }
 
 // Add a circle to canvas and to list of figures displayed
 function addCircle(r, px, py){
     // Replace circle in figures
-    figures.circle.radius = r
-    figures.circle.pos = {
-        x:px,
-        y:py
+    figures.circle = {
+        radius:r,
+        pos:{
+            x:px,
+            y:py
+        }
     }
-    // Plot figures
+
+    // Update UI should be sufficient here!
+    updateUi()
+}
+
+// Updates the UI with the given figures
+function updateUi(){
+    // Draws the figures
     cd.drawFigures(figures)
 
-    // Delete previous circle element
-    let previousCircle = document.getElementById('circle')
-    if(previousCircle != null){
-        previousCircle.remove()
-    }
+    // Delete current list of items
+    circleDisplay.innerHTML=""
+    rectDisplay.innerHTML = ""
 
     // Add circle to list of figures displayed
-    let div = document.createElement('div')
-    div.id = 'circle'
+    if(figures.circle != null){
+        let div = document.createElement('div')
+        div.id = 'circle'
+        circleDisplay.prepend(div)
+        let label = document.createElement('label')
+        div.appendChild(label)
+        label.innerHTML = `Circle (${figures.circle.radius},${figures.circle.pos.x},${figures.circle.pos.y})`
+    }
 
-    figureDisplay.prepend(div)
-    let label = document.createElement('label')
-    div.appendChild(label)
-    label.innerHTML = `Circle (${r},${px},${py})`}
+    // Add rectangles
+    figures.rectangles.forEach((r,index)=>{
+        let div = document.createElement('div')
+        rectDisplay.appendChild(div)
+        let label = document.createElement('label')
+        div.appendChild(label)
+        label.innerHTML = `${index} (${r.width},${r.height},${r.pos.x},${r.pos.y},${r.angle})`
+        let btn = document.createElement('button')
+        div.appendChild(btn)
+        btn.innerHTML="x"
+        btn.addEventListener('click',()=>{
+            removeRectangle(index)
+        })
+    })
+
+    function removeRectangle(index){
+        figures.rectangles.splice(index,1)
+        updateUi()
+    }
+    
+}
