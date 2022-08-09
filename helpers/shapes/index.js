@@ -124,22 +124,58 @@ function updateUi(){
 
     // Add rectangles
     figures.rectangles.forEach((r,index)=>{
-        let div = document.createElement('div')
+        const div = document.createElement('div')
         rectDisplay.appendChild(div)
-        let label = document.createElement('label')
-        div.appendChild(label)
-        label.innerHTML = `${index} (${r.width},${r.height},${r.pos.x},${r.pos.y},${r.angle})`
-        let btn = document.createElement('button')
+
+        // Add inputs to this rectangle
+        const heightInput = document.createElement('input')
+        heightInput.placeholder = 'height'
+        heightInput.classList.add('input')
+        heightInput.defaultValue = r.height
+        div.appendChild(heightInput)
+        const widthInput = document.createElement('input')
+        widthInput.placeholder = 'width'
+        widthInput.classList.add('input')
+        widthInput.defaultValue = r.width
+        div.appendChild(widthInput)
+        const xPosInput = document.createElement('input')
+        xPosInput.placeholder = 'pos x'
+        xPosInput.classList.add('input')
+        xPosInput.defaultValue = r.pos.x
+        div.appendChild(xPosInput)
+        const yPosInput = document.createElement('input')
+        yPosInput.placeholder = 'pos y'
+        yPosInput.classList.add('input')
+        yPosInput.defaultValue = r.pos.y
+        div.appendChild(yPosInput)
+        const angleInput = document.createElement('input')
+        angleInput.placeholder = 'angle'
+        angleInput.classList.add('input')
+        angleInput.defaultValue = r.angle
+        div.appendChild(angleInput)
+
+        // Update values
+        const setBtn = document.createElement('button')
+        setBtn.innerHTML = 'set'
+        div.appendChild(setBtn)
+        setBtn.addEventListener('click',()=>{
+            r.width = parseFloat(widthInput.value)
+            r.height =parseFloat( heightInput.value)
+            r.pos.x = parseFloat(xPosInput.value)
+            r.pos.y = parseFloat(yPosInput.value)
+            r.angle = parseFloat(angleInput.value)
+            updateUi()
+        })
+
+        const btn = document.createElement('button')
         div.appendChild(btn)
         btn.innerHTML="x"
+
+        // Remove this rectangle from list on click
         btn.addEventListener('click',()=>{
-            removeRectangle(index)
+            figures.rectangles.splice(index,1)
+            updateUi()
         })
     })
-
-    function removeRectangle(index){
-        figures.rectangles.splice(index,1)
-        updateUi()
-    }
     
 }
