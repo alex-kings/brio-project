@@ -8,27 +8,19 @@
     <link rel="stylesheet" href="./index.css">
 </head>
 <body>
-    <div class="inputs-container">
-        <div class="figures-inputs-container">
-            <div class="inputs-line">
-                <input type="text" class="input" id="height-input" placeholder="height">
-                <input type="text" class="input" id="width-input" placeholder="width">
-                <input type="text" class="input" id="posx-input" placeholder="pos x">
-                <input type="text" class="input" id="posy-input" placeholder="pos y">
-                <input type="text" class="input" id="angle-input" placeholder="angle">
-                <button class="btn" id="plot-btn">add rectangle</button>
+    <div class="container row">
+        <div class="col">
+            <div class="row">
+                <input type="text" value="5" class="input" id="radius-input" placeholder="radius">
+                <input type="text" value="5" class="input" id="circle-pos-x" placeholder="pos x">
+                <input type="text" value="5" class="input" id="circle-pos-y" placeholder="pos y">
+                <button class="btn set-btn" id="circle-set">set</button>
             </div>
-            <div class="inputs-line">
-                <input type="text" class="input" id="radius-input" placeholder="radius">
-                <input type="text" class="input" id="posx-circle-input" placeholder="pos x">
-                <input type="text" class="input" id="posy-circle-input" placeholder="pos y">
-                <button class="btn" id="add-circle-btn">add circle</button>
-                <button class="btn" id="remove-all">remove all</button>
-            </div>
+            <button class="btn" id="plot-btn">add rectangle</button>
         </div>
-        <div id="circle-display"></div>
         <div id="rectangles" class="figure-display-container"></div>
     </div>
+    
     <div class="canvas-container">
         <canvas class="canvas" id="canvas"></canvas>
     </div>
