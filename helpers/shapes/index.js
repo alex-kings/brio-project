@@ -10,7 +10,8 @@ const radiusInput = document.getElementById('radius-input')
 const circlePxInput = document.getElementById('circle-pos-x')
 const circlePyInput = document.getElementById('circle-pos-y')
 const setCircleBtn = document.getElementById('circle-set')
-
+const coeffInput = document.getElementById('coeff')
+const coeffBtn = document.getElementById('set-coeff')
 
 // Canvas drawer
 const cd = new CanvasDrawer(document.getElementById('canvas'), IMAGE)
@@ -29,6 +30,13 @@ const figures = {
         }
     }
 }
+
+// Set coeff
+coeffBtn.addEventListener('click',()=>{
+    cd.setCoeff(parseFloat(coeffInput.value))
+    updateUi()
+    console.log(cd)
+})
 
 // Change circle
 setCircleBtn.addEventListener('click',()=>{

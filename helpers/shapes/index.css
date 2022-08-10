@@ -27,9 +27,11 @@ body{
 .col{
     display:flex;
     flex-direction: column;
+    gap:.1rem;
 }
 .row{
     display:flex;
+    gap:.1rem;
 }
 .set-btn{
     background-color:rgb(151, 255, 151);

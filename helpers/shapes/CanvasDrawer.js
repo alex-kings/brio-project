@@ -2,6 +2,7 @@ import Vector2D from './Vector2D.js'
 
 export default class CanvasDrawer{
     constructor(canvas, trackImg){
+        this.coeff = 1
         this.canvas = canvas
         this.ctx = canvas.getContext('2d')
         this.bgColor = '#BBBBFF'
@@ -9,12 +10,19 @@ export default class CanvasDrawer{
         this.img = new Image()
         this.img.onload = ()=>{this.clear()}
         this.img.src = trackImg
+        
+    }
+
+    //Sets the coeff
+    setCoeff(coeff){
+        this.coeff = coeff
+        this.setCanvasSize()
     }
 
     //Set canvas width and height depending on window dimensions
     setCanvasSize(){
-        this.canvas.width = this.canvas.clientWidth
-        this.canvas.height = this.canvas.clientHeight
+        this.canvas.width = this.coeff*this.canvas.clientWidth
+        this.canvas.height = this.coeff*this.canvas.clientHeight
         // Center of the canvas
         //this.center = new Vector2D(this.canvas.width/2, this.canvas.height/2)
         this.center = new Vector2D(0,0)
