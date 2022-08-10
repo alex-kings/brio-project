@@ -12,6 +12,7 @@ const circlePyInput = document.getElementById('circle-pos-y')
 const setCircleBtn = document.getElementById('circle-set')
 const coeffInput = document.getElementById('coeff')
 const coeffBtn = document.getElementById('set-coeff')
+const debug = document.getElementById('debug')
 
 // Canvas drawer
 const cd = new CanvasDrawer(document.getElementById('canvas'), IMAGE)
@@ -35,7 +36,11 @@ const figures = {
 coeffBtn.addEventListener('click',()=>{
     cd.setCoeff(parseFloat(coeffInput.value))
     updateUi()
-    console.log(cd)
+})
+
+// Debug button
+debug.addEventListener('click',()=>{
+    console.log(figures)
 })
 
 // Change circle
@@ -90,16 +95,16 @@ function updateUi(){
         rectDisplay.appendChild(div)
 
         // Add inputs to this rectangle
-        const heightInput = document.createElement('input')
-        heightInput.placeholder = 'height'
-        heightInput.classList.add('input')
-        heightInput.defaultValue = r.height
-        div.appendChild(heightInput)
         const widthInput = document.createElement('input')
         widthInput.placeholder = 'width'
         widthInput.classList.add('input')
         widthInput.defaultValue = r.width
         div.appendChild(widthInput)
+        const heightInput = document.createElement('input')
+        heightInput.placeholder = 'height'
+        heightInput.classList.add('input')
+        heightInput.defaultValue = r.height
+        div.appendChild(heightInput)
         const xPosInput = document.createElement('input')
         xPosInput.placeholder = 'pos x'
         xPosInput.classList.add('input')

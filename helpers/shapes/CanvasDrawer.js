@@ -1,16 +1,19 @@
 import Vector2D from './Vector2D.js'
 
+const C = 10
+
+
 export default class CanvasDrawer{
     constructor(canvas, trackImg){
         this.coeff = 1
         this.canvas = canvas
         this.ctx = canvas.getContext('2d')
+
         this.bgColor = '#BBBBFF'
         this.setCanvasSize()
         this.img = new Image()
         this.img.onload = ()=>{this.clear()}
         this.img.src = trackImg
-        
     }
 
     //Sets the coeff
@@ -21,8 +24,8 @@ export default class CanvasDrawer{
 
     //Set canvas width and height depending on window dimensions
     setCanvasSize(){
-        this.canvas.width = this.coeff*this.canvas.clientWidth
-        this.canvas.height = this.coeff*this.canvas.clientHeight
+        this.canvas.width = C*this.coeff*this.canvas.clientWidth
+        this.canvas.height = C*this.coeff*this.canvas.clientHeight
         // Center of the canvas
         //this.center = new Vector2D(this.canvas.width/2, this.canvas.height/2)
         this.center = new Vector2D(0,0)
@@ -31,18 +34,19 @@ export default class CanvasDrawer{
     clear(){
         this.ctx.fillStyle = this.bgColor
         this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height)
-        
-        this.ctx.drawImage(this.img,this.center.x,this.center.y)
+        let w = this.img.width*C
+        let h = this.img.height*C
+        this.ctx.drawImage(this.img,this.center.x,this.center.y, w,h)
     }
 
     // Draws the OBB specified by dimensions, position and angle from x axis
     drawOBB(halfSizeX, halfSizeY, posX, posY, angle){
         // Create vertex for each corner
         let vertices = [
-            new Vector2D(-halfSizeX, halfSizeY),
-            new Vector2D(halfSizeX, halfSizeY),
-            new Vector2D(halfSizeX, -halfSizeY),
-            new Vector2D(-halfSizeX, -halfSizeY),
+            new Vector2D(-halfSizeX*C, halfSizeY*C),
+            new Vector2D(halfSizeX*C, halfSizeY*C),
+            new Vector2D(halfSizeX*C, -halfSizeY*C),
+            new Vector2D(-halfSizeX*C, -halfSizeY*C),
         ]
         // Rotate each vertex
         vertices.forEach(v => {
@@ -51,9 +55,10 @@ export default class CanvasDrawer{
         // Place center  rectangle at position
         vertices.forEach(v=>{
             v.add(this.center)
-            v.add(new Vector2D(posX, posY)) 
+            v.add(new Vector2D(posX*C, posY*C)) 
         })
         // Draw rectangle
+        this.ctx.lineWidth=C
         this.ctx.fillStyle='black'
         this.ctx.beginPath()
         this.ctx.lineTo(vertices[1].x, vertices[1].y)
@@ -66,9 +71,11 @@ export default class CanvasDrawer{
 
     // Draw the specified circle on canvas
     drawCircle(radius, posX, posY){
+        
+        this.ctx.lineWidth = C
         this.ctx.fillStyle = 'black'
         this.ctx.beginPath()
-        this.ctx.arc(posX + this.center.x, posY+this.center.y, radius, 0, 2*Math.PI)
+        this.ctx.arc((posX + this.center.x)*C, (posY+this.center.y)*C, radius*C, 0, 2*Math.PI)
         this.ctx.stroke()
     }
 
