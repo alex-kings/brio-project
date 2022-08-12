@@ -1,7 +1,7 @@
 import CanvasDrawer from "./CanvasDrawer.js"
 
 // CURRENT IMAGE
-const IMAGE = './track-images/example-tracks.jpg'
+//const IMAGE = './track-images/example-tracks.jpg'
 
 // DOM elements
 const addRectBtn = document.getElementById('plot-btn')
@@ -13,9 +13,20 @@ const setCircleBtn = document.getElementById('circle-set')
 const coeffInput = document.getElementById('coeff')
 const coeffBtn = document.getElementById('set-coeff')
 const debug = document.getElementById('debug')
+const fileInput = document.getElementById('file-input')
 
 // Canvas drawer
-const cd = new CanvasDrawer(document.getElementById('canvas'), IMAGE)
+// Create canvas drawer on input of an image
+
+let cd = null
+
+// Get file input
+fileInput.addEventListener('change',()=>{
+    const img = fileInput.files[0]
+    const src = URL.createObjectURL(img)
+    cd = new CanvasDrawer(document.getElementById('canvas'), src)
+    document.getElementById('track-name').value = img.name.split('.')[0]
+})
 
 
 // Holds the figures to plot on canvas
