@@ -16,7 +16,15 @@
                 Track image
                 <input id="file-input" type="file" class="no-display" accept="image/png, image/jpeg">
             </label>
-            <input type="text" class="track-name" id="track-name" placeholder="track name">
+            <div>
+                <label>Name</label>
+                <input type="text" class="track-name" id="track-name" placeholder="track name">
+            </div>
+            <div class="row">
+                <input class="input" placeholder="coeff" id="coeff">
+                <button id="set-coeff" class="btn set-btn">set coeff</button>
+                <button id="debug" class="btn">debug</button>
+            </div>
         </div>
         
         <div class="col">
@@ -27,11 +35,7 @@
                 <button class="btn set-btn" id="circle-set">set</button>
             </div>
             <button class="btn" id="plot-btn">add rectangle</button>
-            <div class="row">
-                <input class="input" placeholder="coeff" id="coeff">
-                <button id="set-coeff" class="btn set-btn">set coeff</button>
-                <button id="debug" class="btn">debug</button>
-            </div>
+            
         </div>
         <div id="rectangles" class="figure-display-container"></div>
         

@@ -1,7 +1,7 @@
 import CanvasDrawer from "./CanvasDrawer.js"
 
 // CURRENT IMAGE
-//const IMAGE = './track-images/example-tracks.jpg'
+const IMAGE = './track-images/example-tracks.jpg'
 
 // DOM elements
 const addRectBtn = document.getElementById('plot-btn')
@@ -18,7 +18,7 @@ const fileInput = document.getElementById('file-input')
 // Canvas drawer
 // Create canvas drawer on input of an image
 
-let cd = null
+let cd = new CanvasDrawer(document.getElementById('canvas'), IMAGE)
 
 // Get file input
 fileInput.addEventListener('change',()=>{
@@ -104,6 +104,7 @@ function updateUi(){
     figures.rectangles.forEach((r,index)=>{
         const div = document.createElement('div')
         rectDisplay.appendChild(div)
+        div.classList.add('row')
 
         // Add inputs to this rectangle
         const widthInput = document.createElement('input')
@@ -111,21 +112,25 @@ function updateUi(){
         widthInput.classList.add('input')
         widthInput.defaultValue = r.width
         div.appendChild(widthInput)
+
         const heightInput = document.createElement('input')
         heightInput.placeholder = 'height'
         heightInput.classList.add('input')
         heightInput.defaultValue = r.height
         div.appendChild(heightInput)
+
         const xPosInput = document.createElement('input')
         xPosInput.placeholder = 'pos x'
         xPosInput.classList.add('input')
         xPosInput.defaultValue = r.pos.x
         div.appendChild(xPosInput)
+
         const yPosInput = document.createElement('input')
         yPosInput.placeholder = 'pos y'
         yPosInput.classList.add('input')
         yPosInput.defaultValue = r.pos.y
         div.appendChild(yPosInput)
+
         const angleInput = document.createElement('input')
         angleInput.placeholder = 'angle'
         angleInput.classList.add('input')
@@ -134,21 +139,38 @@ function updateUi(){
 
         // Update values
         const setBtn = document.createElement('button')
+        setBtn.classList.add('btn', 'set-btn')
         setBtn.innerHTML = 'set'
+
         div.appendChild(setBtn)
         setBtn.addEventListener('click',()=>{
             r.width = parseFloat(widthInput.value)
-            r.height =parseFloat( heightInput.value)
+            r.height =parseFloat(heightInput.value)
             r.pos.x = parseFloat(xPosInput.value)
             r.pos.y = parseFloat(yPosInput.value)
             r.angle = parseFloat(angleInput.value)
             updateUi()
         })
 
+        // Operate on rectangle
+        addBtn(div, '^', ()=>{r.pos.y -= 1; updateUi()}) // Move up
+        addBtn(div, 'v', ()=>{r.pos.y += 1; updateUi()}) // Move down
+        addBtn(div, '>', ()=>{r.pos.x += 1; updateUi()}) // Move right
+        addBtn(div, '<', ()=>{r.pos.x -= 1; updateUi()}) // Move left
+        addBtn(div, 'sx', ()=>{r.width -= 1; updateUi()}) // Shrink x
+        addBtn(div, 'ex', ()=>{r.width += 1; updateUi()}) // Expand x
+        addBtn(div, 'sy', ()=>{r.height -= 1; updateUi()}) // Shrink y
+        addBtn(div, 'ey', ()=>{r.height += 1; updateUi()}) // Expand y
+        addBtn(div, 'rr', ()=>{r.angle += .1; updateUi()}) // Rotate clockwise
+        addBtn(div, 'rl', ()=>{r.angle -= .1; updateUi()}) // Rotate counterclockwise
+
+
+
         // Add button to remove this rectangle
         const btn = document.createElement('button')
         div.appendChild(btn)
-        btn.innerHTML="x"
+        btn.innerHTML="X"
+        btn.classList.add('btn', 'btn-danger', 'btn-control')
 
         // Remove this rectangle from list on click
         btn.addEventListener('click',()=>{
@@ -157,4 +179,13 @@ function updateUi(){
         })
     })
     
+}
+
+function addBtn(parent, text, handler){
+    const btn = document.createElement('button')
+    btn.classList.add('btn', 'btn-control')
+    btn.innerHTML = text
+    parent.appendChild(btn)
+
+    btn.addEventListener('click',handler)
 }

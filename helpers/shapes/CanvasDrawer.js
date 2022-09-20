@@ -1,6 +1,7 @@
 import Vector2D from './Vector2D.js'
 
-const C = 10
+// Resolution
+const C = 5
 
 
 export default class CanvasDrawer{
