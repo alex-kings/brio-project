@@ -1,3 +1,5 @@
+const trackWidth = 40
+
 // Representation of a 2d vector
 class vec2d{
     constructor(x,y){
@@ -33,7 +35,7 @@ const example3 = [new vec2d(10,40), new vec2d(600,120), new vec2d(200,450), new 
 
 
 // Print on screen a linear bezier curve with width
-function print2dBezier(points, width){
+function print2dBezier(points){
     // Check that we have 2 points
     if(points.length != 2) return
     ctx.strokeStyle = 'red' // Plot red line
@@ -42,16 +44,23 @@ function print2dBezier(points, width){
     ctx.lineTo(points[1].x, points[1].y)
     ctx.stroke()
 
-    // Calculate unit perpendicular
-    let unitPerpendicular = points[1].subtract(points[0])
-    unitPerpendicular = new vec2d(unitPerpendicular.y, -unitPerpendicular.x)
-    unitPerpendicular = unitPerpendicular.scale(20/unitPerpendicular.modulus())
+    // // Calculate unit perpendicular
+    // let unitPerpendicular = points[1].subtract(points[0])
+    // unitPerpendicular = new vec2d(unitPerpendicular.y, -unitPerpendicular.x)
+    // unitPerpendicular = unitPerpendicular.scale((trackWidth/2)/unitPerpendicular.modulus())
 
-    // Plot edges of rectangle
-    let e1 = points[0].add(unitPerpendicular)
-    let e2 = points[0].subtract(unitPerpendicular)
-    let e3 = points[1].subtract(unitPerpendicular)
-    let e4 = points[1].add(unitPerpendicular)
+    // // Plot edges of rectangle
+    // let e1 = points[0].add(unitPerpendicular)
+    // let e2 = points[0].subtract(unitPerpendicular)
+    // let e3 = points[1].subtract(unitPerpendicular)
+    // let e4 = points[1].add(unitPerpendicular)
+
+    // Get rect
+    let rect = getRect(points[0], points[1])
+    let e1 = rect[0]
+    let e2 = rect[1]
+    let e3 = rect[2]
+    let e4 = rect[3]
 
     ctx.strokeStyle = 'black'
     ctx.beginPath()
@@ -94,7 +103,29 @@ function print4dBezier(points){
 }
 
 
+// Take a curve as a list of vertices and a number of sections n, and generates n OBBs around the curve
+function generateObbs(vertices, n){
+
+}
+
+// Take a line and returns a rectangle of given width around that line
+function getRect(v1, v2){
+    // Calculate unit perpendicular
+    let up = v1.subtract(v2)
+    up = new vec2d(up.y, -up.x)
+    up = up.scale((trackWidth/2)/up.modulus())
+
+    return [v1.add(up),
+    v1.subtract(up),
+    v2.subtract(up),
+    v2.add(up)]
+}
+
+
+
 
 print2dBezier(example)
 // print3dBezier(example2)
 // print4dBezier(example3)
+
+console.log(example)
