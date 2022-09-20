@@ -54,7 +54,7 @@ function print2dBezier(points){
 }
 
 // Print quadratic bezier curve on screen
-function print3dBezier(points){
+function print3dBezier(points, n){
     // Check that we have 3 points
     if(points.length != 3) return
 
@@ -67,10 +67,7 @@ function print3dBezier(points){
     }
     
     // Get OBBS for the shape
-    // 3 for now
-    let rectangles = generateObbs(vertices, 3)
-
-    console.log('rectangles', rectangles)
+    let rectangles = generateObbs(vertices, n)
 
     // Draw path
     drawCurve(vertices, 'red')
@@ -82,7 +79,7 @@ function print3dBezier(points){
 }
 
 // Print cubic bezier curve on screen
-function print4dBezier(points){
+function print4dBezier(points, n){
     // Check that we have 4 points
     if(points.length != 4)return
     
@@ -96,7 +93,7 @@ function print4dBezier(points){
     }
 
     // Collect OBBS
-    let rectangles = generateObbs(vertices, 5)
+    let rectangles = generateObbs(vertices, n)
 
     // Draw vertices
     drawCurve(vertices, 'red')
@@ -106,9 +103,6 @@ function print4dBezier(points){
         drawRect(rectangle, 'black')
     })
 }
-
-
-
 
 // Take a curve as a list of vertices and a number of sections n, and generates n OBBs around the curve
 function generateObbs(vertices, n){
@@ -169,7 +163,6 @@ function drawCurve(vertices, colour){
     ctx.stroke()
 }
 
-
 print2dBezier(example)
-print3dBezier(example2)
-print4dBezier(example3)
+print3dBezier(example2, 4)
+print4dBezier(example3, 5)
