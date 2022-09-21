@@ -32,10 +32,15 @@ canvas.height = window.innerHeight
 const sendBtn = document.getElementById('sendBtn')
 const nameInput = document.getElementById('nameInput')
 
-const vInput1 = document.getElementById('vertexInput1')
-const vInput2 = document.getElementById('vertexInput2')
-const vInput3 = document.getElementById('vertexInput3')
-const vInput4 = document.getElementById('vertexInput4')
+const vInput11 = document.getElementById('vInput11')
+const vInput12 = document.getElementById('vInput12')
+const vInput21 = document.getElementById('vInput21')
+const vInput22 = document.getElementById('vInput22')
+const vInput31 = document.getElementById('vInput31')
+const vInput32 = document.getElementById('vInput32')
+const vInput41 = document.getElementById('vInput41')
+const vInput42 = document.getElementById('vInput42')
+const drawBtn = document.getElementById('drawButton')
 
 // Number of vertices created for bezier curves
 ITERATIONS = 1000
@@ -179,10 +184,9 @@ function getRect(v1, v2){
 
 // draw point at position
 function drawPoint(v, colour){
-    ctx.strokeStyle = colour
     ctx.beginPath()
-    ctx.arc(v.x, v.y, 3, 0, 2*Math.PI, false)
-    ctx.fillStyle = 'red'
+    ctx.arc(v.x, v.y, 5, 0, 2*Math.PI, false)
+    ctx.fillStyle = colour
     ctx.fill()
 }
 
@@ -232,6 +236,49 @@ async function savePiece(piece){
 
 
 // Get input from user
+drawBtn.addEventListener('click',()=>{
+    points = []
+    let in11 = vInput11.value
+    let in12 = vInput12.value
+    let in21 = vInput21.value
+    let in22 = vInput22.value
+    let in31 = vInput31.value
+    let in32 = vInput32.value
+    let in41 = vInput41.value
+    let in42 = vInput42.value
+    
+    if(in11 !== "" && in12 !== "") {
+        points.push(new Vec2d(parseInt(in11), parseInt(in12)))
 
+        if(in21 !== "" && in22 !== "") {
+            points.push(new Vec2d(parseInt(in21), parseInt(in22)))
+    
+            if(in31 !== "" && in32 !== "") {
+                points.push(new Vec2d(parseInt(in31), parseInt(in32)))
+        
+                if(in41 !== "" && in42 !== "") {
+                    points.push(new Vec2d(parseInt(in41), parseInt(in42)))
+            
+                    
+                }
+            }
+        }
+    }
 
+    // Clear canvas
+    clearScreen()
 
+    // Draw control points
+    points.forEach((p)=>{
+        drawPoint(p,'green')
+    })
+
+    // Plot Bezier curve
+    plotBezier(points,5)
+})
+
+// Clears the canvas
+function clearScreen(){
+    ctx.fillStyle='white'
+    ctx.fillRect(0,0,canvas.width, canvas.height)
+}
