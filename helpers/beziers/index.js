@@ -29,12 +29,6 @@ const ctx = canvas.getContext('2d')
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
 
-const example = [new Vec2d(120,40), new Vec2d(170,240)]
-const example2 = [new Vec2d(300,40), new Vec2d(100,120), new Vec2d(320,230)]
-const example3 = [new Vec2d(30,30), new Vec2d(200,200), 
-                    new Vec2d(-100,450), new Vec2d(320,450)]
-
-
 // Print on screen a linear bezier curve with width
 function print2dBezier(points){
     // Check that we have 2 points
@@ -163,6 +157,24 @@ function drawCurve(vertices, colour){
     ctx.stroke()
 }
 
+const example = [new Vec2d(120,40), new Vec2d(170,240)]
+const example2 = [new Vec2d(300,40), new Vec2d(100,120), new Vec2d(320,230)]
+const example3 = [new Vec2d(30,30), new Vec2d(200,200), 
+                    new Vec2d(-100,450), new Vec2d(320,450)]
+
+
 print2dBezier(example)
-print3dBezier(example2, 4)
-print4dBezier(example3, 5)
+print3dBezier(example2, 3)
+print4dBezier(example3, 4)
+
+async function callBackend(){
+    let data = {name:'A1'}
+    const resp = await fetch('http://localhost:3000/add_piece',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(data)
+    })
+    const result = await resp.json()
+    console.log(result)
+}
+callBackend()
