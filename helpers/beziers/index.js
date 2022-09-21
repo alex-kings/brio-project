@@ -1,5 +1,3 @@
-const trackWidth = 40
-
 // Representation of a 2d vector
 class Vec2d{
     constructor(x,y){
@@ -23,11 +21,22 @@ class Vec2d{
     }   
 }
 
-
+// Constants
+const trackWidth = 40
 const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext('2d')
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
+
+const sendBtn = document.getElementById('sendBtn')
+const nameInput = document.getElementById('nameInput')
+
+// Event listeners
+sendBtn.addEventListener('click',()=>{
+    console.log('Clicked')
+})
+
+
 
 // Print on screen a linear bezier curve with width
 function print2dBezier(points){
@@ -167,14 +176,14 @@ print2dBezier(example)
 print3dBezier(example2, 3)
 print4dBezier(example3, 4)
 
-async function callBackend(){
-    let data = {name:'A1'}
+
+// Sends piece to backend to keep
+async function savePiece(piece){
     const resp = await fetch('http://localhost:3000/add_piece',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify(data)
+        body:JSON.stringify(piece)
     })
     const result = await resp.json()
     console.log(result)
 }
-callBackend()

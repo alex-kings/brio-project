@@ -2,3 +2,15 @@
     padding:0;
     margin:0;
 }
+
+canvas{
+    position:absolute;
+    z-index:-1;
+}
+
+.right{
+    display:flex;
+    justify-content: right;
+    padding:.5rem;
+    gap:.1rem;
+}
