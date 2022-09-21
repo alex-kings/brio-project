@@ -12,3 +12,9 @@ Made Bezier curve plotter, need to add width to curves.
 This is done by adding OBBs around curves
 
 ![Image of OBBs around Bezier curves](./progression_images/OBBS_Beziers.png "OBBs around Bezier curves")
+
+
+_21/09/2022_ **Work on piece characteristics determination helper**  
+Add inputs for users to interact with the Bezier plotter.  
+![Image of Bezier curve with user inputs](./progression_images/bezier_with_user_inputs.png "Bezier with user inputs")
+
