@@ -9,10 +9,39 @@
 </head>
 <body>
     <canvas id="canvas"></canvas>
-    <div class="right">
-        <input type="text" id="nameInput" placeholder="piece name">
-        <button id="sendBtn">send</button>
+    <div class="right pad">
+        <div class="col">
+            <div>
+                <input type="text" id="nameInput" placeholder="piece name">
+                <button id="sendBtn">send</button>
+            </div>
+
+            <div class="pad-y">
+                <div class="right">
+                    <label>Vertex 1</label>
+                    <input id="vertexInput1" placeholder="x-y" class="vertexInput">
+                </div>
+                        
+                <div class="right">
+                    <label>Vertex 2</label>
+                    <input id="vertexInput2" placeholder="x-y" class="vertexInput">
+                </div>
+                    
+                <div class="right">
+                    <label>Vertex 3</label>
+                    <input id="vertexInput3" placeholder="x-y" class="vertexInput">
+                </div>
+                        
+                <div class="right">
+                    <label>Vertex 4</label>
+                    <input id="vertexInput4" placeholder="x-y" class="vertexInput">
+                </div>
+            </div>
+        </div>
     </div>
+
+
+
     <script src="./index.js"></script>
 </body>
 </html>

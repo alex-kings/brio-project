@@ -31,9 +31,25 @@ canvas.height = window.innerHeight
 const sendBtn = document.getElementById('sendBtn')
 const nameInput = document.getElementById('nameInput')
 
+// Number of vertices created for bezier curves
+ITERATIONS = 1000
+
+
+// Current figure
+let currentFigure = null
+
+
 // Event listeners
 sendBtn.addEventListener('click',()=>{
-    console.log('Clicked')
+    if(currentFigure == null) {
+        console.log('Enter a figure!')
+        return
+    }
+
+    // Send figure
+    console.log('Sending figure.')
+    currentFigure.name = nameInput.value
+    savePiece(currentFigure)
 })
 
 // Plots the Bezier curve for the given points, with n rectangles
@@ -64,6 +80,12 @@ function plotBezier(points, n){
         drawRect(rect, 'black')
     })
 
+    // Store in current figure
+    currentFigure = {
+        bezierPoints: points,
+        rectangles: res.rectangles
+    }
+
 }
 
 // Return a set of vertices to plot the bezier curve and a set of OBBS around that curve
@@ -84,7 +106,7 @@ function print3dBezier(points, n){
 
     // Get Bezier Curve vertices
     let vertices = []
-    for(let t = 0; t < 1; t+=0.01){
+    for(let t = 0; t < 1; t+= (1/ITERATIONS)){
         let x = (1-t)**2*points[0].x + 2*(1-t)*t*points[1].x + t**2*points[2].x
         let y = (1-t)**2*points[0].y + 2*(1-t)*t*points[1].y + t**2*points[2].y
         vertices.push(new Vec2d(x,y))
@@ -106,7 +128,7 @@ function print4dBezier(points, n){
     
     // Collect vertices
     let vertices = []
-    for(let t = 0; t < 1; t += 0.01){
+    for(let t = 0; t < 1; t += (1/ITERATIONS)){
         let x = (1-t)**3*points[0].x + 3*(1-t)**2*t*points[1].x + 3*(1-t)*t**2*points[2].x + t**3*points[3].x
         let y = (1-t)**3*points[0].y + 3*(1-t)**2*t*points[1].y + 3*(1-t)*t**2*points[2].y + t**3*points[3].y
 
@@ -181,26 +203,9 @@ function drawCurve(vertices, colour){
     ctx.stroke()
 }
 
-const example = [new Vec2d(120,40), new Vec2d(170,240)]
-const example2 = [new Vec2d(300,40), new Vec2d(100,120), new Vec2d(320,230)]
-const example3 = [new Vec2d(30,30), new Vec2d(200,200), 
-                    new Vec2d(-100,450), new Vec2d(320,450)]
-
-plotBezier(example)
-plotBezier(example2, 5)
-plotBezier(example3, 6)
-
-
 
 // Sends piece to backend to keep
-async function savePiece(name, vertices, rectangles){
-    // Determine object to send
-    const piece = {
-        name: name,
-        vertices: vertices,
-        rectangles: rectangles
-    }
-
+async function savePiece(piece){
     const resp = await fetch('http://localhost:3000/add_piece',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
@@ -209,3 +214,14 @@ async function savePiece(name, vertices, rectangles){
     const result = await resp.json()
     console.log(result)
 }
+
+const example = [new Vec2d(120,40), new Vec2d(170,240)]
+const example2 = [new Vec2d(300,40), new Vec2d(100,120), new Vec2d(320,230)]
+const example3 = [new Vec2d(30,30), new Vec2d(200,200), 
+                    new Vec2d(-100,450), new Vec2d(320,450)]
+
+plotBezier(example)
+plotBezier(example2, 3)
+plotBezier(example3, 4)
+
+

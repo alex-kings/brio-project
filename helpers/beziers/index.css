@@ -1,6 +1,7 @@
 *{
     padding:0;
     margin:0;
+    font-family: sans-serif;
 }
 
 canvas{
@@ -11,6 +12,18 @@ canvas{
 .right{
     display:flex;
     justify-content: right;
-    padding:.5rem;
-    gap:.1rem;
+}
+.pad{
+    padding:.5rem
+}
+.pad-y{
+    padding:.5rem 0
+}
+.col{
+    display:flex;
+    flex-direction: column;
+}
+.vertexInput{
+    text-align: center;
+    max-width: 3rem;
 }
