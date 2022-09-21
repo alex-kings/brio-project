@@ -36,24 +36,45 @@ sendBtn.addEventListener('click',()=>{
     console.log('Clicked')
 })
 
+// Plots the Bezier curve for the given points, with n rectangles
+function plotBezier(points, n){
+    let res = null
+    // 2d Bezier
+    if(points.length === 2){
+        res = print2dBezier(points)
+    }
 
+    // 3d Bezier
+    else if(points.length === 3){
+        res = print3dBezier(points, n)
+    }
 
-// Print on screen a linear bezier curve with width
+    // 4d Bezier
+    else if(points.length === 4){
+        res = print4dBezier(points, n)
+    }
+
+    if(res == null) return
+
+    // Draw path
+    drawCurve(res.vertices, 'red')
+
+    // Draw rectangles
+    res.rectangles.forEach(rect=>{
+        drawRect(rect, 'black')
+    })
+
+}
+
+// Return a set of vertices to plot the bezier curve and a set of OBBS around that curve
 function print2dBezier(points){
     // Check that we have 2 points
     if(points.length != 2) return
 
-    ctx.strokeStyle = 'red' // Plot red line
-    ctx.beginPath()
-    ctx.moveTo(points[0].x, points[0].y)
-    ctx.lineTo(points[1].x, points[1].y)
-    ctx.stroke()
-
-    // Get rect
-    let rect = getRect(points[0], points[1])
-
-    // draw rect
-    drawRect(rect, 'black')
+    return {
+        vertices: points,
+        rectangles: [getRect(points[0], points[1])]
+    }
 }
 
 // Print quadratic bezier curve on screen
@@ -69,16 +90,13 @@ function print3dBezier(points, n){
         vertices.push(new Vec2d(x,y))
     }
     
-    // Get OBBS for the shape
+    // Collect OBBS
     let rectangles = generateObbs(vertices, n)
 
-    // Draw path
-    drawCurve(vertices, 'red')
-
-    // Draw rectangles
-    rectangles.forEach(rect=>{
-        drawRect(rect, 'black')
-    })
+    return {
+        vertices: vertices,
+        rectangles: rectangles
+    }
 }
 
 // Print cubic bezier curve on screen
@@ -87,7 +105,7 @@ function print4dBezier(points, n){
     if(points.length != 4)return
     
     // Collect vertices
-    const vertices = []
+    let vertices = []
     for(let t = 0; t < 1; t += 0.01){
         let x = (1-t)**3*points[0].x + 3*(1-t)**2*t*points[1].x + 3*(1-t)*t**2*points[2].x + t**3*points[3].x
         let y = (1-t)**3*points[0].y + 3*(1-t)**2*t*points[1].y + 3*(1-t)*t**2*points[2].y + t**3*points[3].y
@@ -98,13 +116,10 @@ function print4dBezier(points, n){
     // Collect OBBS
     let rectangles = generateObbs(vertices, n)
 
-    // Draw vertices
-    drawCurve(vertices, 'red')
-    
-    // Draw rectangles
-    rectangles.forEach(rectangle =>{
-        drawRect(rectangle, 'black')
-    })
+    return {
+        vertices: vertices,
+        rectangles: rectangles
+    }
 }
 
 // Take a curve as a list of vertices and a number of sections n, and generates n OBBs around the curve
@@ -171,14 +186,21 @@ const example2 = [new Vec2d(300,40), new Vec2d(100,120), new Vec2d(320,230)]
 const example3 = [new Vec2d(30,30), new Vec2d(200,200), 
                     new Vec2d(-100,450), new Vec2d(320,450)]
 
+plotBezier(example)
+plotBezier(example2, 5)
+plotBezier(example3, 6)
 
-print2dBezier(example)
-print3dBezier(example2, 3)
-print4dBezier(example3, 4)
 
 
 // Sends piece to backend to keep
-async function savePiece(piece){
+async function savePiece(name, vertices, rectangles){
+    // Determine object to send
+    const piece = {
+        name: name,
+        vertices: vertices,
+        rectangles: rectangles
+    }
+
     const resp = await fetch('http://localhost:3000/add_piece',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
