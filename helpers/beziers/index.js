@@ -28,8 +28,14 @@ const ctx = canvas.getContext('2d')
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
 
+// Inputs
 const sendBtn = document.getElementById('sendBtn')
 const nameInput = document.getElementById('nameInput')
+
+const vInput1 = document.getElementById('vertexInput1')
+const vInput2 = document.getElementById('vertexInput2')
+const vInput3 = document.getElementById('vertexInput3')
+const vInput4 = document.getElementById('vertexInput4')
 
 // Number of vertices created for bezier curves
 ITERATIONS = 1000
@@ -215,13 +221,17 @@ async function savePiece(piece){
     console.log(result)
 }
 
-const example = [new Vec2d(120,40), new Vec2d(170,240)]
-const example2 = [new Vec2d(300,40), new Vec2d(100,120), new Vec2d(320,230)]
-const example3 = [new Vec2d(30,30), new Vec2d(200,200), 
-                    new Vec2d(-100,450), new Vec2d(320,450)]
+// const example = [new Vec2d(120,40), new Vec2d(170,240)]
+// const example2 = [new Vec2d(300,40), new Vec2d(100,120), new Vec2d(320,230)]
+// const example3 = [new Vec2d(30,30), new Vec2d(200,200), 
+//                     new Vec2d(-100,450), new Vec2d(320,450)]
 
-plotBezier(example)
-plotBezier(example2, 3)
-plotBezier(example3, 4)
+// plotBezier(example)
+// plotBezier(example2, 3)
+// plotBezier(example3, 4)
+
+
+// Get input from user
+
 
 

@@ -8,7 +8,12 @@ canvas{
     position:absolute;
     z-index:-1;
 }
-
+.send-btn{
+    padding:0 .8rem;
+}
+.round{
+    border-radius: .4rem;
+}
 .right{
     display:flex;
     justify-content: right;
@@ -26,4 +31,7 @@ canvas{
 .vertexInput{
     text-align: center;
     max-width: 3rem;
+}
+.bg-green{
+    background-color: rgba(96, 165, 96, 0.247);
 }
