@@ -18,6 +18,10 @@ canvas{
     display:flex;
     justify-content: right;
 }
+.input-row{
+    display:flex;
+    gap:.1rem;
+}
 .pad{
     padding:.5rem
 }

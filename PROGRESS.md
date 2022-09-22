@@ -18,3 +18,5 @@ _21/09/2022_ **Work on piece characteristics determination helper**
 Add inputs for users to interact with the Bezier plotter.  
 ![Image of Bezier curve with user inputs](./progression_images/bezier_with_user_inputs.png "Bezier with user inputs")
 
+_22/09/2022_ **Work on Bezier curve piece helper: connectors**  
+Add ability to determine the connectors of a piece.

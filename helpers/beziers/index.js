@@ -21,6 +21,15 @@ const drawBtn = document.getElementById('drawButton')
 
 const obbsInput = document.getElementById('obbsInput')
 
+const in1 = document.getElementById('in1')
+const in2 = document.getElementById('in2')
+const in3 = document.getElementById('in3')
+const in4 = document.getElementById('in4')
+const out1 = document.getElementById('out1')
+const out2 = document.getElementById('out2')
+const out3 = document.getElementById('out3')
+const out4 = document.getElementById('out4')
+
 
 // Number of vertices created for bezier curves
 const ITERATIONS = 1000
@@ -215,9 +224,7 @@ drawBtn.addEventListener('click',()=>{
 
     // Plot Bezier curve
     plotBezier(points,n)
+
+    // Get connectors
+
 })
-
-
-// Example
-drawVec(new Vec2d(50,60), new Vec2d(100,120), 'red')
-
