@@ -34,6 +34,7 @@ canvas{
 }
 .row{
     display:flex;
+    justify-content: space-between;
 }
 .input-sm{
     text-align: center;

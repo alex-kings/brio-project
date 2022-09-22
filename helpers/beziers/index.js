@@ -44,10 +44,16 @@ sendBtn.addEventListener('click',()=>{
         console.log('Enter a figure!')
         return
     }
+    
+    if(nameInput.value === ''){
+        console.log('Enter a figure name/id!')
+        return
+    }
+    currentFigure.name = nameInput.value
+
 
     // Send figure
     console.log('Sending figure.')
-    currentFigure.name = nameInput.value
     savePiece(currentFigure)
 })
 
@@ -238,7 +244,10 @@ drawBtn.addEventListener('click',()=>{
     if(in4.checked) connectors.push(getConnector(points[3], points[2], true))
     if(out4.checked) connectors.push(getConnector(points[3], points[2], false))
 
-    console.log(connectors)
+    // Add connectors to the figure
+    currentFigure.connectors = connectors
+
+    console.log(currentFigure)
 
     drawConnectors(connectors)
 })
