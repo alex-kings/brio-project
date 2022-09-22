@@ -1,1 +1,1 @@
-[]
+[{"bezierPoints":[{"x":0,"y":0},{"x":0,"y":144}],"rectangles":[[{"x":-20,"y":0},{"x":20,"y":0},{"x":20,"y":144},{"x":-20,"y":144}]],"connectors":[{"pos":{"x":0,"y":0},"direction":{"x":0,"y":-1},"type":true},{"pos":{"x":0,"y":144},"direction":{"x":0,"y":1},"type":false}],"name":"A"}]
