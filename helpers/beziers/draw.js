@@ -4,10 +4,15 @@ import { Vec2d } from "./Vec2d.js"
  * Functions to draw on canvas.
  */
 
+
 const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext('2d')
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
+
+
+// Place origin of canvas to center of screen
+ctx.translate(canvas.width/2, canvas.height/2)
 
 
 // draw point at position
@@ -34,19 +39,20 @@ export function drawCurve(vertices, colour){
 // Clears the canvas
 export function clearScreen(){
     ctx.fillStyle='white'
-    ctx.fillRect(0,0,canvas.width, canvas.height)
+    ctx.fillRect(-canvas.width/2, -canvas.height/2,canvas.width, canvas.height)
     // x axis
+    ctx.strokeStyle = 'rgba(30,30,30, 0.6)'
     ctx.setLineDash([5,15])
     ctx.beginPath()
-    ctx.moveTo(0,canvas.height/2)
-    ctx.lineTo(canvas.width, canvas.height/2)
+    ctx.moveTo(-canvas.width/2,0)
+    ctx.lineTo(canvas.width/2, 0)
     ctx.stroke()
     // y axis
     ctx.beginPath()
-    ctx.moveTo(canvas.width/2,0)
-    ctx.lineTo(canvas.width/2, canvas.height)
+    ctx.moveTo(0,-canvas.height/2)
+    ctx.lineTo(0, canvas.height/2)
     ctx.stroke()
-    
+
     ctx.setLineDash([])
 }
 
