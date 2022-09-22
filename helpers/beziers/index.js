@@ -42,6 +42,8 @@ const vInput41 = document.getElementById('vInput41')
 const vInput42 = document.getElementById('vInput42')
 const drawBtn = document.getElementById('drawButton')
 
+const obbsInput = document.getElementById('obbsInput')
+
 // Number of vertices created for bezier curves
 ITERATIONS = 1000
 
@@ -237,6 +239,10 @@ async function savePiece(piece){
 
 // Get input from user
 drawBtn.addEventListener('click',()=>{
+    // Get number of OBBs to draw around figure
+    let n = parseInt(obbsInput.value)
+    if(isNaN(n)) return
+
     points = []
     let in11 = vInput11.value
     let in12 = vInput12.value
@@ -274,7 +280,7 @@ drawBtn.addEventListener('click',()=>{
     })
 
     // Plot Bezier curve
-    plotBezier(points,5)
+    plotBezier(points,n)
 })
 
 // Clears the canvas

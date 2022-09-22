@@ -28,7 +28,10 @@ canvas{
     display:flex;
     flex-direction: column;
 }
-.vertexInput{
+.row{
+    display:flex;
+}
+.input-sm{
     text-align: center;
     max-width: 3rem;
 }
