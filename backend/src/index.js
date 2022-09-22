@@ -38,7 +38,7 @@ function addPiece(piece){
     // Get current file contents
     const data = JSON.parse(fs.readFileSync(JSON_FILE))
     // Add piece to current pieces
-    data.pieces.push(piece)
+    data.push(piece)
     // Save new pieces to file
     const newData = JSON.stringify(data)
     fs.writeFile(JSON_FILE, newData, err=>{
