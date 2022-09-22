@@ -1,3 +1,5 @@
+import {drawPoint, drawCurve, clearScreen, drawRect} from './draw.js'
+
 // Representation of a 2d vector
 class Vec2d{
     constructor(x,y){
@@ -23,10 +25,7 @@ class Vec2d{
 
 // Constants
 const trackWidth = 40
-const canvas = document.getElementById('canvas')
-const ctx = canvas.getContext('2d')
-canvas.width = window.innerWidth
-canvas.height = window.innerHeight
+
 
 // Inputs
 const sendBtn = document.getElementById('sendBtn')
@@ -44,9 +43,9 @@ const drawBtn = document.getElementById('drawButton')
 
 const obbsInput = document.getElementById('obbsInput')
 
-// Number of vertices created for bezier curves
-ITERATIONS = 1000
 
+// Number of vertices created for bezier curves
+const ITERATIONS = 1000
 
 // Current figure
 let currentFigure = null
@@ -183,39 +182,6 @@ function getRect(v1, v2){
             v2.add(up)]
 }
 
-
-// draw point at position
-function drawPoint(v, colour){
-    ctx.beginPath()
-    ctx.arc(v.x, v.y, 5, 0, 2*Math.PI, false)
-    ctx.fillStyle = colour
-    ctx.fill()
-}
-
-// Draw rectangle given on canvas
-function drawRect(rect, colour){
-    ctx.strokeStyle = colour
-    ctx.beginPath()
-    ctx.moveTo(rect[0].x, rect[0].y)
-    ctx.lineTo(rect[1].x, rect[1].y)
-    ctx.lineTo(rect[2].x, rect[2].y)
-    ctx.lineTo(rect[3].x, rect[3].y)
-    ctx.lineTo(rect[0].x, rect[0].y)
-    ctx.stroke()
-}
-
-// Draw curve
-function drawCurve(vertices, colour){
-    ctx.strokeStyle = colour
-    ctx.beginPath()
-    ctx.moveTo(vertices[0].x, vertices[0].y)
-    for(let i = 1; i < vertices.length; i++){
-        ctx.lineTo(vertices[i].x, vertices[i].y)
-    }
-    ctx.stroke()
-}
-
-
 // Sends piece to backend to keep
 async function savePiece(piece){
     const resp = await fetch('http://localhost:3000/add_piece',{
@@ -227,23 +193,13 @@ async function savePiece(piece){
     console.log(result)
 }
 
-// const example = [new Vec2d(120,40), new Vec2d(170,240)]
-// const example2 = [new Vec2d(300,40), new Vec2d(100,120), new Vec2d(320,230)]
-// const example3 = [new Vec2d(30,30), new Vec2d(200,200), 
-//                     new Vec2d(-100,450), new Vec2d(320,450)]
-
-// plotBezier(example)
-// plotBezier(example2, 3)
-// plotBezier(example3, 4)
-
-
 // Get input from user
 drawBtn.addEventListener('click',()=>{
     // Get number of OBBs to draw around figure
     let n = parseInt(obbsInput.value)
     if(isNaN(n)) return
 
-    points = []
+    let points = []
     let in11 = vInput11.value
     let in12 = vInput12.value
     let in21 = vInput21.value
@@ -283,8 +239,3 @@ drawBtn.addEventListener('click',()=>{
     plotBezier(points,n)
 })
 
-// Clears the canvas
-function clearScreen(){
-    ctx.fillStyle='white'
-    ctx.fillRect(0,0,canvas.width, canvas.height)
-}
