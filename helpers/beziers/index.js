@@ -1,4 +1,4 @@
-import {drawPoint, drawCurve, clearScreen, drawRect, drawVec} from './draw.js'
+import {drawPoint, drawCurve, clearScreen, drawRect, drawVec, drawConnectors} from './draw.js'
 import { Vec2d } from './Vec2d.js'
 
 // Constants
@@ -226,5 +226,34 @@ drawBtn.addEventListener('click',()=>{
     plotBezier(points,n)
 
     // Get connectors
+    let connectors = []
 
+    // Assume that there are at least 2 points
+    if(in1.checked) connectors.push(getConnector(points[0], points[1], true))
+    if(out1.checked) connectors.push(getConnector(points[0], points[1], false))
+    if(in2.checked) connectors.push(getConnector(points[1], points[0], true))
+    if(out2.checked) connectors.push(getConnector(points[1], points[0], false))
+    if(in3.checked) connectors.push(getConnector(points[2], points[1], true))
+    if(out3.checked) connectors.push(getConnector(points[2], points[1], false))
+    if(in4.checked) connectors.push(getConnector(points[3], points[2], true))
+    if(out4.checked) connectors.push(getConnector(points[3], points[2], false))
+
+    console.log(connectors)
+
+    drawConnectors(connectors)
 })
+
+// Get connector vector with a position, a direction and a type
+// Type is either false for 'in' or true for 'out'
+function getConnector(vOut, vFrom, type){
+    // Get connector vector
+    let direction = vOut.subtract(vFrom)
+    direction = direction.scale(1/direction.modulus()) // Scale to unit vector
+
+    // Return a connector object
+    return{
+        pos:vOut,
+        direction:direction,
+        type:type
+    }
+}

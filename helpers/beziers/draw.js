@@ -1,4 +1,4 @@
-import { Vec2d } from "./Vec2d.js"
+// import { Vec2d } from "./Vec2d.js"
 
 /**
  * Functions to draw on canvas.
@@ -68,4 +68,10 @@ function drawLine(v1, v2, colour){
     ctx.moveTo(v1.x, v1.y)
     ctx.lineTo(v2.x, v2.y)
     ctx.stroke()
+}
+
+export function drawConnectors(connectors){
+    connectors.forEach(conn => {
+        drawVec(conn.direction.scale(40), conn.pos, conn.type ? 'orange' : 'purple')
+    })
 }
