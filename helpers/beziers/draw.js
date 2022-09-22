@@ -53,14 +53,19 @@ export function drawRect(rect, colour){
 export function drawVec(vec, pos, colour){
     ctx.strokeStyle = colour
     // Draw starting point
-    drawPoint(pos, colour, 3)
+    drawPoint(pos, colour, 2)
+    drawLine(pos, vec.add(pos), colour)
+
+    // Test
+    let p = vec.add(pos)
+    drawLine(p,p.add(vec.rotate(Math.PI*4/5).scale(0.2)), colour)
+    drawLine(p,p.add(vec.rotate(Math.PI*-4/5).scale(0.2)), colour)
+}
+
+function drawLine(v1, v2, colour){
+    ctx.strokeStyle = colour
     ctx.beginPath()
-    ctx.moveTo(pos.x, pos.y)
-    ctx.lineTo(vec.x, vec.y)
+    ctx.moveTo(v1.x, v1.y)
+    ctx.lineTo(v2.x, v2.y)
     ctx.stroke()
-
-    // First arm
-    let v1 = new Vec2d
-
-
 }

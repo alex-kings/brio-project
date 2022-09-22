@@ -219,5 +219,5 @@ drawBtn.addEventListener('click',()=>{
 
 
 // Example
-drawVec(new Vec2d(190,200), new Vec2d(100,120), 'red')
+drawVec(new Vec2d(50,60), new Vec2d(100,120), 'red')
 

@@ -18,5 +18,10 @@ export class Vec2d{
     }
     modulus(){
         return Math.sqrt(this.x**2 + this.y**2)
-    }   
+    }
+    rotate(theta){
+        const ct = Math.cos(theta)
+        const st = Math.sin(theta)
+        return new Vec2d(ct*this.x + st*this.y, -st*this.x + ct*this.y)
+    }
 }
