@@ -1,27 +1,5 @@
-import {drawPoint, drawCurve, clearScreen, drawRect} from './draw.js'
-
-// Representation of a 2d vector
-class Vec2d{
-    constructor(x,y){
-        this.x = x
-        this.y = y
-    }
-    add(v){
-        return new Vec2d(this.x + v.x, this.y + v.y)
-    }
-    subtract(v){
-        return new Vec2d(this.x - v.x, this.y - v.y)
-    }
-    dot(v){
-        return new Vec2d(this.x * v.x, this.y * v.y)
-    }
-    scale(a){
-        return new Vec2d(this.x * a, this.y * a)
-    }
-    modulus(){
-        return Math.sqrt(this.x**2 + this.y**2)
-    }   
-}
+import {drawPoint, drawCurve, clearScreen, drawRect, drawVec} from './draw.js'
+import { Vec2d } from './Vec2d.js'
 
 // Constants
 const trackWidth = 40
@@ -238,4 +216,8 @@ drawBtn.addEventListener('click',()=>{
     // Plot Bezier curve
     plotBezier(points,n)
 })
+
+
+// Example
+drawVec(new Vec2d(190,200), new Vec2d(100,120), 'red')
 

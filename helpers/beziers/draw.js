@@ -1,3 +1,5 @@
+import { Vec2d } from "./Vec2d.js"
+
 /**
  * Functions to draw on canvas.
  */
@@ -9,9 +11,10 @@ canvas.height = window.innerHeight
 
 
 // draw point at position
-export function drawPoint(v, colour){
+export function drawPoint(v, colour, radius){
+    if(radius == null) radius = 5
     ctx.beginPath()
-    ctx.arc(v.x, v.y, 5, 0, 2*Math.PI, false)
+    ctx.arc(v.x, v.y, radius, 0, 2*Math.PI, false)
     ctx.fillStyle = colour
     ctx.fill()
 }
@@ -44,4 +47,20 @@ export function drawRect(rect, colour){
     ctx.lineTo(rect[3].x, rect[3].y)
     ctx.lineTo(rect[0].x, rect[0].y)
     ctx.stroke()
+}
+
+// Draw vector on canvas, starting at given pos
+export function drawVec(vec, pos, colour){
+    ctx.strokeStyle = colour
+    // Draw starting point
+    drawPoint(pos, colour, 3)
+    ctx.beginPath()
+    ctx.moveTo(pos.x, pos.y)
+    ctx.lineTo(vec.x, vec.y)
+    ctx.stroke()
+
+    // First arm
+    let v1 = new Vec2d
+
+
 }
