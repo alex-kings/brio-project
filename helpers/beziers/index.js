@@ -2,8 +2,7 @@ import {drawPoint, drawCurve, clearScreen, drawRect, drawVec, drawConnectors} fr
 import { Vec2d } from './Vec2d.js'
 
 // Constants
-const trackWidth = 40
-
+const trackWidth = 40 // mm
 
 // Inputs
 const sendBtn = document.getElementById('sendBtn')
@@ -33,6 +32,9 @@ const out4 = document.getElementById('out4')
 
 // Number of vertices created for bezier curves
 const ITERATIONS = 1000
+
+// Initialise canvas
+clearScreen()
 
 // Current figure
 let currentFigure = null

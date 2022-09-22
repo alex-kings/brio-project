@@ -1,4 +1,4 @@
-// import { Vec2d } from "./Vec2d.js"
+import { Vec2d } from "./Vec2d.js"
 
 /**
  * Functions to draw on canvas.
@@ -35,6 +35,19 @@ export function drawCurve(vertices, colour){
 export function clearScreen(){
     ctx.fillStyle='white'
     ctx.fillRect(0,0,canvas.width, canvas.height)
+    // x axis
+    ctx.setLineDash([5,15])
+    ctx.beginPath()
+    ctx.moveTo(0,canvas.height/2)
+    ctx.lineTo(canvas.width, canvas.height/2)
+    ctx.stroke()
+    // y axis
+    ctx.beginPath()
+    ctx.moveTo(canvas.width/2,0)
+    ctx.lineTo(canvas.width/2, canvas.height)
+    ctx.stroke()
+    
+    ctx.setLineDash([])
 }
 
 // Draw rectangle given on canvas
