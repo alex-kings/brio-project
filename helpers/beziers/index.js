@@ -8,6 +8,8 @@ const trackWidth = 40 // mm
 const sendBtn = document.getElementById('sendBtn')
 const nameInput = document.getElementById('nameInput')
 const clearBtn = document.getElementById('clearBtn')
+const levelInput = document.getElementById('levelInput')
+const debugBtn = document.getElementById('debugBtn')
 
 const vInput11 = document.getElementById('vInput11')
 const vInput12 = document.getElementById('vInput12')
@@ -44,12 +46,12 @@ let currentFigure = null
 // Send figure to the backend to store.
 sendBtn.addEventListener('click',()=>{
     if(currentFigure == null) {
-        console.log('Enter a figure!')
+        console.warn('No figure specified.')
         return
     }
     
     if(nameInput.value === ''){
-        console.log('Enter a figure name/id!')
+        console.warn('Enter a figure name/id!')
         return
     }
     currentFigure.name = nameInput.value
@@ -89,10 +91,15 @@ function plotBezier(points, n){
     })
 
     // Store in current figure
-    currentFigure = {
-        bezierPoints: points,
-        rectangles: res.rectangles
-    }
+    // currentFigure = {
+    //     bezierPoints: points,
+    //     rectangles: res.rectangles
+    // }
+    addPart({
+        bezierPoints:points,
+        rectangles:res.rectangles,
+        level:parseInt(levelInput.value)
+    })
 
 }
 
@@ -100,6 +107,11 @@ function plotBezier(points, n){
 clearBtn.addEventListener('click',()=>{
     currentFigure = null
     clearScreen()
+})
+
+// Print current figure in console
+debugBtn.addEventListener('click', ()=>{
+    console.log(currentFigure)
 })
 
 // Return a set of vertices to plot the bezier curve and a set of OBBS around that curve
@@ -197,6 +209,12 @@ async function savePiece(piece){
 
 // Get input from user
 drawBtn.addEventListener('click',()=>{
+    // Check if the level value is specified
+    if(levelInput.value === ''){
+        console.warn('Level should be specified.')
+        return false
+    }
+
     // Get number of OBBs to draw around figure
     let n = parseInt(obbsInput.value)
     if(isNaN(n)) return
@@ -229,9 +247,6 @@ drawBtn.addEventListener('click',()=>{
         }
     }
 
-    // Clear canvas
-    // clearScreen()
-
     // Draw control points
     points.forEach((p)=>{
         drawPoint(p,'green')
@@ -261,7 +276,6 @@ drawBtn.addEventListener('click',()=>{
 
 // Add a part to the current figure
 function addPart(part){
-    console.log('Adding new part to the current figure.')
     // Check if the current figure is defined
     if(currentFigure == null){
         currentFigure = {
@@ -289,6 +303,7 @@ function getConnector(vOut, vFrom, type){
     return{
         pos:vOut,
         direction:direction,
-        type:type
+        type:type,
+        level:parseInt(levelInput.value)
     }
 }

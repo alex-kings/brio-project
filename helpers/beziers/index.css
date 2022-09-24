@@ -43,3 +43,9 @@ canvas{
 .bg-green{
     background-color: rgba(96, 165, 96, 0.247);
 }
+.item1{
+    flex: 1 1 auto
+}
+.item2{
+    flex: 0 0 0
+}

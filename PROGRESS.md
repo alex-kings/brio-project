@@ -24,3 +24,6 @@ Add ability to determine the connectors of a piece.
 _22/09/2022_ **Work on Bezier curve piece helper: connectors**  
 Add option to draw multiple bezier curves for a single piece. This is to allow for pieces with more than 2 connectors and multi-level pieces.
 Add a level to connectors and to rectangles (between 0 and 1, perhaps 2).
+![Image of piece with multiple parts](./progression_images/piece_with_multiple_parts.png "Bezier with user inputs")
+
+
