@@ -7,6 +7,7 @@ const trackWidth = 40 // mm
 // Inputs
 const sendBtn = document.getElementById('sendBtn')
 const nameInput = document.getElementById('nameInput')
+const clearBtn = document.getElementById('clearBtn')
 
 const vInput11 = document.getElementById('vInput11')
 const vInput12 = document.getElementById('vInput12')
@@ -40,7 +41,7 @@ clearScreen()
 let currentFigure = null
 
 
-// Event listeners
+// Send figure to the backend to store.
 sendBtn.addEventListener('click',()=>{
     if(currentFigure == null) {
         console.log('Enter a figure!')
@@ -94,6 +95,12 @@ function plotBezier(points, n){
     }
 
 }
+
+// Clear screen and current figure
+clearBtn.addEventListener('click',()=>{
+    currentFigure = null
+    clearScreen()
+})
 
 // Return a set of vertices to plot the bezier curve and a set of OBBS around that curve
 function print2dBezier(points){
@@ -223,7 +230,7 @@ drawBtn.addEventListener('click',()=>{
     }
 
     // Clear canvas
-    clearScreen()
+    // clearScreen()
 
     // Draw control points
     points.forEach((p)=>{
@@ -249,10 +256,27 @@ drawBtn.addEventListener('click',()=>{
     // Add connectors to the figure
     currentFigure.connectors = connectors
 
-    console.log(currentFigure)
-
     drawConnectors(connectors)
 })
+
+// Add a part to the current figure
+function addPart(part){
+    console.log('Adding new part to the current figure.')
+    // Check if the current figure is defined
+    if(currentFigure == null){
+        currentFigure = {
+            parts:[part]
+        }
+        return
+    }
+    // Check if the current figure already has parts
+    if(currentFigure.parts == null){
+        currentFigure.parts = [part]
+        return
+    }
+    // The current figure already has parts
+    currentFigure.parts.push(part)
+}
 
 // Get connector vector with a position, a direction and a type
 // Type is either false for 'in' or true for 'out'
