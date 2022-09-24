@@ -94,3 +94,10 @@ export function drawConnectors(connectors){
         drawVec(conn.direction.scale(40), conn.pos, conn.type ? 'orange' : 'purple')
     })
 }
+
+export function drawArc(x,y,radius,startAngle,endAngle,colour){
+    ctx.strokeStyle=colour
+    ctx.beginPath()
+    ctx.arc(x,y, radius, startAngle, -endAngle,true)
+    ctx.stroke()
+}

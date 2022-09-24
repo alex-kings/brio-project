@@ -1,4 +1,4 @@
-import {drawPoint, drawCurve, clearScreen, drawRect, drawVec, drawConnectors} from './draw.js'
+import {drawArc, drawPoint, drawCurve, clearScreen, drawRect, drawVec, drawConnectors} from './draw.js'
 import { Vec2d } from './Vec2d.js'
 
 // Constants
@@ -39,9 +39,20 @@ const ITERATIONS = 1000
 // Initialise canvas
 clearScreen()
 
+// ADD CIRCLES HERE
+drawArc(0,0,182,0,Math.PI/4)
+drawArc(0,0,222,0,Math.PI/4)
+
+
+
+
 // Current figure
 let currentFigure = null
 
+// Print current figure in console
+debugBtn.addEventListener('click', ()=>{
+    console.log(currentFigure)
+})
 
 // Send figure to the backend to store.
 sendBtn.addEventListener('click',()=>{
@@ -107,11 +118,6 @@ function plotBezier(points, n){
 clearBtn.addEventListener('click',()=>{
     currentFigure = null
     clearScreen()
-})
-
-// Print current figure in console
-debugBtn.addEventListener('click', ()=>{
-    console.log(currentFigure)
 })
 
 // Return a set of vertices to plot the bezier curve and a set of OBBS around that curve
