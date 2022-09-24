@@ -39,11 +39,12 @@ const ITERATIONS = 1000
 // Initialise canvas
 clearScreen()
 
-// ADD CIRCLES HERE
-drawArc(0,0,182,0,Math.PI/4)
-drawArc(0,0,222,0,Math.PI/4)
-
-
+// ADD CIRCULAR GUIDELINES HERE
+function drawCircularGuidelines(){
+    drawArc(0,0,182,0,Math.PI/4)
+    drawArc(0,0,222,0,Math.PI/4)
+}
+drawCircularGuidelines()
 
 
 // Current figure
@@ -118,6 +119,7 @@ function plotBezier(points, n){
 clearBtn.addEventListener('click',()=>{
     currentFigure = null
     clearScreen()
+    drawCircularGuidelines()
 })
 
 // Return a set of vertices to plot the bezier curve and a set of OBBS around that curve
