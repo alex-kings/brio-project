@@ -25,8 +25,11 @@ canvas{
 .pad{
     padding:.5rem
 }
-.pad-y{
-    padding:.5rem 0
+.pad-t{
+    padding-top: .5rem;
+}
+.marg-t{
+    margin-top: .5rem;
 }
 .col{
     display:flex;
@@ -35,6 +38,9 @@ canvas{
 .row{
     display:flex;
     justify-content: space-between;
+}
+.name-input{
+    text-align: center;
 }
 .input-sm{
     text-align: center;

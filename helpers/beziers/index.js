@@ -6,10 +6,11 @@ const trackWidth = 40 // mm
 
 // Inputs
 const sendBtn = document.getElementById('sendBtn')
-const nameInput = document.getElementById('nameInput')
+const idInput = document.getElementById('idInput')
 const clearBtn = document.getElementById('clearBtn')
 const levelInput = document.getElementById('levelInput')
 const debugBtn = document.getElementById('debugBtn')
+const nameInput = document.getElementById('nameInput')
 
 const vInput11 = document.getElementById('vInput11')
 const vInput12 = document.getElementById('vInput12')
@@ -41,8 +42,8 @@ clearScreen()
 
 // ADD CIRCULAR GUIDELINES HERE
 function drawCircularGuidelines(){
-    drawArc(0,0,182,0,Math.PI/4)
-    drawArc(0,0,222,0,Math.PI/4)
+    drawArc(-202,0,182,0,Math.PI/4)
+    drawArc(-202,0,222,0,Math.PI/4)
 }
 drawCircularGuidelines()
 
@@ -62,12 +63,16 @@ sendBtn.addEventListener('click',()=>{
         return
     }
     
-    if(nameInput.value === ''){
+    if(idInput.value === ''){
         console.warn('Enter a figure name/id!')
         return
     }
-    currentFigure.name = nameInput.value
 
+    // Add id to figure
+    currentFigure.id = idInput.value
+
+    // Add figure name (not necessary but better to have one!)
+    currentFigure.name = nameInput.value
 
     // Send figure
     console.log('Sending figure.')
