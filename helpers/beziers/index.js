@@ -42,8 +42,7 @@ clearScreen()
 
 // ADD CIRCULAR GUIDELINES HERE
 function drawCircularGuidelines(){
-    drawArc(-202,0,182,0,Math.PI/4)
-    drawArc(-202,0,222,0,Math.PI/4)
+    drawArc(0,0,400,0,Math.PI/2)
 }
 drawCircularGuidelines()
 
@@ -320,3 +319,39 @@ function getConnector(vOut, vFrom, type){
         level:parseInt(levelInput.value)
     }
 }
+
+
+// Fills in the Bezier point fields for the curve specified
+function specifyCurve(radius, startAngle, endAngle){
+    let sAngle = -startAngle
+    let eAngle = -endAngle
+
+    // Find distance of bezier points
+    const dist = (4/3)*Math.tan((eAngle - sAngle)/4) * radius
+
+    // Find p1
+    const p1 = new Vec2d(radius*Math.cos(sAngle), radius*Math.sin(sAngle))
+
+    // Find p2
+    const v2 = new Vec2d(dist*Math.cos(sAngle + Math.PI/2), dist*Math.sin(sAngle + Math.PI/2))
+    const p2 = p1.add(v2)
+
+    // Find p4
+    const p4 = new Vec2d(radius*Math.cos(eAngle), radius*Math.sin(eAngle))
+
+    // Find p3
+    const v3 = new Vec2d(dist*Math.cos(eAngle + 3*Math.PI/2), dist*Math.sin(eAngle + 3*Math.PI/2))
+    const p3 = p4.add(v3)
+    
+    // Write results in user inputs
+    vInput11.value = p1.x
+    vInput12.value = p1.y
+    vInput21.value = p2.x
+    vInput22.value = p2.y
+    vInput31.value = p3.x
+    vInput32.value = p3.y
+    vInput41.value = p4.x
+    vInput42.value = p4.y
+}
+
+specifyCurve(400, 0, Math.PI/2)
