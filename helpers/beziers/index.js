@@ -33,6 +33,11 @@ const out2 = document.getElementById('out2')
 const out3 = document.getElementById('out3')
 const out4 = document.getElementById('out4')
 
+const radiusInput = document.getElementById('radiusInput')
+const angleStartInput = document.getElementById('angleStartInput')
+const angleStopInput = document.getElementById('angleStopInput')
+const arcCircleBtn = document.getElementById('arcCircleBtn')
+
 
 // Number of vertices created for bezier curves
 const ITERATIONS = 1000
@@ -118,6 +123,12 @@ function plotBezier(points, n){
     })
 
 }
+
+// Modifies the user inputs to get points for arc circle specified
+arcCircleBtn.addEventListener('click',()=>{
+    specifyCurve(parseFloat(radiusInput.value), parseFloat(angleStartInput.value)*Math.PI,parseFloat(angleStopInput.value)*Math.PI)
+})
+
 
 // Clear screen and current figure
 clearBtn.addEventListener('click',()=>{
@@ -330,18 +341,25 @@ function specifyCurve(radius, startAngle, endAngle){
     const dist = (4/3)*Math.tan((eAngle - sAngle)/4) * radius
 
     // Find p1
-    const p1 = new Vec2d(radius*Math.cos(sAngle), radius*Math.sin(sAngle))
+    let p1 = new Vec2d(radius*Math.cos(sAngle), radius*Math.sin(sAngle))
 
     // Find p2
     const v2 = new Vec2d(dist*Math.cos(sAngle + Math.PI/2), dist*Math.sin(sAngle + Math.PI/2))
-    const p2 = p1.add(v2)
+    let p2 = p1.add(v2)
 
     // Find p4
-    const p4 = new Vec2d(radius*Math.cos(eAngle), radius*Math.sin(eAngle))
+    let p4 = new Vec2d(radius*Math.cos(eAngle), radius*Math.sin(eAngle))
 
     // Find p3
     const v3 = new Vec2d(dist*Math.cos(eAngle + 3*Math.PI/2), dist*Math.sin(eAngle + 3*Math.PI/2))
-    const p3 = p4.add(v3)
+    let p3 = p4.add(v3)
+
+    // Round points
+    const digitsRound = 2
+    p1 = round(p1,digitsRound)
+    p2 = round(p2,digitsRound)
+    p3 = round(p3,digitsRound)
+    p4 = round(p4,digitsRound)
     
     // Write results in user inputs
     vInput11.value = p1.x
@@ -354,4 +372,9 @@ function specifyCurve(radius, startAngle, endAngle){
     vInput42.value = p4.y
 }
 
-specifyCurve(400, 0, Math.PI/2)
+// Round x and y for the given vector
+function round(vec, digits){
+    let rx = Number((vec.x).toFixed(digits))
+    let ry = Number((vec.y).toFixed(digits))
+    return new Vec2d(rx, ry)
+}

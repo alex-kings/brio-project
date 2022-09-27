@@ -27,3 +27,6 @@ Add a level to connectors and to rectangles (between 0 and 1, perhaps 2).
 ![Image of piece with multiple parts](./progression_images/piece_with_multiple_parts.png "Bezier with user inputs")  
 Now need a separate input row that automatically fills in the bezier inputs for an arc with: (startPos, radius, startAngle, endAngle)
 
+_22/09/2022_ **Work on Bezier curve piece helper: plotting arc circles**  
+Add function to plot a bezier curve representation of an arc circle. Add inputs to specify the arc circle to plot on screen. Distance between bezier points 1-2 and 3-4 is given by a formula found on https://stackoverflow.com/questions/1734745/how-to-create-circle-with-b%C3%A9zier-curves.
+
