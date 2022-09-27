@@ -47,7 +47,9 @@ clearScreen()
 
 // ADD CIRCULAR GUIDELINES HERE
 function drawCircularGuidelines(){
-    drawArc(0,0,400,0,Math.PI/2)
+    drawArc(0,0,182,0,Math.PI/4)
+    drawArc(0,0,222,0,Math.PI/4)
+
 }
 drawCircularGuidelines()
 
@@ -112,10 +114,6 @@ function plotBezier(points, n){
     })
 
     // Store in current figure
-    // currentFigure = {
-    //     bezierPoints: points,
-    //     rectangles: res.rectangles
-    // }
     addPart({
         bezierPoints:points,
         rectangles:res.rectangles,
