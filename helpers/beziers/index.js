@@ -253,16 +253,16 @@ drawBtn.addEventListener('click',()=>{
     let in42 = vInput42.value
     
     if(in11 !== "" && in12 !== "") {
-        points.push(new Vec2d(parseInt(in11), parseInt(in12)))
+        points.push(new Vec2d(parseFloat(in11), parseFloat(in12)))
 
         if(in21 !== "" && in22 !== "") {
-            points.push(new Vec2d(parseInt(in21), parseInt(in22)))
+            points.push(new Vec2d(parseFloat(in21), parseFloat(in22)))
     
             if(in31 !== "" && in32 !== "") {
-                points.push(new Vec2d(parseInt(in31), parseInt(in32)))
+                points.push(new Vec2d(parseFloat(in31), parseFloat(in32)))
         
                 if(in41 !== "" && in42 !== "") {
-                    points.push(new Vec2d(parseInt(in41), parseInt(in42)))
+                    points.push(new Vec2d(parseFloat(in41), parseFloat(in42)))
             
                     
                 }
