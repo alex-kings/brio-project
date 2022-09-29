@@ -34,3 +34,4 @@ _29/09/2022_ **Finish Bezier curve piece helper. Start on frontend with Solid.**
 Determine 13 simple tracks with bezier curve piece helper.  
 Chose Solid as JS framework for frontend of the application. Other frameworks were considered (svelte, react...). Chose because of performance and package size. Don't need a massive framework with lots of support for specific things for this like react - small app. 
 See https://krausest.github.io/js-framework-benchmark/current.html
+Get images of pieces as assets.
