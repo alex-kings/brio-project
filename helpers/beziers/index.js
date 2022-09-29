@@ -1,4 +1,4 @@
-import {drawArc, drawPoint, drawCurve, clearScreen, drawRect, drawVec, drawConnectors} from './draw.js'
+import {drawArc, drawPoint, drawCurve, clearScreen, drawRect, drawConnectors} from './draw.js'
 import { Vec2d } from './Vec2d.js'
 
 // Constants
@@ -37,6 +37,8 @@ const radiusInput = document.getElementById('radiusInput')
 const angleStartInput = document.getElementById('angleStartInput')
 const angleStopInput = document.getElementById('angleStopInput')
 const arcCircleBtn = document.getElementById('arcCircleBtn')
+const arcPosX = document.getElementById('arcPosX')
+const arcPosY = document.getElementById('arcPosY')
 
 
 // Number of vertices created for bezier curves
@@ -124,7 +126,7 @@ function plotBezier(points, n){
 
 // Modifies the user inputs to get points for arc circle specified
 arcCircleBtn.addEventListener('click',()=>{
-    specifyCurve(parseFloat(radiusInput.value), parseFloat(angleStartInput.value)*Math.PI,parseFloat(angleStopInput.value)*Math.PI)
+    specifyCurve(parseFloat(arcPosX.value),parseFloat(arcPosY.value) ,parseFloat(radiusInput.value), parseFloat(angleStartInput.value)*Math.PI,parseFloat(angleStopInput.value)*Math.PI)
 })
 
 
@@ -331,7 +333,7 @@ function getConnector(vOut, vFrom, type){
 
 
 // Fills in the Bezier point fields for the curve specified
-function specifyCurve(radius, startAngle, endAngle){
+function specifyCurve(posX, posY, radius, startAngle, endAngle){
     let sAngle = -startAngle
     let eAngle = -endAngle
 
@@ -351,6 +353,13 @@ function specifyCurve(radius, startAngle, endAngle){
     // Find p3
     const v3 = new Vec2d(dist*Math.cos(eAngle + 3*Math.PI/2), dist*Math.sin(eAngle + 3*Math.PI/2))
     let p3 = p4.add(v3)
+
+    // Displace all points by posX and posY
+    let displacement = new Vec2d(posX, posY)
+    p1 = p1.add(displacement)
+    p2 = p2.add(displacement)
+    p3 = p3.add(displacement)
+    p4 = p4.add(displacement)
 
     // Round points
     const digitsRound = 2
