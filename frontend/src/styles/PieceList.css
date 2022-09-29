@@ -7,3 +7,6 @@
     flex-wrap: wrap;
     gap:.2rem;
 }
+.canvas{
+    width:15rem;
+}
