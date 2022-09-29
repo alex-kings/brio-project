@@ -1,0 +1,9 @@
+.piece{
+    padding:.5rem;
+    background-color: rgb(137, 224, 137);
+}
+.piece-list{
+    display:flex;
+    flex-wrap: wrap;
+    gap:.2rem;
+}

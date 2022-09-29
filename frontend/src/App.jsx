@@ -1,4 +1,4 @@
-import { createEffect, createResource, Show } from "solid-js";
+import { createResource, Show } from "solid-js";
 import PieceList from "./components/PieceList";
 
 function App() {
@@ -17,11 +17,9 @@ function App() {
       <h1>hello</h1>
 
       <Show when={!data.loading} fallback={<>Searching...</>}>
-        <PieceList pieces={data()}></PieceList>
-
+        <PieceList pieces={data()}/>
+        {console.log(data())}
       </Show>
-
-      <PieceList/>
     </div>
   );
 }
