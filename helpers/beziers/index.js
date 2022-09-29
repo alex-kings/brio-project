@@ -49,9 +49,8 @@ clearScreen()
 
 // ADD CIRCULAR GUIDELINES HERE
 function drawCircularGuidelines(){
-    drawArc(0,0,182,0,Math.PI/4)
-    drawArc(0,0,222,0,Math.PI/4)
-
+    // drawArc(0,0,182,0,Math.PI/4)
+    // drawArc(0,0,222,0,Math.PI/4)
 }
 drawCircularGuidelines()
 
@@ -292,7 +291,13 @@ drawBtn.addEventListener('click',()=>{
     if(out4.checked) connectors.push(getConnector(points[3], points[2], false))
 
     // Add connectors to the figure
-    currentFigure.connectors = connectors
+    // Check if the figure as connectors
+    if(currentFigure.connectors == null){
+        currentFigure.connectors = connectors
+    }
+    else{
+        currentFigure.connectors.push(...connectors)
+    }
 
     drawConnectors(connectors)
 })
