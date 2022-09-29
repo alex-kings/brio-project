@@ -7,6 +7,10 @@
     flex-wrap: wrap;
     gap:.2rem;
 }
-.canvas{
-    width:15rem;
+.piece-img{
+    height:8rem;
+}
+.input-sm{
+    width:3rem;
+    text-align: center;
 }

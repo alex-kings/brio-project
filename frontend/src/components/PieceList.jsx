@@ -13,7 +13,7 @@ export default function PieceList(props){
             <For each={props.pieces}>
                 {(piece)=>{
                     return(
-                        <Piece piece={piece}/>
+                        <Piece piece={piece} setSelection={props.setSelection} selection={props.selection}/>
                     )
                 }}
             </For>

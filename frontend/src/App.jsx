@@ -1,7 +1,9 @@
-import { createResource, Show } from "solid-js";
+import { createEffect, createResource, createSignal, Show } from "solid-js";
 import PieceList from "./components/PieceList";
 
 function App() {
+  // User selection of the form: {A=2, B=5, ...}
+  const [selection, setSelection] = createSignal({})
 
   async function getTrackPieces(){
     const response = await fetch('http://localhost:5000/all-pieces')
@@ -12,14 +14,23 @@ function App() {
 
   const [data] = createResource(getTrackPieces)
 
+
+  // Print selection when changed
+  createEffect(()=>{
+    console.log('selection: ')
+    console.log(selection())
+  })
+
   return (
     <div>
-      <h1>hello</h1>
+      <h1>The Brio track generator app!</h1>
 
       <Show when={!data.loading} fallback={<>Searching...</>}>
-        <PieceList pieces={data()}/>
+        <PieceList pieces={data()} setSelection={setSelection} selection={selection()}/>
         {console.log(data())}
       </Show>
+
+      <button onClick={()=>{console.log(selection())}}>Generate!</button>
     </div>
   );
 }
