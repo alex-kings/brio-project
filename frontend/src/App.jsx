@@ -1,3 +1,4 @@
+import { createEffect, createResource, Show } from "solid-js";
 import PieceList from "./components/PieceList";
 
 function App() {
@@ -9,10 +10,17 @@ function App() {
     return Object.keys(result).map((key)=>{return result[key]})
   }
 
+  const [data] = createResource(getTrackPieces)
 
   return (
     <div>
       <h1>hello</h1>
+
+      <Show when={!data.loading} fallback={<>Searching...</>}>
+        <PieceList pieces={data()}></PieceList>
+
+      </Show>
+
       <PieceList/>
     </div>
   );

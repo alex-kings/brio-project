@@ -16,10 +16,6 @@ app.use(parser.urlencoded({ extended: false }));
 app.use(parser.json());
 
 
-// Get API calls for frontend
-require('./frontendRouter')(app)
-
-
 // Add a new piece to database
 app.post('/add_piece', (req,res) => {
     const pieceData = req.body
@@ -34,6 +30,19 @@ app.post('/add_piece', (req,res) => {
     }
 
     res.json('Piece added to database.')
+})
+
+// Get all pieces from json file
+app.get('/all-pieces', (req,res) => {
+    let pieces = null
+    try {
+        pieces = JSON.parse(fs.readFileSync(JSON_FILE))
+    } catch (error) {
+        console.log("Couldn't fetch pieces!")
+        console.log(error)
+        return
+    }
+    res.send(pieces)
 })
 
 function addPiece(piece){
