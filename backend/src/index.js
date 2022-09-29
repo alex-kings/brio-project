@@ -7,13 +7,17 @@ const fs = require('fs')
 const JSON_FILE = '../ressources/pieces.json'
 
 const app = express()
-const port = 3000
+const port = 5000
 
 app.use(cors())
 
 // Configuring express to use body-parser as middle-ware
 app.use(parser.urlencoded({ extended: false }));
 app.use(parser.json());
+
+
+// Get API calls for frontend
+require('./frontendRouter')(app)
 
 
 // Add a new piece to database
@@ -38,7 +42,6 @@ function addPiece(piece){
     // Get current file contents
     const data = JSON.parse(fs.readFileSync(JSON_FILE))
     // Add piece to current pieces
-    //data.push(piece)
     data[piece.id] = piece
     // Save new pieces to file
     const newData = JSON.stringify(data)
