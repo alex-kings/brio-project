@@ -1,5 +1,6 @@
 import { createEffect, createResource, createSignal, Show } from "solid-js";
 import PieceList from "./components/PieceList";
+import './styles/App.css'
 
 function App() {
   // User selection of the form: {A=2, B=5, ...}

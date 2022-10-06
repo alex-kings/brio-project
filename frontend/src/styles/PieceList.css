@@ -1,6 +1,6 @@
 .piece{
     padding:.5rem;
-    background-color: rgb(137, 224, 137);
+    background-color: rgb(166, 216, 166);
 }
 .piece-list{
     display:flex;
@@ -8,9 +8,13 @@
     gap:.2rem;
 }
 .piece-img{
-    height:8rem;
+    height:14rem;
 }
 .input-sm{
     width:3rem;
+    text-align: center;
+}
+.piece-characteristics{
+    background-color: rgb(210, 255, 210);
     text-align: center;
 }
