@@ -26,7 +26,7 @@ export default function Piece(props){
                     {props.piece.name}
                 </div>
                 <label>number: </label>
-                <input type="text" className="input-sm" onInput={changeQuantity}/>
+                <input type="number" min="0" className="input-sm" onInput={changeQuantity}/>
             </section>
             
         </div>

@@ -6,3 +6,19 @@
 .rounded{
     border-radius: .5rem;
 }
+.btn{
+    padding:1rem;
+    background-color: white;
+    color:green;
+    border:2px solid green;
+    border-radius: .5rem;
+}
+.btn:hover{
+    background-color: rgb(236, 236, 236);
+}
+.btn:active{
+    background-color: rgb(218, 218, 218);
+}
+.app{
+    padding:1rem;
+}

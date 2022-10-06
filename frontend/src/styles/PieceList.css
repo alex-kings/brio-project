@@ -8,7 +8,7 @@
     gap:.2rem;
 }
 .piece-img{
-    height:14rem;
+    height:12rem;
 }
 .input-sm{
     width:3rem;
@@ -17,4 +17,5 @@
 .piece-characteristics{
     background-color: rgb(210, 255, 210);
     text-align: center;
+    padding:.1rem;
 }
