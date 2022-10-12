@@ -1,3 +1,5 @@
+const { exec } = require("child_process");
+
 const express = require('express')
 const cors = require('cors')
 const parser = require('body-parser')
@@ -73,3 +75,17 @@ function savePieces(selection){
 
 app.listen(port, () => console.log(`Hello world app listening on port ${port}!`))
 
+// Execute command
+function execute(command){
+    exec(command, (error, stdout, stderr) => {
+        if (error) {
+            console.log(`error: ${error.message}`);
+            return;
+        }
+        if (stderr) {
+            console.log(`stderr: ${stderr}`);
+            return;
+        }
+        console.log(`stdout: ${stdout}`);
+    });
+}
