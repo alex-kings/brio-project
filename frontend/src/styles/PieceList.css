@@ -1,27 +1,10 @@
-.piece {
-    padding: .5rem;
-    background-color: rgb(166, 216, 166);
-}
-
-.piece-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: .2rem;
-}
-
 .piece-img {
-    height: 12rem;
+    height: 8rem;
 }
 
 .input-sm {
     width: 3rem;
     text-align: center;
-}
-
-.piece-characteristics {
-    background-color: rgb(210, 255, 210);
-    text-align: center;
-    padding: .3rem;
 }
 
 .space-between {
@@ -34,22 +17,28 @@
 }
 
 .table td, table th {
-    border: 1px solid #ddd;
+    border: 1px solid var(--grey-1);
     padding: 8px;
 }
 
 .table tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: var(--blue-1);
+}
+.table tr:nth-child(odd) {
+    background-color: var(--blue-2);
 }
 
 .table tr:hover {
-    background-color: #ddd;
+    background-color: var(--grey-2);
 }
 
 .table th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
-    background-color: #04AA6D;
-    color: white;
+    background-color: var(--green-1);
+    color: var(--white);
+}
+.input-me{
+    width:5rem
 }
