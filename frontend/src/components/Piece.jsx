@@ -16,19 +16,11 @@ export default function Piece(props){
     }
 
     return(
-        <div className="piece rounded">
-            <img className="piece-img" src={`./src/assets/pieces/${props.piece.id}_resized.png`} alt='Piece image here.'/>
-            <section className="rounded piece-characteristics">
-                <div>
-                    {props.piece.id}
-                </div>
-                <div>
-                    {props.piece.name}
-                </div>
-                <label>number: </label>
-                <input type="number" min="0" className="input-sm" onInput={changeQuantity}/>
-            </section>
-            
-        </div>
+        <tr>
+            <td>{props.piece.id}</td>
+            <td>{props.piece.name}</td>
+            <td><img className="piece-img" src={`./src/assets/pieces/${props.piece.id}_resized.png`} alt='Piece image here.'/></td>
+            <td><input type="number" min="0" className="input-sm" onInput={changeQuantity}/></td>
+        </tr>
     )
 }

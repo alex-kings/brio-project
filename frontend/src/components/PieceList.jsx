@@ -6,18 +6,27 @@ import '../styles/PieceList.css'
 import { For, onMount } from "solid-js"
 import Piece from './Piece'
 
-export default function PieceList(props){
+export default function PieceList(props) {
 
-    return(
-        <div className="piece-list">
-            <For each={props.pieces}>
-                {(piece)=>{
-                    return(
-                        <Piece piece={piece} setSelection={props.setSelection} selection={props.selection}/>
-                    )
-                }}
-            </For>
-        </div>
+    return (
+        <table className="table">
+            <tbody>
+                <tr>
+                    <th>ID</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Selection</th>
+                </tr>
+                <For each={props.pieces}>
+                    {(piece) => (
+
+                        <Piece piece={piece} setSelection={props.setSelection} selection={props.selection} />
+
+                    )}
+                </For>
+
+            </tbody>
+        </table>
     )
 }
 
