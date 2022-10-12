@@ -33,7 +33,7 @@ app.post('/add_piece', (req,res) => {
 })
 
 // Get all pieces from json file
-app.get('/all-pieces', (req,res) => {
+app.get('/all_pieces', (req,res) => {
     let pieces = null
     try {
         pieces = JSON.parse(fs.readFileSync(JSON_FILE))
@@ -43,6 +43,12 @@ app.get('/all-pieces', (req,res) => {
         return
     }
     res.send(pieces)
+})
+
+// Get piece selection from frontend
+app.post('/send_piece_selection', (req,res)=>{
+    console.log(req.body)
+    res.end()
 })
 
 function addPiece(piece){

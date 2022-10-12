@@ -13,17 +13,27 @@ export default function MainPage() {
 
     // Fetch pieces
     onMount(async () => {
-        const response = await fetch('http://localhost:5000/all-pieces')
+        const response = await fetch('http://localhost:5000/all_pieces')
         const result = await response.json()
 
         setPieces(Object.keys(result).map((key) => { return result[key] }))
     })
 
+    const sendPieces = async () => {
+        console.log(selection())
+
+        await fetch("http://localhost:5000/send_piece_selection", {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'}, 
+            body: JSON.stringify(selection())
+        }).catch(e => {console.log(e)})
+    }
+
     return (
         <div>
             <PieceList pieces={pieces()} setSelection={setSelection} selection={selection()} />
 
-            <button className="btn" onClick={() => { console.log(selection()) }}>Generate</button>
+            <button className="btn" onClick={sendPieces}>Generate</button>
         </div>
     )
 }
