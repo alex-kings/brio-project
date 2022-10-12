@@ -47,7 +47,7 @@ app.get('/all_pieces', (req,res) => {
 
 // Get piece selection from frontend
 app.post('/send_piece_selection', (req,res)=>{
-    console.log(req.body)
+    savePieces(req.body)
     res.end()
 })
 
@@ -64,6 +64,11 @@ function addPiece(piece){
         if(err) console.log(err)
     })
 
+}
+
+// Send pieces to c++ program
+function savePieces(selection){
+    console.log(selection)
 }
 
 app.listen(port, () => console.log(`Hello world app listening on port ${port}!`))
