@@ -17,7 +17,7 @@ export default function PieceList(props) {
                     <th>Image</th>
                     <th>Selection</th>
                 </tr>
-                <For each={props.pieces}>
+                <For each={props.pieces} fallback={<p>Loading...</p>}>
                     {(piece) => (
 
                         <Piece piece={piece} setSelection={props.setSelection} selection={props.selection} />
