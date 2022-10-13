@@ -6,7 +6,7 @@ const parser = require('body-parser')
 
 //File writer
 const fs = require('fs')
-const JSON_FILE = '../ressources/pieces.json'
+const JSON_FILE = '../../ressources/pieces.json'
 
 const app = express()
 const port = 5000
@@ -73,19 +73,46 @@ function savePieces(selection){
     console.log(selection)
 }
 
-app.listen(port, () => console.log(`Hello world app listening on port ${port}!`))
+// app.listen(port, () => console.log(`Hello world app listening on port ${port}!`))
 
-// Execute command
-function execute(command){
-    exec(command, (error, stdout, stderr) => {
-        if (error) {
-            console.log(`error: ${error.message}`);
-            return;
-        }
-        if (stderr) {
-            console.log(`stderr: ${stderr}`);
-            return;
-        }
-        console.log(`stdout: ${stdout}`);
-    });
+const {spawn} = require("child_process")
+
+
+const data = JSON.stringify({A:4,B:'Hello :~)', C:[1,2,3,'hha']})
+const cprocess = spawn('../core/out/main', [data])
+
+
+try{
+// cprocess.stdin.write(data)
+// cprocess.stdin.end(()=>{console.log('End of stdin')})
+
+cprocess.stdout.on('data',(data)=>{
+    console.log(data.toString())
+})
+
+// Listen on cprocess ending
+cprocess.on('close', (code)=>{
+    console.log("Exited with code: " + code)
+})
 }
+catch(e){
+    console.log(e)
+}
+
+
+// // Execute command
+// function execute(command){
+//     exec(command, (error, stdout, stderr) => {
+//         if (error) {
+//             console.log(`error: ${error.message}`);
+//             return;
+//         }
+//         if (stderr) {
+//             console.log(`stderr: ${stderr}`);
+//             return;
+//         }
+//         console.log(`stdout: ${stdout}`);
+//     });
+// }
+
+// execute("../core/out/main")
