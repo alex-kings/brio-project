@@ -1,3 +1,4 @@
 backend/node_modules/
+backend/src/core/subprojects/
 frontend/node_modules
 frontend/dist

@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "xstring": "cpp",
+        "ostream": "cpp"
+    },
+    "sonarlint.pathToCompileCommands": "${workspaceFolder}\\backend\\src\\core\\builddir\\compile_commands.json"
+}
