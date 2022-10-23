@@ -1,27 +1,13 @@
 #include <iostream>
 #include <json/json.h>
-#include <memory>
 
-
-Json::Value getJson(std::string rawJson) {
-
-    const auto rawJsonLength = static_cast<int>(rawJson.length());
-    JSONCPP_STRING err;
+int main() {
     Json::Value root;
+    std::cout << "Hello\n" << std::flush;
 
-    Json::CharReaderBuilder builder;
-    const std::unique_ptr<Json::CharReader> reader(builder.newCharReader());
-    if (!reader->parse(rawJson.c_str(), rawJson.c_str() + rawJsonLength, &root,
-                       &err)) {
-        std::cout << "error" << std::endl;
-        return NULL;
+    for(int i = 0; i < 1000; i++){
+        std::cout << i;
     }
 
-    return root;
-}
-
-int main(int argc, char **argv) {
-    std::cout << "starting";
-
-    
+    return 0;
 }
