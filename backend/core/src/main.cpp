@@ -1,6 +1,7 @@
 #include "json/json.h"
 #include <iostream>
 #include "Vec2D.h"
+#include "PieceList.h"
 
 
 /**
@@ -26,12 +27,12 @@ int main(int argc, char* argv[]) {
     // Get piece selection in JSON format from argv.
     //std::cout << argv[1] << std::endl;
 
-
+    Json::Value pieceSelection;
     try {
         //Json::Value pieceSelection = readJson(argv[1]);
 
         // Example
-        Json::Value pieceSelection = readJson("{\"A\":\"10\", \"B\":\"5\", \"E\":\"9\"}");
+        pieceSelection = readJson("{\"A\":\"10\", \"B\":\"5\", \"E\":\"9\"}");
     }
     catch(const std::domain_error& e) {
         std::cerr << e.what() << std::endl;
@@ -39,6 +40,9 @@ int main(int argc, char* argv[]) {
     
 
     std::cout << "Test" << std::endl;
+    
 
-    Vec2D v(3.2, 4.3);
+    // Get piece list for selection
+    PieceList list(pieceSelection.getMemberNames());
+
 }
