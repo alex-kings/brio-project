@@ -1,4 +1,0 @@
-/**
- * Graph of track pieces.
-*/
-
