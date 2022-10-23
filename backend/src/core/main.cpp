@@ -1,5 +1,7 @@
 #include "json/json.h"
 #include <iostream>
+#include "Vec2D.h"
+
 
 /**
  * Return the Json object representation of a string input.
@@ -22,10 +24,16 @@ Json::Value readJson(std::string rawJson) {
 
 int main(int argc, char* argv[]) {
     // Get piece selection in JSON format from argv.
+    //std::cout << argv[1] << std::endl;
 
-    std::cout << argv[1] << std::endl;
+    //Json::Value pieceSelection = readJson(argv[1]);
 
-    Json::Value pieceSelection = readJson(argv[1]);
+    // Example
+    Json::Value pieceSelection = readJson("{\"A\":\"10\", \"B\":\"5\", \"E\":\"9\"}");
 
-    std::cout << pieceSelection["A"] << std::endl;
+    std::cout << "Test" << std::endl;
+
+    Vec2D v(3.2, 4.3);
+
+    //std::cout << "Type: " << typeid(pieceSelection).name() << std::endl;
 }
