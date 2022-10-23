@@ -1,16 +1,11 @@
-const { exec } = require("child_process");
-
+const {spawn} = require("child_process")
 const express = require('express')
 const cors = require('cors')
 const parser = require('body-parser')
-
-//File writer
 const fs = require('fs')
 const JSON_FILE = '../../ressources/pieces.json'
-
 const app = express()
 const port = 5000
-
 app.use(cors())
 
 // Configuring express to use body-parser as middle-ware
@@ -49,7 +44,8 @@ app.get('/all_pieces', (req,res) => {
 
 // Get piece selection from frontend
 app.post('/send_piece_selection', (req,res)=>{
-    savePieces(req.body)
+    // Get track from piece selection
+    getTrack(req.body)
     res.end()
 })
 
@@ -68,16 +64,12 @@ function addPiece(piece){
 
 }
 
-// Send pieces to c++ program
-function savePieces(selection){
+// Send piece selection to cpp program to generate a track.
+async function getTrack(selection){
     console.log(selection)
+    const track = await executeCore(selection)
+    console.log("Track generated: " + track)
 }
-
-// app.listen(port, () => console.log(`Hello world app listening on port ${port}!`))
-
-const {spawn} = require("child_process")
-
-
 
 /**
  * Execute core algorithm.
@@ -86,11 +78,11 @@ const {spawn} = require("child_process")
 function executeCore(selection) {
     // Stringify piece selection
     const data = JSON.stringify(selection)
-
+    
     const corePromise = new Promise((resolve, reject) => {
         // Pass input to cpp program
         const cprocess = spawn('../core/build/main', [data])
-
+        
         try{
             cprocess.stdout.on('data',(data)=>{
                 resolve(data.toString())
@@ -103,9 +95,7 @@ function executeCore(selection) {
     return corePromise
 }
 
-async function res() {
-    let a = await executeCore({A:1})
-    console.log(a)
-}
-res()
+
+
+app.listen(port, () => console.log(`Hello world app listening on port ${port}!`))
   
