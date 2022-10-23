@@ -1,13 +1,26 @@
+#include "json/json.h"
 #include <iostream>
-#include <json/json.h>
 
-int main() {
+int main(int argc, char* argv[]) {
+    const std::string rawJson = R"({"Age": 20, "Name": "colin"})";
+    // Length of input
+    const auto rawJsonLength = static_cast<int>(rawJson.length());
+    JSONCPP_STRING err;
     Json::Value root;
-    std::cout << "Hello\n" << std::flush;
 
-    for(int i = 0; i < 1000; i++){
-        std::cout << i;
+    Json::CharReaderBuilder builder;
+    const std::unique_ptr<Json::CharReader> reader(builder.newCharReader());
+    if (!reader->parse(rawJson.c_str(), rawJson.c_str() + rawJsonLength, &root,
+                       &err))
+    {
+        std::cout << "error" << std::endl;
+        return EXIT_FAILURE;
     }
+    
+    const std::string name = root["Name"].asString();
+    const int age = root["Age"].asInt();
 
-    return 0;
+    std::cout << name << std::endl;
+    std::cout << age << std::endl;
+    return EXIT_SUCCESS;
 }
