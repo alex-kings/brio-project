@@ -3,5 +3,5 @@
         "xstring": "cpp",
         "ostream": "cpp"
     },
-    "sonarlint.pathToCompileCommands": "${workspaceFolder}\\backend\\src\\core\\builddir\\compile_commands.json"
+    "sonarlint.pathToCompileCommands": "${workspaceFolder}\\backend\\src\\core\\build\\compile_commands.json"
 }

@@ -78,41 +78,34 @@ function savePieces(selection){
 const {spawn} = require("child_process")
 
 
-const data = JSON.stringify({A:4,B:'Hello :~)', C:[1,2,3,'hha']})
-const cprocess = spawn('../core/out/main', [data])
 
+/**
+ * Execute core algorithm.
+ * A piece selection in raw Json format is passed. The function returns a track layout.
+ */
+function executeCore(selection) {
+    // Stringify piece selection
+    const data = JSON.stringify(selection)
 
-try{
-// cprocess.stdin.write(data)
-// cprocess.stdin.end(()=>{console.log('End of stdin')})
+    const corePromise = new Promise((resolve, reject) => {
+        // Pass input to cpp program
+        const cprocess = spawn('../core/build/main', [data])
 
-cprocess.stdout.on('data',(data)=>{
-    console.log(data.toString())
-})
-
-// Listen on cprocess ending
-cprocess.on('close', (code)=>{
-    console.log("Exited with code: " + code)
-})
+        try{
+            cprocess.stdout.on('data',(data)=>{
+                resolve(data.toString())
+            })
+        }
+        catch(e){
+            reject(e)
+        }
+    })
+    return corePromise
 }
-catch(e){
-    console.log(e)
+
+async function res() {
+    let a = await executeCore({A:1})
+    console.log(a)
 }
-
-
-// // Execute command
-// function execute(command){
-//     exec(command, (error, stdout, stderr) => {
-//         if (error) {
-//             console.log(`error: ${error.message}`);
-//             return;
-//         }
-//         if (stderr) {
-//             console.log(`stderr: ${stderr}`);
-//             return;
-//         }
-//         console.log(`stdout: ${stdout}`);
-//     });
-// }
-
-// execute("../core/out/main")
+res()
+  
