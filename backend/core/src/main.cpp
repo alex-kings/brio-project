@@ -1,7 +1,8 @@
 #include "json/json.h"
 #include <iostream>
 #include "Vec2D.h"
-#include "PieceList.h"
+#include "Piece.h"
+#include <fstream>
 
 
 /**
@@ -23,26 +24,41 @@ Json::Value readJson(std::string rawJson) {
     return root;
 }
 
-int main(int argc, char* argv[]) {
-    // Get piece selection in JSON format from argv.
-    //std::cout << argv[1] << std::endl;
 
+/**
+ * Get collection of pieces and their available quantities from the user selection.
+ * This may throw a domain error exception.
+*/
+std::vector<std::pair<Piece, int>> getPiecesAvailable(Json::Value piecesJson) {
+    // Read pieces.json file.
+    std::ifstream piecesFile("../ressources/pieces.json");
+    std::stringstream buffer;
+    buffer << piecesFile.rdbuf();
+
+    // Parse to Json object.
+    Json::Value piecesRessource;
+    std::string str = buffer.str();
+    
+    piecesRessource = readJson(str);
+
+}
+
+
+int main(int argc, char* argv[]) {
+    std::cout << "Start" << std::endl;
+
+    // User selection of pieces and their available quantities.
     Json::Value pieceSelection;
     try {
-        //Json::Value pieceSelection = readJson(argv[1]);
-
         // Example
         pieceSelection = readJson("{\"A\":\"10\", \"B\":\"5\", \"E\":\"9\"}");
     }
     catch(const std::domain_error& e) {
         std::cerr << e.what() << std::endl;
     }
+
     
 
-    std::cout << "Test" << std::endl;
     
-
-    // Get piece list for selection
-    PieceList list(pieceSelection.getMemberNames());
 
 }
