@@ -8,8 +8,9 @@ private:
 
 public:
 
-    Vec2D() = default;
-    Vec2D(double x, double y) {
+    Vec2D() {a = b = 0;}
+
+    Vec2D(float x, float y) {
         a = x;
         b = y;
     }
@@ -18,13 +19,13 @@ public:
     float getY() {return b;}
 
     // Adds the given vector to this vector.
-    void add(Vec2D v) {
+    void add(const Vec2D& v) {
         a += v.a;
         b += v.b;
     }
 
     // Dots this vector with the given vector.
-    void dot(Vec2D v) {
+    void dot(const Vec2D& v) {
         a *= v.a;
         b *= v.b;
     }
@@ -32,5 +33,15 @@ public:
     // Return the modulus of this vector.
     float getModulus() {
         return std::sqrt(a*a + b*b);
+    }
+
+    // Rotates this point around the given rotation point.
+    void rotate(const Vec2D& rotationPoint, float angle) {
+        float cAngle = std::cos(angle);
+        float sAngle = std::sin(angle);
+
+        float tempa = cAngle * rotationPoint.a + sAngle * rotationPoint.b;
+        b = -sAngle * rotationPoint.a + cAngle * rotationPoint.b;
+        a = tempa;
     }
 };

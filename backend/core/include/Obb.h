@@ -15,10 +15,13 @@ private:
 
 public:
     Obb() = default;
-    Obb(Vec2D p_1, Vec2D p_2, Vec2D p_3, Vec2D p_4) {
+    Obb(const Vec2D& p_1, const Vec2D& p_2, const Vec2D& p_3, const Vec2D& p_4) {
         p1 = p_1;
         p2 = p_2;
         p3 = p_3;
         p4 = p_4;
     };
+
+    // Rotate each point of this OBB around the given point
+    void rotate(const Vec2D& rotationPoint, float angle);
 };
