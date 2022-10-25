@@ -1,11 +1,14 @@
-#ifndef PIECE_H
-#define PIECE_H
+#pragma once
+
+/**
+ * A track piece.
+*/
 
 class Piece {
 private:
+    
+
 
 public:
     Piece();
 };
-
-#endif

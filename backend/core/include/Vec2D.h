@@ -8,6 +8,7 @@ private:
 
 public:
 
+    Vec2D() = default;
     Vec2D(double x, double y) {
         a = x;
         b = y;
