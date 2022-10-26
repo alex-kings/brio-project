@@ -24,6 +24,12 @@ public:
         b += v.b;
     }
 
+    // Add the given vector to this vector.
+    void add(int x, int y) {
+        a += x;
+        b += y;
+    }
+
     // Dots this vector with the given vector.
     void dot(const Vec2D& v) {
         a *= v.a;

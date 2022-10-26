@@ -38,3 +38,6 @@ Get images of pieces as assets.
 
 _06/10/2022_ **Fronted**
 Delete backgrounds on track images. Improve track list design. Add page routing.
+
+_26/10/2022_ **Cpp backend**
+Make class for vec2d, Obb, Piece. Add function to rotate single vec2d, and then single Obb.

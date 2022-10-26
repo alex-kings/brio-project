@@ -24,4 +24,20 @@ public:
 
     // Rotate each point of this OBB around the given point
     void rotate(const Vec2D& rotationPoint, float angle);
+
+    // Translate each point of this OBB by a given amount
+    void translate(const Vec2D& t) {
+        p1.add(t);
+        p2.add(t);
+        p3.add(t);
+        p4.add(t);
+    }
+
+    // Translate each point of this OBB by the given x and y
+    void translate(int x, int y) {
+        p1.add(x,y);
+        p2.add(x,y);
+        p3.add(x,y);
+        p4.add(x,y);
+    }
 };
