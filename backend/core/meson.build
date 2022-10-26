@@ -4,4 +4,7 @@ inc = include_directories('include')
 jsondep = dependency('jsoncpp')
 
 subdir('include')
-executable('main',['./src/main.cpp','./src/Vec2D.cpp','./src/Piece.cpp'],include_directories : inc,dependencies : jsondep)
+
+cppFiles = ['./src/main.cpp','./src/ReadJson.cpp','./src/Vec2D.cpp','./src/Piece.cpp']
+
+executable('main',cppFiles ,include_directories : inc,dependencies : jsondep)

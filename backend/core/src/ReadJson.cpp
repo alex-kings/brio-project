@@ -16,16 +16,16 @@ Json::Value readJson(std::string rawJson) {
     return root;
 }
 
-std::vector<std::pair<Piece, int>> getPiecesAvailable(Json::Value piecesJson) {
-    // Read pieces.json file.
-    std::ifstream piecesFile("../ressources/pieces.json");
-    std::stringstream buffer;
-    buffer << piecesFile.rdbuf();
+// std::vector< std::pair<Piece, int> > getPiecesAvailable(Json::Value piecesJson) {
+//     // Read pieces.json file.
+//     std::ifstream piecesFile("../ressources/pieces.json");
+//     std::stringstream buffer;
+//     buffer << piecesFile.rdbuf();
 
-    // Parse to Json object.
-    Json::Value piecesRessource;
-    std::string str = buffer.str();
+//     // Parse to Json object.
+//     Json::Value piecesRessource;
+//     std::string str = buffer.str();
     
-    piecesRessource = readJson(str);
+//     piecesRessource = readJson(str);
 
-}
+// }

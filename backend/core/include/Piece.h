@@ -1,5 +1,7 @@
 #pragma once
 #include "Obb.h"
+#include <vector>
+#include <string>
 
 /**
  * A track piece.

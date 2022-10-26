@@ -18,4 +18,4 @@ Json::Value readJson(std::string rawJson);
  * Get collection of pieces and their available quantities from the user selection.
  * This may throw a domain error exception.
 */
-std::vector<std::pair<Piece, int>> getPiecesAvailable(Json::Value piecesJson);
+// std::vector<std::pair<Piece, int>> getPiecesAvailable(Json::Value piecesJson);
