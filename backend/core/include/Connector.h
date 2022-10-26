@@ -1,13 +1,13 @@
-#ifndef CONNECTOR_H
-#define CONNECTOR_H
+#pragma once
+#include "Vec2D.h"
 
 class Connector {
 private:
-    // Position
-    
+    Vec2D position;
+    bool type; // true = out, false = in.
+
 public:
-    Connector();
+    Connector(float x, float y, bool connector_type) {
+        position = Vec2D(x, y);
+    }
 };
-
-
-#endif
