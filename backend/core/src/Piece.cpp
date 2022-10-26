@@ -1,6 +1,6 @@
 #include "Piece.h"
 
-Piece::Piece(Json::Value pieceRep) {
+Piece::Piece(const Json::Value& pieceRep) {
     // Create Parts
     Json::Value partsRep = pieceRep["parts"];
     for(const Json::Value& partRep : partsRep) {

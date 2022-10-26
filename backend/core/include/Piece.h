@@ -22,5 +22,5 @@ public:
     }
 
     // Initialise from a json representation.
-    Piece(Json::Value jsonRep);
+    Piece(const Json::Value& jsonRep);
 };
