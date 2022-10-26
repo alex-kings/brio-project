@@ -18,4 +18,8 @@ int main(int argc, char* argv[]) {
         std::cerr << e.what() << std::endl;
     }
 
+    Json::Value ressources = getPieceRessources(pieceSelection);
+
+    std::cout << ressources << std::endl;
+
 }

@@ -1,7 +1,9 @@
 #pragma once
-#include "Obb.h"
+#include "Part.h"
+#include "Connector.h"
 #include <vector>
 #include <string>
+#include <json/json.h>
 
 /**
  * A track piece.
@@ -9,10 +11,16 @@
 
 class Piece {
 private:
-    std::vector<Obb> obbs;
     std::string id;
+    std::vector<Part> parts;
+    std::vector<Connector> connectors;
 public:
-    Piece(std::string pieceId) {
-        id = pieceId;
+    Piece() {
+        id = "";
+        parts = {};
+        connectors = {};
     }
+
+    // Initialise from a json representation.
+    Piece(Json::Value jsonRep);
 };
