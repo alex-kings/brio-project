@@ -19,5 +19,5 @@ public:
     }
 
     // Initialise from a json representation.
-    Connector(Json::Value jsonRep);
+    Connector(const Json::Value& jsonRep);
 };

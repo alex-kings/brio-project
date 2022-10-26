@@ -3,7 +3,7 @@ const express = require('express')
 const cors = require('cors')
 const parser = require('body-parser')
 const fs = require('fs')
-const JSON_FILE = '../../ressources/pieces.json'
+const JSON_FILE = '../ressources/pieces.json'
 const app = express()
 const port = 5000
 app.use(cors())
