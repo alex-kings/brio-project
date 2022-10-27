@@ -9,17 +9,11 @@
 class Obb {
 
 private:
-    Vec2D p1;
-    Vec2D p2;
-    Vec2D p3;
-    Vec2D p4;
+    std::array<Vec2D, 4> points;
 
 public:
     Obb() {
-        p1 = Vec2D();
-        p2 = Vec2D();
-        p3 = Vec2D();
-        p4 = Vec2D();
+        points = {Vec2D(), Vec2D(), Vec2D(), Vec2D()};
     }
 
     // Initialise from json representation.
@@ -30,17 +24,15 @@ public:
 
     // Translate each point of this OBB by a given amount
     void translate(const Vec2D& t) {
-        p1.add(t);
-        p2.add(t);
-        p3.add(t);
-        p4.add(t);
+        for(Vec2D &point : points) {
+            point.add(t);
+        }
     }
 
-    // Translate each point of this OBB by the given x and y
+    // Translate each point of this OBB by a given x and y
     void translate(int x, int y) {
-        p1.add(x,y);
-        p2.add(x,y);
-        p3.add(x,y);
-        p4.add(x,y);
+        for(Vec2D &point : points) {
+            point.add(x, y);
+        }
     }
 };
