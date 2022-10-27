@@ -15,12 +15,15 @@ private:
     std::vector<Part> parts;
     std::vector<Connector> connectors;
 public:
-    Piece() {
-        id = "";
-        parts = {};
-        connectors = {};
-    }
+    // Default constructor
+    Piece();
 
     // Initialise from a json representation.
     Piece(const Json::Value& jsonRep);
 };
+
+Piece::Piece() {
+    id = "";
+    parts = {};
+    connectors = {};
+}

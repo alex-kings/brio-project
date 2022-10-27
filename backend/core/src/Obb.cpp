@@ -12,3 +12,15 @@ void Obb::rotate(const Vec2D& rotationPoint, float angle) {
         point.rotate(rotationPoint, angle);
     }
 }
+
+void Obb::translate(const Vec2D& t) {
+    for(Vec2D& point : points) {
+        point.add(t);
+    }
+}
+
+void Obb::translate(int x, int y) {
+    for(Vec2D& point : points) {
+        point.add(x, y);
+    }
+}

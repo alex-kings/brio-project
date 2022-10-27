@@ -12,9 +12,8 @@ private:
     std::array<Vec2D, 4> points;
 
 public:
-    Obb() {
-        points = {Vec2D(), Vec2D(), Vec2D(), Vec2D()};
-    }
+    // Default constructor
+    Obb();
 
     // Initialise from json representation.
     Obb(const Json::Value& jsonRep);
@@ -23,16 +22,12 @@ public:
     void rotate(const Vec2D& rotationPoint, float angle);
 
     // Translate each point of this OBB by a given amount
-    void translate(const Vec2D& t) {
-        for(Vec2D &point : points) {
-            point.add(t);
-        }
-    }
+    void translate(const Vec2D& t);
 
     // Translate each point of this OBB by a given x and y
-    void translate(int x, int y) {
-        for(Vec2D &point : points) {
-            point.add(x, y);
-        }
-    }
+    void translate(int x, int y);
 };
+
+Obb::Obb() {
+    points = {Vec2D(), Vec2D(), Vec2D(), Vec2D()};
+}
