@@ -5,6 +5,6 @@ jsondep = dependency('jsoncpp')
 
 subdir('include')
 
-cppFiles = ['./src/main.cpp','./src/ReadJson.cpp','./src/Vec2D.cpp','./src/Piece.cpp','./src/Part.cpp']
+cppFiles = ['./src/main.cpp','./src/ReadJson.cpp','./src/Vec2D.cpp','./src/Piece.cpp','./src/Part.cpp','./src/TrackGenerator.cpp']
 
 executable('main',cppFiles ,include_directories : inc,dependencies : jsondep)
