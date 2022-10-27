@@ -2,14 +2,15 @@
 
 Piece::Piece(const Json::Value& pieceRep) {
     // Create Parts
-    Json::Value partsRep = pieceRep["parts"];
-    for(const Json::Value& partRep : partsRep) {
+    for(const Json::Value& partRep : pieceRep["parts"]) {
         parts.push_back(Part(partRep));
     }
 
     // Create Connectors
-    Json::Value connectorsRep = pieceRep["connectors"];
-    for(const Json::Value& connectorRep : connectorsRep) {
+    for(const Json::Value& connectorRep : pieceRep["connectors"]) {
         connectors.push_back(Connector(connectorRep));
     }
+
+    // Create ID
+    id = pieceRep["id"].asString();
 }
