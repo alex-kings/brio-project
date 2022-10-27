@@ -27,7 +27,3 @@ public:
     // Translate each point of this OBB by a given x and y
     void translate(int x, int y);
 };
-
-Obb::Obb() {
-    points = {Vec2D(), Vec2D(), Vec2D(), Vec2D()};
-}

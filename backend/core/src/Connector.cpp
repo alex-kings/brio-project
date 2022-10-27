@@ -1,5 +1,12 @@
 #include "Connector.h"
 
+Connector::Connector() {
+    position = Vec2D();
+    direction = Vec2D();
+    type = true;
+    level = 0;
+}
+
 Connector::Connector(const Json::Value& jsonRep) {
     // Get position
     float x = std::stof(jsonRep["pos"]["x"].asString());

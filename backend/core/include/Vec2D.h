@@ -30,29 +30,3 @@ public:
     // Rotates this point around the given rotation point.
     void rotate(const Vec2D& rotationPoint, float angle);    
 };
-
-Vec2D::Vec2D() {a = b = 0;}
-
-Vec2D::Vec2D(float x, float y) {
-    a = x;
-    b = y;
-}
-
-void Vec2D::add(const Vec2D& v) {
-    a += v.a;
-    b += v.b;
-}
-
-void Vec2D::add(int x, int y) {
-    a += x;
-    b += y;
-}
-
-void Vec2D::dot(const Vec2D& v) {
-    a *= v.a;
-    b *= v.b;
-}
-
-float Vec2D::getModulus() {
-    return std::sqrt(a*a + b*b);
-}

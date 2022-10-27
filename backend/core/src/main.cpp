@@ -1,8 +1,9 @@
 #include "json/json.h"
 #include <iostream>
-#include "Vec2D.h"
-#include "Piece.h"
 #include "ReadJson.h"
+#include "TrackGenerator.h"
+#include "Piece.h"
+#include <vector>
 
 
 int main(int argc, char* argv[]) {
@@ -18,8 +19,6 @@ int main(int argc, char* argv[]) {
         std::cerr << e.what() << std::endl;
     }
 
-    Json::Value ressources = getPieceRessources();
-
-    std::cout << ressources << std::endl;
-
+    // Generate track from selection    
+    std::vector<Piece> track = generateTrack(pieceSelection);
 }

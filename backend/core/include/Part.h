@@ -20,8 +20,3 @@ public:
     // Initialise from json representation
     Part(const Json::Value& jsonRep);
 };
-
-Part::Part() {
-    obbs = {};
-    level = 0;
-}

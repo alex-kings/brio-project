@@ -6,4 +6,4 @@
  * Generates tracks for a given set of pieces.
 */
 
-std::vector<Piece> generateTrack(Json::Value selection);
+std::vector<Piece> generateTrack(const Json::Value& selection);

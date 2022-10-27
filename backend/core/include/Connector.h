@@ -17,10 +17,3 @@ public:
     // Initialise from a json representation.
     Connector(const Json::Value& jsonRep);
 };
-
-Connector::Connector() {
-    position = Vec2D();
-    direction = Vec2D();
-    type = true;
-    level = 0;
-}

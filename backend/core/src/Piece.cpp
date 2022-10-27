@@ -1,5 +1,11 @@
 #include "Piece.h"
 
+Piece::Piece() {
+    id = "";
+    parts = {};
+    connectors = {};
+}
+
 Piece::Piece(const Json::Value& pieceRep) {
     // Create Parts
     for(const Json::Value& partRep : pieceRep["parts"]) {

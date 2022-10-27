@@ -1,5 +1,9 @@
 #include "Obb.h"
 
+Obb::Obb() {
+    points = {Vec2D(), Vec2D(), Vec2D(), Vec2D()};
+}
+
 Obb::Obb(const Json::Value& jsonRep) {
     for(int a = 0; a < 4; a++) {
         points[a] = Vec2D(jsonRep[a]["x"].asFloat(), jsonRep[a]["y"].asFloat());
