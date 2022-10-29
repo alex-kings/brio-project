@@ -12,8 +12,24 @@ public:
     Vec2D(float x, float y);
 
     // Getters
-    float getX() {return a;}
-    float getY() {return b;}
+    float getX() const {return a;}
+    float getY() const {return b;}
+
+    // Overload operator + for vector addition
+    Vec2D operator + (Vec2D const& v) {
+        Vec2D res;
+        res.a = a + v.a;
+        res.b = b + v.b;
+        return res;
+    }
+
+    // Overload operator * for dot product
+    Vec2D operator * (Vec2D const& v) {
+        Vec2D res;
+        res.a = a * v.a;
+        res.b = b * v.b;
+        return res;
+    }
 
     // Adds the given vector to this vector.
     void add(const Vec2D& v);

@@ -4,6 +4,7 @@
 #include "TrackGenerator.h"
 #include "Piece.h"
 #include <vector>
+#include "Vec2D.h"
 
 
 int main(int argc, char* argv[]) {
