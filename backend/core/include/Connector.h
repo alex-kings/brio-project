@@ -2,11 +2,13 @@
 #include "Vec2D.h"
 #include <json/json.h>
 
+enum class ConnectorType {in, out};
+
 class Connector {
 private:
     Vec2D position;
     Vec2D direction;
-    bool type; // true = out, false = in.
+    ConnectorType type; // true = out, false = in.
     int level;
     
 

@@ -3,7 +3,7 @@
 Connector::Connector() {
     position = Vec2D();
     direction = Vec2D();
-    type = true;
+    type = ConnectorType::out;
     level = 0;
 }
 
@@ -19,6 +19,6 @@ Connector::Connector(const Json::Value& jsonRep) {
     direction = Vec2D(dx, dy);
 
     // Get type and level
-    type = jsonRep["type"].asBool();
+    type = (jsonRep["type"].asBool()) ? ConnectorType::out : ConnectorType::in;
     level = jsonRep["level"].asInt();
 }
