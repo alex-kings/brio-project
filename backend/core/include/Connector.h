@@ -8,8 +8,9 @@ class Connector {
 private:
     Vec2D position;
     Vec2D direction;
-    ConnectorType type; // true = out, false = in.
+    ConnectorType type;
     int level;
+    Connector* connection = nullptr; // Connector linked to this connector, initially nullptr.
     
 
 public:
