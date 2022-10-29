@@ -1,11 +1,5 @@
 #include "Connector.h"
 
-Connector::Connector() {
-    position = Vec2D();
-    direction = Vec2D();
-    type = ConnectorType::out;
-    level = 0;
-}
 
 Connector::Connector(const Json::Value& jsonRep) {
     // Get position

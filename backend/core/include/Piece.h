@@ -16,7 +16,11 @@ private:
     std::vector<Connector> connectors;
 public:
     // Default constructor
-    Piece();
+    Piece() {
+        id = "";
+        parts = {};
+        connectors = {};
+    }
 
     // Initialise from a json representation.
     Piece(const Json::Value& jsonRep);

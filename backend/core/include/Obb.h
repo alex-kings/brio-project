@@ -13,7 +13,9 @@ private:
 
 public:
     // Default constructor
-    Obb();
+    Obb() {
+        points = {Vec2D(), Vec2D(), Vec2D(), Vec2D()};
+    }
 
     // Initialise from json representation.
     Obb(const Json::Value& jsonRep);

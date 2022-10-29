@@ -14,7 +14,12 @@ private:
 
 public:
     // Default constructor
-    Connector();
+    Connector() {
+        position = Vec2D();
+        direction = Vec2D();
+        type = ConnectorType::out;
+        level = 0;
+    }
 
     // Initialise from a json representation.
     Connector(const Json::Value& jsonRep);

@@ -15,7 +15,11 @@ private:
 
 public:
     // Default constructor
-    Part();
+    Part() {
+        obbs = {};
+        level = 0;
+    }
+
 
     // Initialise from json representation
     Part(const Json::Value& jsonRep);
