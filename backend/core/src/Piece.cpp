@@ -9,12 +9,12 @@ Piece::Piece() {
 Piece::Piece(const Json::Value& pieceRep) {
     // Create Parts
     for(const Json::Value& partRep : pieceRep["parts"]) {
-        parts.push_back(Part(partRep));
+        parts.emplace_back(Part(partRep));
     }
 
     // Create Connectors
     for(const Json::Value& connectorRep : pieceRep["connectors"]) {
-        connectors.push_back(Connector(connectorRep));
+        connectors.emplace_back(Connector(connectorRep));
     }
 
     // Create ID
