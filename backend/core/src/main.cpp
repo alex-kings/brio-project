@@ -21,5 +21,5 @@ int main(int argc, char* argv[]) {
     }
 
     // Generate track from selection    
-    std::vector<Piece> track = generateTrack(pieceSelection);
+    Piece track = generateTrack(pieceSelection);
 }

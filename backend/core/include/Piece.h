@@ -24,4 +24,15 @@ public:
 
     // Initialise from a json representation.
     Piece(const Json::Value& jsonRep);
+
+    // Getters
+    std::string getId() const {
+        return id;
+    }
+    std::vector<Part> getParts() const {
+        return parts;
+    }
+    std::vector<Connector> getConnectors() const {
+        return connectors;
+    }
 };

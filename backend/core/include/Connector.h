@@ -24,4 +24,9 @@ public:
 
     // Initialise from a json representation.
     Connector(const Json::Value& jsonRep);
+
+    // Link this Connector to another Connector.
+    void link(Connector* c) {
+        connection = c;
+    }
 };

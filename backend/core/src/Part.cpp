@@ -2,7 +2,7 @@
 
 Part::Part(const Json::Value& jsonRep) {
     // Add obbs
-    for(const Json::Value& rectangle : jsonRep["rectanlges"]) {
+    for(const Json::Value& rectangle : jsonRep["rectangles"]) {
         obbs.emplace_back(Obb(rectangle));
     }
 

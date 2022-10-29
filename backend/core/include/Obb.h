@@ -20,6 +20,11 @@ public:
     // Initialise from json representation.
     Obb(const Json::Value& jsonRep);
 
+    // Getter
+    std::array<Vec2D, 4> getPoints() const {
+        return points;
+    }
+
     // Rotate each point of this OBB around the given point
     void rotate(const Vec2D& rotationPoint, float angle);
 

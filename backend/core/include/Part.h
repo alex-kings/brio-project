@@ -20,7 +20,15 @@ public:
         level = 0;
     }
 
-
     // Initialise from json representation
     Part(const Json::Value& jsonRep);
+
+    //Getters
+    std::vector<Obb> getObbs() const {
+        return obbs;
+    }
+
+    int getLevel() const {
+        return level;
+    }
 };
