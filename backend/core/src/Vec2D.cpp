@@ -3,19 +3,19 @@
 // Rotates this point around the given rotation point.
 void Vec2D::rotate(const Vec2D& rotationPoint, float angle) {
     // Displace this vector to rotate around the rotation point
-    a -= rotationPoint.a;
-    b -= rotationPoint.b;
+    x -= rotationPoint.x;
+    y -= rotationPoint.y;
 
     // Avoid repetition of sin and cos calculations
     float cAngle = std::cos(angle);
     float sAngle = std::sin(angle);
 
     // Rotate point
-    float tempa = cAngle * a + sAngle * b;
-    b = - sAngle * a + cAngle * b;
-    a = tempa;
+    float tempa = cAngle * x + sAngle * y;
+    y = - sAngle * x + cAngle * y;
+    x = tempa;
 
     // Re-translate around original center
-    a += rotationPoint.a;
-    b += rotationPoint.b;
+    x += rotationPoint.x;
+    y += rotationPoint.y;
 }

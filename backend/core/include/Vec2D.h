@@ -3,58 +3,58 @@
 
 class Vec2D {
 private:
-    float a;
-    float b;
+    float x;
+    float y;
 
 public:
     // Constructors
-    Vec2D() { a = b = 0; }
-    Vec2D(float x, float y) {
-        a = x;
-        b = y;
+    Vec2D() { x = y = 0; }
+    Vec2D(float a, float b) {
+        x = a;
+        y = b;
     }
 
     // Getters
-    float getX() const {return a;}
-    float getY() const {return b;}
+    float getX() const {return x;}
+    float getY() const {return y;}
 
     // Overload operator + for vector addition
     Vec2D operator + (Vec2D const& v) {
         Vec2D res;
-        res.a = a + v.a;
-        res.b = b + v.b;
+        res.x = x + v.x;
+        res.y = y + v.y;
         return res;
     }
 
     // Overload operator * for dot product
     Vec2D operator * (Vec2D const& v) {
         Vec2D res;
-        res.a = a * v.a;
-        res.b = b * v.b;
+        res.x = x * v.x;
+        res.y = y * v.y;
         return res;
     }
 
     // Adds the given vector to this vector.
     void add(const Vec2D& v) {
-        a += v.a;
-        b += v.b;
+        x += v.x;
+        y += v.y;
     }
 
     // Add the given vector to this vector.
-    void add(int x, int y) {
-        a += x;
-        b += y;
+    void add(int a, int b) {
+        x += a;
+        y += b;
     }
 
     // Dots this vector with the given vector.
     void dot(const Vec2D& v) {
-        a *= v.a;
-        b *= v.b;
+        x *= v.x;
+        y *= v.y;
     }
 
     // Return the modulus of this vector.
     float getModulus() const { 
-        return std::sqrt(a*a + b*b);
+        return std::sqrt(x*x + y*y);
     }
 
     // Rotates this point around the given rotation point.
