@@ -1,28 +1,19 @@
 #include "TrackGenerator.h"
-
+#include <unordered_map>
 #include <iostream>
 
-Piece generateTrack(const Json::Value& selection) {
-    // Get piece ressources
-    Json::Value ressource = getPieceRessources();
-
-    // Pieces available
-    Json::Value::Members availablePieces = selection.getMemberNames();
-
-    // Construct first piece from Json representation
-    Json::Value firstPiece = ressource[availablePieces[0]];
-    Piece* piece = new Piece(firstPiece);
-
-    std::cout <<"Piece constructed. Id:"<< (*piece).getId() << std::endl;
-    Part firstPart = (*piece).getParts()[0];
-
-    std::cout << "Level of first part:" << firstPart.getLevel() << "\n";
-
-    Obb firstObb = firstPart.getObbs()[0];
-
-    std::cout <<"First point y"<< firstObb.getPoints()[0].getY() << "\n";
-    
-    
+Piece getTrack(const Json::Value& selection) {
+    std::unordered_map<std::string,int>selectionMap;
+    // Casts the selection as a map
+    for(const std::string& member : selection.getMemberNames()) {
+        selectionMap[member] = std::stoi(selection[member].asString());
+    }
 
     return Piece();
+}
+
+
+bool generateTrack(const Piece& startPiece, const Piece& lastPiece, std::map<Piece,int> selection, std::vector<Piece> placedPieces) {
+    
+    return true;
 }

@@ -10,8 +10,13 @@
  * Generates tracks for a given set of pieces.
 */
 
+/**
+ * Returns a track generated from the given piece selection. Returns the starting piece of the track.
+*/
+Piece getTrack(const Json::Value& selection);
+
 
 /**
- * Connects pieces together to form a track. Returns the first piece of the track
+ * Takes a starting piece, a next piece and a selection of pieces to pick from and generated a track looping back to the starting piece.
 */
-Piece generateTrack(const Json::Value& selection);
+bool generateTrack(const Piece& startPiece, const Piece& lastPiece, std::map<Piece,int> selection, std::vector<Piece> placedPieces);
