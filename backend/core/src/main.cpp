@@ -19,4 +19,7 @@ int main(int argc, char* argv[]) {
     catch(const std::domain_error& e) {
         std::cerr << e.what() << std::endl;
     }
+
+    // Get track
+    Piece startPiece = getTrack(pieceSelection);
 }
