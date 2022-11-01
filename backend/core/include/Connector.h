@@ -3,13 +3,12 @@
 #include <json/json.h>
 #include <iostream>
 
-enum class ConnectorType {in, out};
 
 class Connector {
 private:
     Vec2D position;
     Vec2D direction;
-    ConnectorType type;
+    bool type; // true = in, false = out.
     int level;
     Connector* connection = nullptr; // Connector linked to this connector, initially nullptr.
     
@@ -18,7 +17,7 @@ public:
     Connector() {
         position = Vec2D();
         direction = Vec2D();
-        type = ConnectorType::out;
+        type = true;
         level = 0;
     }
 
@@ -30,12 +29,16 @@ public:
         connection = c;
     }
 
-    Connector* getConnection() {
+    // Getters
+    Connector* getConnection() const {
         return connection;
+    }
+    bool getType() const {
+        return type;
     }
     
     // Tells if this connector is free.
-    bool isFree() {
+    bool isFree() const {
         return (connection == nullptr);
     }
 };

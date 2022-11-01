@@ -14,10 +14,7 @@ Piece getTrack(const Json::Value& selection) {
     availablePieces.pop_back();
 
     // Placed it in a vector of placed pieces.
-    std::vector<Piece> placedPieces = {firstPiece};
-
-    // Checks if the first piece has a free connector.
-    
+    std::vector<Piece> placedPieces = {firstPiece};    
 
     // Connect pieces to the first piece in order to obtain a closed loop track.
     generateTrack(firstPiece, firstPiece.getConnector(0), &placedPieces, &availablePieces);
@@ -26,19 +23,27 @@ Piece getTrack(const Json::Value& selection) {
 }
 
 
+
 bool generateTrack(const Piece& startPiece, const Connector& openConnector, std::vector<Piece>* placedPieces, std::vector<Piece>* availablePieces) {
     // Check size of available pieces
     if((*availablePieces).size() < 1) {
         return false;
     }
 
+    // Check the type of the open connector
+    bool type = openConnector.getType();
+
     // Iterate through all the available pieces to find one that can be placed next.
     Piece nextPiece = (*availablePieces).back();
-    (*availablePieces).pop_back();
-    
+    (*availablePieces).pop_back(); // Only do this when you know the piece is placeable.
+
+
 
     return true;
 }
+
+
+
 
 std::vector<Piece> getAvailablePieces(const Json::Value& selection) {
     std::vector<Piece> availablePieces;
