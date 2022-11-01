@@ -11,6 +11,7 @@ class Obb {
 private:
     std::array<Vec2D, 4> points;
 
+
 public:
     // Default constructor
     Obb() {
@@ -21,8 +22,8 @@ public:
     Obb(const Json::Value& jsonRep);
 
     // Getter
-    std::array<Vec2D, 4> getPoints() const {
-        return points;
+    Vec2D& getPoint(int index) {
+        return points[index];
     }
 
     // Rotate each point of this OBB around the given point

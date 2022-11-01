@@ -13,6 +13,7 @@ private:
     std::vector<Obb> obbs;
     int level;
 
+
 public:
     // Default constructor
     Part() {
@@ -24,8 +25,11 @@ public:
     Part(const Json::Value& jsonRep);
 
     //Getters
-    std::vector<Obb> getObbs() const {
-        return obbs;
+    Obb& getObb(int index) {
+        return obbs[index];
+    }
+    int getNumberObbs() {
+        return obbs.size();
     }
 
     int getLevel() const {

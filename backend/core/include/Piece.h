@@ -10,10 +10,13 @@
 */
 
 class Piece {
+
 private:
     std::string id;
     std::vector<Part> parts;
     std::vector<Connector> connectors;
+
+
 public:
     // Default constructor
     Piece() {
@@ -26,13 +29,24 @@ public:
     Piece(const Json::Value& jsonRep);
 
     // Getters
-    std::string getId() const {
+    const std::string& getId() {
         return id;
     }
-    std::vector<Part> getParts() const {
-        return parts;
+
+    // Parts
+    Part& getPart(int index) {
+        return parts[index];
     }
-    std::vector<Connector> getConnectors() const {
-        return connectors;
+    int getNumberParts() {
+        return parts.size();
     }
+
+    // Connectors
+    Connector& getConnector(int index) {
+        return connectors[index];
+    }
+    int getNumberConnectors() {
+        return connectors.size();
+    }
+
 };

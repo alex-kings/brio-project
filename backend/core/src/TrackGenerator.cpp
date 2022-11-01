@@ -20,7 +20,7 @@ Piece getTrack(const Json::Value& selection) {
     
 
     // Connect pieces to the first piece in order to obtain a closed loop track.
-    generateTrack(firstPiece, firstPiece.getConnectors()[0], &placedPieces, &availablePieces);
+    generateTrack(firstPiece, firstPiece.getConnector(0), &placedPieces, &availablePieces);
     
     return Piece();
 }
