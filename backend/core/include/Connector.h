@@ -9,7 +9,7 @@ private:
     Vec2D position;
     Vec2D direction;
     bool type; // true = in, false = out.
-    int level;
+    uint level;
     Connector* connection = nullptr; // Connector linked to this connector, initially nullptr.
     
 public:
@@ -36,7 +36,13 @@ public:
     bool getType() const {
         return type;
     }
-    
+    const Vec2D& getPosition() const {
+        return position;
+    }
+    const Vec2D& getDirection() const {
+        return direction;
+    }
+
     // Tells if this connector is free.
     bool isFree() const {
         return (connection == nullptr);

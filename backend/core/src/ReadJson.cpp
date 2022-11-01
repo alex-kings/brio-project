@@ -1,7 +1,7 @@
 #include "ReadJson.h"
 #include <iostream>
 
-const Json::Value& readJson(const std::string& rawJson) {
+Json::Value readJson(const std::string& rawJson) {
     // Get length of input
     const auto rawJsonLength = static_cast<int>(rawJson.length());
     JSONCPP_STRING err;
@@ -17,7 +17,7 @@ const Json::Value& readJson(const std::string& rawJson) {
     return root;
 }
 
-const Json::Value& getPieceRessources() {
+Json::Value getPieceRessources() {
     // Read pieces.json file.
     std::ifstream piecesFile("../ressources/pieces.json");
     std::stringstream buffer;

@@ -11,7 +11,7 @@ class Part {
 
 private:
     std::vector<Obb> obbs;
-    int level;
+    uint level;
 
 
 public:
@@ -28,11 +28,11 @@ public:
     Obb& getObb(int index) {
         return obbs[index];
     }
-    int getNumberObbs() {
+    uint getNumberObbs() {
         return obbs.size();
     }
 
-    int getLevel() const {
+    uint getLevel() const {
         return level;
     }
 };

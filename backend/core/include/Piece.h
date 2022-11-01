@@ -37,7 +37,7 @@ public:
     Part& getPart(int index) {
         return parts[index];
     }
-    int getNumberParts() {
+    uint getNumberParts() {
         return parts.size();
     }
 
@@ -45,8 +45,13 @@ public:
     Connector& getConnector(int index) {
         return connectors[index];
     }
-    int getNumberConnectors() {
+    uint getNumberConnectors() {
         return connectors.size();
+    }
+
+    // Rotate piece around the given point
+    void rotate(const Vec2D& rotationPoint, float angle) {
+
     }
 
 };

@@ -30,14 +30,20 @@ bool generateTrack(const Piece& startPiece, const Connector& openConnector, std:
         return false;
     }
 
-    // Check the type of the open connector
-    bool type = openConnector.getType();
-
     // Iterate through all the available pieces to find one that can be placed next.
-    Piece nextPiece = (*availablePieces).back();
-    (*availablePieces).pop_back(); // Only do this when you know the piece is placeable.
+    for(uint i = 0; i < availablePieces->size(); i++) {
+        Piece& testPiece = (*availablePieces)[i];
 
+        // Finds is the test piece has a connector of the opposite type to the open one.
+        for(uint j = 0; j < testPiece.getNumberConnectors(); j++) {
+            // Break out of iteration if the connector types are the same 
+            if(testPiece.getConnector(j).getType() == openConnector.getType()) continue;
 
+            // Aligns connectors together by rotating the availble piece around its connector.
+
+        }
+
+    }
 
     return true;
 }

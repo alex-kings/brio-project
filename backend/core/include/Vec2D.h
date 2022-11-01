@@ -59,4 +59,12 @@ public:
 
     // Rotates this point around the given rotation point.
     void rotate(const Vec2D& rotationPoint, float angle);    
+
+    // Gives the angle difference between this and another Vec2D. Positive is counterclockwise. First vector is this.
+    float getAngleDifference(const Vec2D& v) {
+        float theta = acos((x*v.x + y*v.y) / (getModulus()*v.getModulus()));
+        // Sign of theta
+        if((x*v.y - y*v.x) < 0) return (2*M_PI - theta);
+        return theta;
+    }
 };
