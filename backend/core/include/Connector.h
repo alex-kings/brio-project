@@ -1,6 +1,7 @@
 #pragma once
 #include "Vec2D.h"
 #include <json/json.h>
+#include <iostream>
 
 enum class ConnectorType {in, out};
 
@@ -12,7 +13,6 @@ private:
     int level;
     Connector* connection = nullptr; // Connector linked to this connector, initially nullptr.
     
-
 public:
     // Default constructor
     Connector() {
@@ -27,6 +27,20 @@ public:
 
     // Link this Connector to another Connector.
     void link(Connector* c) {
+        std::cout << connection << std::endl;
+
         connection = c;
+        std::cout << connection << std::endl;
+
+    }
+
+    Connector* getConnection() {
+        return connection;
+    }
+    
+    // Tells if this connector is free.
+    bool isFree() {
+        std::cout << connection << std::endl;
+        return (connection == nullptr);
     }
 };

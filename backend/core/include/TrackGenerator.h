@@ -6,6 +6,10 @@
 #include "Obb.h"
 #include "Vec2D.h"
 #include <vector>
+#include "Connector.h"
+#include <stdexcept>
+#include <iostream>
+
 
 /**
  * Generates tracks for a given set of pieces.
@@ -18,9 +22,9 @@ Piece getTrack(const Json::Value& selection);
 
 
 /**
- * Takes a start piece, an open piece, a vector of placed pieces and a vector of available pieces. Recursively connects pieces together to generate a closed track.
+ * Takes a start piece, an open connector, a vector of placed pieces and a vector of available pieces. Recursively connects pieces together to generate a closed track.
 */
-bool generateTrack(const Piece& startPiece, const Piece& lastPiece, std::vector<Piece>* placedPieces, std::vector<Piece>* availablePieces);
+bool generateTrack(const Piece& startPiece, const Connector& openConnector, std::vector<Piece>* placedPieces, std::vector<Piece>* availablePieces);
 
 
 /**

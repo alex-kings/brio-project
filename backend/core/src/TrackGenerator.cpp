@@ -1,6 +1,4 @@
 #include "TrackGenerator.h"
-#include <iostream>
-#include <stdexcept>
 
 Piece getTrack(const Json::Value& selection) {
     // Get vector of available pieces.
@@ -18,14 +16,17 @@ Piece getTrack(const Json::Value& selection) {
     // Placed it in a vector of placed pieces.
     std::vector<Piece> placedPieces = {firstPiece};
 
+    // Checks if the first piece has a free connector.
+    
+
     // Connect pieces to the first piece in order to obtain a closed loop track.
-    generateTrack(firstPiece, firstPiece, &placedPieces, &availablePieces);
+    generateTrack(firstPiece, firstPiece.getConnectors()[0], &placedPieces, &availablePieces);
     
     return Piece();
 }
 
 
-bool generateTrack(const Piece& startPiece, const Piece& lastPiece, std::vector<Piece>* placedPieces, std::vector<Piece>* availablePieces) {
+bool generateTrack(const Piece& startPiece, const Connector& openConnector, std::vector<Piece>* placedPieces, std::vector<Piece>* availablePieces) {
     // Check size of available pieces
     if((*availablePieces).size() < 1) {
         return false;
@@ -34,6 +35,7 @@ bool generateTrack(const Piece& startPiece, const Piece& lastPiece, std::vector<
     // Iterate through all the available pieces to find one that can be placed next.
     Piece nextPiece = (*availablePieces).back();
     (*availablePieces).pop_back();
+    
 
     return true;
 }
