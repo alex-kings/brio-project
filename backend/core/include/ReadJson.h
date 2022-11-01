@@ -11,12 +11,12 @@
 /**
  * Return the Json object representation of a string input.
 */
-Json::Value readJson(const std::string& rawJson);
+const Json::Value& readJson(const std::string& rawJson);
 
 
 /**
  * Returns a Json Value representation of the pieces stored as ressources.
  * May throw domain error exception.
 */
-Json::Value getPieceRessources();
+const Json::Value& getPieceRessources();
 
