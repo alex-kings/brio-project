@@ -40,16 +40,20 @@ bool generateTrack(const Piece& startPiece, const Connector& openConnector, std:
 
             // Break out of iteration if the connector types are the same 
             if(testCon.getType() == openConnector.getType()) continue;
-
-            // Aligns connectors together by rotating the available piece around its connector.
             
             // Get angle between the open connector and the test connector.
             float angle = openConnector.getDirection().getAngleDifference(testCon.getDirection());
 
-            // Get positional difference between the two connectors
-            
-        }
+            // Rotates the test piece so that the connectors are aligned
 
+            // Get position difference between the two connectors
+
+            // Translates the test piece so that the connectors are at the same position
+
+
+            // Test collision between the test piece and all previously placed pieces
+
+        }
     }
 
     return true;

@@ -47,4 +47,13 @@ public:
     bool isFree() const {
         return (connection == nullptr);
     }
+
+    // Rotate this connector's position and direction around the given rotation point.
+    void rotate(const Vec2D& rotationPoint, float angle) {
+        // Rotate position around rotation point
+        position.rotate(rotationPoint,angle);
+
+        // Rotate direction around origin
+        direction.rotate(angle);
+    }
 };
