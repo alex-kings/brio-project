@@ -36,11 +36,18 @@ bool generateTrack(const Piece& startPiece, const Connector& openConnector, std:
 
         // Finds is the test piece has a connector of the opposite type to the open one.
         for(uint j = 0; j < testPiece.getNumberConnectors(); j++) {
+            Connector& testCon = testPiece.getConnector(j);
+
             // Break out of iteration if the connector types are the same 
-            if(testPiece.getConnector(j).getType() == openConnector.getType()) continue;
+            if(testCon.getType() == openConnector.getType()) continue;
 
-            // Aligns connectors together by rotating the availble piece around its connector.
+            // Aligns connectors together by rotating the available piece around its connector.
+            
+            // Get angle between the open connector and the test connector.
+            float angle = openConnector.getDirection().getAngleDifference(testCon.getDirection());
 
+            // Get positional difference between the two connectors
+            
         }
 
     }

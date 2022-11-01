@@ -49,9 +49,13 @@ public:
         return connectors.size();
     }
 
-    // Rotate piece around the given point
+    // Rotate piece around the given point. This is done by rotating all the obbs of this piece around the given point.
     void rotate(const Vec2D& rotationPoint, float angle) {
-
+        for(Part& part : parts) {
+            for(uint i = 0; i < part.getNumberObbs(); i++) {
+                part.getObb(i).rotate(rotationPoint, angle);
+            }
+        }
     }
 
 };
