@@ -19,13 +19,22 @@ Piece getTrack(const Json::Value& selection) {
     std::vector<Piece> placedPieces = {firstPiece};
 
     // Connect pieces to the first piece in order to obtain a closed loop track.
-    generateTrack(firstPiece, firstPiece, placedPieces, availablePieces);
+    generateTrack(firstPiece, firstPiece, &placedPieces, &availablePieces);
+    
     return Piece();
 }
 
 
-bool generateTrack(const Piece& startPiece, const Piece& lastPiece, const std::vector<Piece>& placedPieces, const std::vector<Piece>& availablePieces) {
-    
+bool generateTrack(const Piece& startPiece, const Piece& lastPiece, std::vector<Piece>* placedPieces, std::vector<Piece>* availablePieces) {
+    // Check size of available pieces
+    if((*availablePieces).size() < 1) {
+        return false;
+    }
+
+    // Iterate through all the available pieces to find one that can be placed next.
+    Piece nextPiece = (*availablePieces).back();
+    (*availablePieces).pop_back();
+
     return true;
 }
 

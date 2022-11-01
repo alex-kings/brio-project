@@ -20,7 +20,7 @@ Piece getTrack(const Json::Value& selection);
 /**
  * Takes a start piece, an open piece, a vector of placed pieces and a vector of available pieces. Recursively connects pieces together to generate a closed track.
 */
-bool generateTrack(const Piece& startPiece, const Piece& lastPiece, const std::vector<Piece>& placedPieces, const std::vector<Piece>& availablePieces);
+bool generateTrack(const Piece& startPiece, const Piece& lastPiece, std::vector<Piece>* placedPieces, std::vector<Piece>* availablePieces);
 
 
 /**
