@@ -23,15 +23,16 @@ export default function MainPage() {
 
     // Sends pieces to backend and gets generated track
     const generateTrack = async () => {
+
         console.log(selection())
 
-        const resp = await fetch("http://localhost:5000/send_piece_selection", {
+        const resp = await fetch("http://localhost:5000/generate_track", {
             method: "POST",
             headers: {'Content-Type': 'application/json'}, 
             body: JSON.stringify(selection())
         }).catch(e => {console.log(e)})
         const result = await resp.json()
-
+        console.log("Track generated: ", result)
     }
 
     // Display track only when pieces are available
@@ -46,7 +47,7 @@ export default function MainPage() {
         <div className="two-cols">
             <div>
                 <PieceList pieces={pieces()} setSelection={setSelection} selection={selection()} />
-                <button className="btn" onClick={generateTrack()}>Generate</button>
+                <button className="btn" onClick={generateTrack}>Generate</button>
             </div>
             <div className="canvas-container">
                 <h3>track</h3>

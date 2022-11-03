@@ -42,13 +42,22 @@ app.get('/all_pieces', (req,res) => {
     res.send(pieces)
 })
 
-// Get piece selection from frontend
-app.post('/send_piece_selection', (req,res)=>{
+/**
+ * Get a selection of pieces from frontend. Generates the track by sending this selection to core. Return the track generated to frontend.
+ */
+app.post('/generate_track', async (req,res)=>{
+    console.log("selection from user: ", req.body)
+
     // Get track from piece selection
-    getTrack(req.body)
+    const track = await executeCore(req.body)
+    console.log("cpp output: \n",track)
+
+
+    res.send({output: track})
     res.end()
 })
 
+// Add piece to ressources
 function addPiece(piece){
     console.log('adding piece...')
 
@@ -62,13 +71,6 @@ function addPiece(piece){
         if(err) console.log(err)
     })
 
-}
-
-// Send piece selection to cpp program to generate a track.
-async function getTrack(selection){
-    console.log(selection)
-    const track = await executeCore(selection)
-    console.log("Track generated: " + track)
 }
 
 /**
