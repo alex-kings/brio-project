@@ -57,10 +57,10 @@ public:
         return std::sqrt(x*x + y*y);
     }
 
-    // Rotates this point around the given rotation point.
+    // Rotates this point counterclockwise around the given rotation point.
     void rotate(const Vec2D& rotationPoint, float angle);    
 
-    // Rotates this point around the origin.
+    // Rotates this point counterclockwise around the origin.
     void rotate(float angle);
 
     // Gives the angle difference between this and another Vec2D. Positive is counterclockwise. First vector is this.

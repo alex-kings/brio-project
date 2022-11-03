@@ -39,9 +39,10 @@ bool generateTrack(const Piece& startPiece, const Connector& openConnector, std:
             if(testCon.getType() == openConnector.getType()) continue;
             
             // Get angle between the open connector and the test connector.
-            float angle = openConnector.getDirection().getAngleDifference(testCon.getDirection());
-
+            float angleDiff = openConnector.getDirection().getAngleDifference(testCon.getDirection());
+            std::cout << angleDiff << std::endl;
             // Rotates the test piece so that the connectors are aligned
+
 
             // Get position difference between the two connectors
 

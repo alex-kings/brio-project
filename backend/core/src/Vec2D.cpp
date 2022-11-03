@@ -5,14 +5,7 @@ void Vec2D::rotate(const Vec2D& rotationPoint, float angle) {
     x -= rotationPoint.x;
     y -= rotationPoint.y;
 
-    // Avoid repetition of sin and cos calculations
-    float cAngle = std::cos(angle);
-    float sAngle = std::sin(angle);
-
-    // Rotate point
-    float tempa = cAngle * x + sAngle * y;
-    y = - sAngle * x + cAngle * y;
-    x = tempa;
+    rotate(angle);
 
     // Re-translate around original center
     x += rotationPoint.x;
@@ -25,7 +18,7 @@ void Vec2D::rotate(float angle) {
     float sAngle = std::sin(angle);
 
     // Rotate point
-    float tempa = cAngle * x + sAngle * y;
-    y = - sAngle * x + cAngle * y;
+    float tempa = cAngle * x - sAngle * y;
+    y = sAngle * x + cAngle * y;
     x = tempa;
 }
