@@ -9,6 +9,7 @@
 #include "Connector.h"
 #include <stdexcept>
 #include <iostream>
+#include <cmath>
 
 
 /**
