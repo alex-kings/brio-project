@@ -101,7 +101,6 @@ async function getRes() {
     console.log("cpp output:\n")
     console.log(res);
 }
-getRes()
 
-// app.listen(port, () => console.log(`API listening on port ${port}.`))
+app.listen(port, () => console.log(`API listening on port ${port}.`))
   

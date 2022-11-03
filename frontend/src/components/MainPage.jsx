@@ -2,12 +2,14 @@
  * Main page.
  */
 
-import { createSignal, onMount } from "solid-js";
+import { createEffect, createSignal, onMount } from "solid-js";
 import PieceList from "./PieceList";
+import TrackCanvas from "./TrackCanvas";
+import "../styles/Canvas.css"
 
 export default function MainPage() {
 
-    // User selection of the form: {A=2, B=5, ...}
+    // User selection of the form: {A="2", B="5", ...}
     const [selection, setSelection] = createSignal({})
     const [pieces, setPieces] = createSignal({})
 
@@ -29,11 +31,24 @@ export default function MainPage() {
         }).catch(e => {console.log(e)})
     }
 
-    return (
-        <div>
-            <PieceList pieces={pieces()} setSelection={setSelection} selection={selection()} />
+    // Display track only when pieces are available
+    function displayTrack() {
+        if(!(Object.keys(pieces()).length === 0)) {
+            return <TrackCanvas pieces={pieces()}/>
+        }
+        return <></>
+    }
 
-            <button className="btn" onClick={sendPieces}>Generate</button>
+    return (
+        <div className="two-cols">
+            <div>
+                <PieceList pieces={pieces()} setSelection={setSelection} selection={selection()} />
+                <button className="btn" onClick={sendPieces}>Generate</button>
+            </div>
+            <div className="canvas-container">
+                <h3>track</h3>
+                {displayTrack()}
+            </div>
         </div>
     )
 }

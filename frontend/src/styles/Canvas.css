@@ -1,0 +1,13 @@
+.two-cols {
+    display:flex;
+}
+.canvas-container {
+    flex:100%;
+    padding : 0 15rem;
+}
+
+.track-canvas {
+    width: 40rem;
+    height: 30rem;
+    border: 1px solid black;
+}

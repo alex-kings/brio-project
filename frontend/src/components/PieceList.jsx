@@ -3,7 +3,7 @@
  */
 
 import '../styles/PieceList.css'
-import { For, onMount } from "solid-js"
+import { For } from "solid-js"
 import Piece from './Piece'
 
 export default function PieceList(props) {
