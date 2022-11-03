@@ -10,14 +10,15 @@ export default function TrackCanvas(props) {
         drawTrack(props.pieces)
     })
 
+    // Draw given track on canvas
     function drawTrack(pieces) {
         // Get DOM references to canvas
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d")
 
         // Set width and height of canvas
-        canvas.width = canvas.offsetWidth*2;
-        canvas.height = canvas.offsetHeight*2;
+        canvas.width = canvas.offsetWidth * 2;
+        canvas.height = canvas.offsetHeight * 2;
 
         // Set origin of canvas at the center
         ctx.translate(canvas.width / 2, canvas.height / 2)
@@ -34,6 +35,11 @@ export default function TrackCanvas(props) {
         piece.parts.forEach(part => {
             // Draw the bezier curve for this piece
             drawBezier(ctx, part.bezierPoints)
+
+            // Draw the rectangles for this part
+            part.rectangles.forEach(r=>{
+                drawRect(ctx,r,"blue")
+            })
         })
     }
 
@@ -60,19 +66,37 @@ export default function TrackCanvas(props) {
             drawCurve(ctx, points, "black")
         }
         // 3d bezier curve
-
-        // 4d bezier curve
-        // Collect vertices
-        let vertices = []
-        for (let t = 0; t < 1; t += (1 / ITERATIONS)) {
-            let x = (1 - t) ** 3 * points[0].x + 3 * (1 - t) ** 2 * t * points[1].x + 3 * (1 - t) * t ** 2 * points[2].x + t ** 3 * points[3].x
-            let y = (1 - t) ** 3 * points[0].y + 3 * (1 - t) ** 2 * t * points[1].y + 3 * (1 - t) * t ** 2 * points[2].y + t ** 3 * points[3].y
-
-            vertices.push({ x: x, y: y })
+        if (points.length === 3) {
+            let vertices = []
+            for (let t = 0; t < 1; t += (1 / ITERATIONS)) {
+                let x = (1 - t) ** 2 * points[0].x + 2 * (1 - t) * t * points[1].x + t ** 2 * points[2].x
+                let y = (1 - t) ** 2 * points[0].y + 2 * (1 - t) * t * points[1].y + t ** 2 * points[2].y
+                vertices.push(new Vec2d(x, y))
+            }
         }
-        drawCurve(ctx, vertices, "black")
+        // 4d bezier curve
+        if (points.length === 4) {
+            let vertices = []
+            for (let t = 0; t < 1; t += (1 / ITERATIONS)) {
+                let x = (1 - t) ** 3 * points[0].x + 3 * (1 - t) ** 2 * t * points[1].x + 3 * (1 - t) * t ** 2 * points[2].x + t ** 3 * points[3].x
+                let y = (1 - t) ** 3 * points[0].y + 3 * (1 - t) ** 2 * t * points[1].y + 3 * (1 - t) * t ** 2 * points[2].y + t ** 3 * points[3].y
 
+                vertices.push({ x: x, y: y })
+            }
+            drawCurve(ctx, vertices, "black")
+        }
+    }
 
+    // Draw rectangle
+    function drawRect(ctx, rect, colour){
+        ctx.strokeStyle = colour
+        ctx.beginPath()
+        ctx.moveTo(rect[0].x, rect[0].y)
+        ctx.lineTo(rect[1].x, rect[1].y)
+        ctx.lineTo(rect[2].x, rect[2].y)
+        ctx.lineTo(rect[3].x, rect[3].y)
+        ctx.lineTo(rect[0].x, rect[0].y)
+        ctx.stroke()
     }
 
     // Draw curve
