@@ -15,7 +15,7 @@ private:
     std::string id;
     std::vector<Part> parts;
     std::vector<Connector> connectors;
-
+    bool used = false;  // Tells whether the piece is in use.
 
 public:
     // Default constructor
@@ -33,19 +33,28 @@ public:
         return id;
     }
 
+    bool isUsed() const {
+        return used;
+    }
+
+    // Setter
+    void setUsed(bool u) {
+        used  = u;
+    }
+
     // Parts
     Part& getPart(int index) {
-        return parts[index];
+        return parts.at(index);
     }
-    uint getNumberParts() {
+    uint getNumberParts() const {
         return parts.size();
     }
 
     // Connectors
     Connector& getConnector(int index) {
-        return connectors[index];
+        return connectors.at(index);
     }
-    uint getNumberConnectors() {
+    uint getNumberConnectors() const {
         return connectors.size();
     }
 

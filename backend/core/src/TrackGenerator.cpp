@@ -2,39 +2,36 @@
 
 Piece getTrack(const Json::Value& selection) {
     // Get vector of available pieces.
-    std::vector<Piece> availablePieces = getAvailablePieces(selection);
+    std::vector<Piece> pieces = getAvailablePieces(selection);
 
     // Check if there is an available piece.
-    if(availablePieces.size() < 1) {
+    if(pieces.size() < 1) {
         throw std::invalid_argument("Error: At least one piece should be provided.");
     }
 
     // Get first piece from available pieces.
-    Piece firstPiece = availablePieces.back();
-    availablePieces.pop_back();
+    Piece& firstPiece = pieces.back();
 
-    // Placed it in a vector of placed pieces.
-    std::vector<Piece> placedPieces = {firstPiece};    
+    // Mark this piece as used.
+    firstPiece.setUsed(true);
 
     // Connect pieces to the first piece in order to obtain a closed loop track.
-    generateTrack(firstPiece, firstPiece.getConnector(0), &placedPieces, &availablePieces);
+    generateTrack(firstPiece, firstPiece.getConnector(0), &pieces);
     
     return Piece();
 }
 
 
-
-bool generateTrack(const Piece& startPiece, const Connector& openConnector, std::vector<Piece>* placedPieces, std::vector<Piece>* availablePieces) {
+bool generateTrack(const Piece& startPiece, const Connector& openConnector, std::vector<Piece>* pieces) {
     // Check size of available pieces
-    if((*availablePieces).size() < 1) {
+    if(pieces->size() < 1) {
         return false;
     }
 
-    // Iterate through all the available pieces to find one that can be placed next.
-    for(uint i = 0; i < availablePieces->size(); i++) {
-        Piece& testPiece = (*availablePieces)[i];
+    // Try to find a piece that can be placed
+    for(Piece& testPiece : (*pieces)) {
 
-        // Finds is the test piece has a connector of the opposite type to the open one.
+        // Finds if the test piece has a connector of the opposite type to the open one.
         for(uint j = 0; j < testPiece.getNumberConnectors(); j++) {
             Connector& testCon = testPiece.getConnector(j);
 

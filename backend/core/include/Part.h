@@ -26,7 +26,7 @@ public:
 
     //Getters
     Obb& getObb(int index) {
-        return obbs[index];
+        return obbs.at(index);
     }
     uint getNumberObbs() {
         return obbs.size();
