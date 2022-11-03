@@ -95,7 +95,13 @@ function executeCore(selection) {
     return corePromise
 }
 
+// Test
+async function getRes() {
+    const res = await executeCore({A:"2", E:"8"});
+    console.log("cpp output:\n")
+    console.log(res);
+}
+getRes()
 
-
-app.listen(port, () => console.log(`Hello world app listening on port ${port}!`))
+// app.listen(port, () => console.log(`API listening on port ${port}.`))
   

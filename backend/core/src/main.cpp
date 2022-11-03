@@ -8,13 +8,16 @@
 
 int main(int argc, char* argv[]) {
 
-    std::cout << "Start" << std::endl;
+    std::cout << "Start" << "\n";
+
+    // Get input from node program
+    std::string input = argv[1];
 
     // User selection of pieces and their available quantities.
     Json::Value pieceSelection;
     try {
         // Example
-        pieceSelection = readJson("{\"A\":\"10\", \"B\":\"5\", \"E\":\"9\"}");
+        pieceSelection = readJson(input);
     }
     catch(const std::domain_error& e) {
         std::cerr << e.what() << std::endl;

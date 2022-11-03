@@ -29,7 +29,7 @@ public:
     Piece(const Json::Value& jsonRep);
 
     // Getters
-    const std::string& getId() {
+    const std::string& getId() const {
         return id;
     }
 

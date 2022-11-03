@@ -9,6 +9,10 @@ Piece getTrack(const Json::Value& selection) {
         throw std::invalid_argument("Error: At least one piece should be provided.");
     }
 
+    for(const Piece& piece : pieces) {
+        std::cout << "Piece id: " << piece.getId() << "\n";
+    }
+
     // Get first piece from available pieces.
     Piece& firstPiece = pieces.back();
 
@@ -40,7 +44,6 @@ bool generateTrack(const Piece& startPiece, const Connector& openConnector, std:
             
             // Get angle between the open connector and the test connector.
             float angleDiff = openConnector.getDirection().getAngleDifference(testCon.getDirection());
-            std::cout << angleDiff << std::endl;
 
             // Rotate the test piece around its right connector to align with the open connector
             testPiece.rotate(testCon.getPosition(), M_PI - angleDiff);
