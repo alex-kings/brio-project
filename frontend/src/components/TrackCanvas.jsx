@@ -1,32 +1,33 @@
-import { createEffect } from "solid-js"
+import { createEffect, createSignal, onMount } from "solid-js"
+import { CanvasDragZoom } from "../dependencies/scroll.js"
 
 export default function TrackCanvas(props) {
 
+    const [zoomFactor, setZoomFactor] = createSignal(1)
+
     // number of iterations to plot curves
     const ITERATIONS = 50
+    
 
-    createEffect(() => {
-
-        drawTrack(props.pieces)
-    })
-
-    // Draw given track on canvas
-    function drawTrack(pieces) {
-        // Get DOM references to canvas
-        const canvas = document.getElementById("canvas");
-        const ctx = canvas.getContext("2d")
+    onMount(()=>{
+        const canvas = document.getElementById("canvas")
 
         // Set width and height of canvas
-        canvas.width = canvas.offsetWidth * 2;
-        canvas.height = canvas.offsetHeight * 2;
+        canvas.width = canvas.offsetWidth * zoomFactor();
+        canvas.height = canvas.offsetHeight * zoomFactor();
 
-        // Set origin of canvas at the center
-        ctx.translate(canvas.width / 2, canvas.height / 2)
+        // Create scrollable and zoomable canvas
+        new CanvasDragZoom(canvas, draw)
 
-        console.log(pieces)
+    })
 
-        // Draw large curve
-        drawPiece(ctx, pieces[0])
+    // document.getElementById("canvas").addEventListener("mousewheel")
+
+    // Initial drawing on canvas
+    function draw(options){       
+        props.pieces.forEach(piece => {
+            drawPiece(options.ctx, piece)
+        })
     }
 
     // Draw a piece at position given on the canvas
@@ -111,8 +112,6 @@ export default function TrackCanvas(props) {
     }
 
     return (
-        <>
-            <canvas id="canvas" className="track-canvas"></canvas>
-        </>
+        <canvas id="canvas" className="track-canvas"></canvas>
     )
 }

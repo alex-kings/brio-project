@@ -2,10 +2,10 @@
  * Main page.
  */
 
-import { createEffect, createSignal, onMount } from "solid-js";
+import { createEffect, createSignal, onMount, Show } from "solid-js";
 import PieceList from "./PieceList";
 import TrackCanvas from "./TrackCanvas";
-import "../styles/Canvas.css"
+import "../styles/TrackCanvas.css"
 
 export default function MainPage() {
 
@@ -35,23 +35,23 @@ export default function MainPage() {
         console.log("Track generated: ", result)
     }
 
-    // Display track only when pieces are available
-    function displayTrack() {
-        if(!(Object.keys(pieces()).length === 0)) {
-            return <TrackCanvas pieces={pieces()}/>
-        }
-        return <></>
+    const hasPieces = () => {
+        return Object.keys(pieces()).length !== 0
     }
 
     return (
         <div className="two-cols">
             <div>
-                <PieceList pieces={pieces()} setSelection={setSelection} selection={selection()} />
+                <div className="scrollable">
+                    <PieceList pieces={pieces()} setSelection={setSelection} selection={selection()} />
+                </div>
                 <button className="btn" onClick={generateTrack}>Generate</button>
             </div>
             <div className="canvas-container">
                 <h3>track</h3>
-                {displayTrack()}
+                <Show when={hasPieces()} fallback="Loading...">
+                    <TrackCanvas pieces={pieces()}/>
+                </Show>
             </div>
         </div>
     )

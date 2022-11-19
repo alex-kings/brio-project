@@ -35,3 +35,8 @@
 .app{
     padding:1rem;
 }
+.scrollable{
+    height:40rem;
+    /* overflow: hidden; */
+    overflow-y: scroll;
+}
