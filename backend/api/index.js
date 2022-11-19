@@ -52,6 +52,7 @@ app.post('/generate_track', async (req,res)=>{
     const track = await executeCore(req.body)
     console.log("cpp output: \n",track)
 
+    console.log(track.length)
 
     res.send({output: track})
     res.end()
@@ -95,13 +96,6 @@ function executeCore(selection) {
         }
     })
     return corePromise
-}
-
-// Test
-async function getRes() {
-    const res = await executeCore({A:"2", E:"8"});
-    console.log("cpp output:\n")
-    console.log(res);
 }
 
 app.listen(port, () => console.log(`API listening on port ${port}.`))

@@ -1,6 +1,7 @@
 #pragma once
 #include "Vec2D.h"
 #include <json/json.h>
+#include <string>
 
 /**
  * An oriented bounded box, ie. a rectangle used to compute collisions of track pieces.
@@ -25,9 +26,9 @@ public:
     std::string toJson() const {
         std::string jsonRep = "[";
 
-        for(const Vec2D& v : points) {
-            jsonRep.append(v.toJson());
-            jsonRep.append(",");
+        for(uint i = 0; i < points.size(); i++) {
+            jsonRep.append(points[i].toJson());
+            if(i != points.size() - 1) jsonRep.append(",");
         }
 
         jsonRep.append("]");

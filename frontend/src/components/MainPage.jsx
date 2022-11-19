@@ -2,7 +2,7 @@
  * Main page.
  */
 
-import { createEffect, createSignal, onMount, Show } from "solid-js";
+import { createSignal, onMount, Show } from "solid-js";
 import PieceList from "./PieceList";
 import TrackCanvas from "./TrackCanvas";
 import "../styles/TrackCanvas.css"
@@ -32,7 +32,7 @@ export default function MainPage() {
             body: JSON.stringify(selection())
         }).catch(e => {console.log(e)})
         const result = await resp.json()
-        console.log("Track generated: ", result)
+        console.log("Track generated: ", (result.output))
     }
 
     const hasPieces = () => {

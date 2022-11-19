@@ -1,9 +1,7 @@
-import { createEffect, createSignal, onMount } from "solid-js"
+import { onMount } from "solid-js"
 import { CanvasDragZoom } from "../dependencies/scroll.js"
 
 export default function TrackCanvas(props) {
-
-    const [zoomFactor, setZoomFactor] = createSignal(1)
 
     // number of iterations to plot curves
     const ITERATIONS = 50
@@ -13,15 +11,12 @@ export default function TrackCanvas(props) {
         const canvas = document.getElementById("canvas")
 
         // Set width and height of canvas
-        canvas.width = canvas.offsetWidth * zoomFactor();
-        canvas.height = canvas.offsetHeight * zoomFactor();
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
 
         // Create scrollable and zoomable canvas
         new CanvasDragZoom(canvas, draw)
-
     })
-
-    // document.getElementById("canvas").addEventListener("mousewheel")
 
     // Initial drawing on canvas
     function draw(options){       

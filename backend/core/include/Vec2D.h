@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include <cmath>
 
 class Vec2D {

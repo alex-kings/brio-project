@@ -33,19 +33,21 @@ public:
         std::string jsonRep = "{\"id\":\"" + id + "\",\"parts\":[";
         
         // print parts
-        for(const Part& part: parts) {
-            jsonRep.append(part.toJson());
+        for(uint i = 0; i < parts.size(); i++) {
+            jsonRep.append(parts[i].toJson());
+            if(i != parts.size() - 1) jsonRep.append(",");
         }
 
-        jsonRep.append("],[");
+        jsonRep.append("],\"connectors\":[");
 
         // print connectors
-        for(const Connector& con : connectors) {
-            jsonRep.append(con.toJson());
+        for(uint i = 0; i < connectors.size(); i++) {
+            jsonRep.append(connectors[i].toJson());
+            if(i != connectors.size() - 1) jsonRep.append(",");
         }
 
         jsonRep.append("]}");
-        
+
         return jsonRep;
     }
 

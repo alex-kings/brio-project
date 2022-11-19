@@ -2,6 +2,7 @@
 #include <json/json.h>
 #include <vector>
 #include "Obb.h"
+#include <string>
 
 /**
  * Part of a piece with a specific level and a set of OBBs.
@@ -29,8 +30,9 @@ public:
         std::string jsonRep = "{\"obbs\":[";
 
         // print obbs
-        for(const Obb& obb : obbs) {
-            jsonRep.append(obb.toJson());
+        for(uint i = 0; i < obbs.size(); i++) {
+            jsonRep.append(obbs[i].toJson());
+            if(i != obbs.size() - 1) jsonRep.append(",");
         }
 
         jsonRep.append("],\"level\":");

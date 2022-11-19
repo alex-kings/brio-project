@@ -16,9 +16,6 @@
  * Generates tracks for a given set of pieces.
 */
 
-// Result file
-std::string resultFile = "../tracks/track_result.json";
-
 /**
  * Returns a track generated from the given piece selection. Returns the starting piece of the track.
 */
