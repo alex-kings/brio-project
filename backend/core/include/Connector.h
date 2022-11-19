@@ -24,6 +24,20 @@ public:
     // Initialise from a json representation.
     Connector(const Json::Value& jsonRep);
 
+    // parse to json
+    std::string toJson() const {
+        std::string jsonRep = "{\"position\":";
+        jsonRep.append(position.toJson());
+        jsonRep.append(",\"direction\":");
+        jsonRep.append(direction.toJson());
+        jsonRep.append(",\"type\":");
+        jsonRep.append(type ? "true" : "false");
+        jsonRep.append(",\"level\":");
+        jsonRep.append(std::to_string(level));
+        jsonRep.append("}");
+        return jsonRep;
+    }
+
     // Link this Connector to another Connector.
     void link(Connector* c) {
         connection = c;

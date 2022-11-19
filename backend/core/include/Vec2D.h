@@ -14,6 +14,11 @@ public:
         y = b;
     }
 
+    // Parse to Json
+    std::string toJson() const {
+        return "{\"x\":" + std::to_string(x) + ",\"y\":" + std::to_string(y) + "}";
+    }
+
     // Getters
     float getX() const {return x;}
     float getY() const {return y;}

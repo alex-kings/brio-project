@@ -1,14 +1,16 @@
 #include "json/json.h"
 #include <iostream>
-#include "ReadJson.h"
+#include "ParseJson.h"
 #include "TrackGenerator.h"
 #include "Piece.h"
 #include <vector>
 #include "Vec2D.h"
 
+#include <fstream>
+
 int main(int argc, char* argv[]) {
 
-    std::cout << "Start" << "\n";
+    std::cerr << "Start" << "\n";
 
     // Get input from node program
     std::string input = argv[1];

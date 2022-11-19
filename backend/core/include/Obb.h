@@ -21,6 +21,19 @@ public:
     // Initialise from json representation.
     Obb(const Json::Value& jsonRep);
 
+    // parse to json
+    std::string toJson() const {
+        std::string jsonRep = "[";
+
+        for(const Vec2D& v : points) {
+            jsonRep.append(v.toJson());
+            jsonRep.append(",");
+        }
+
+        jsonRep.append("]");
+        return jsonRep;
+    }
+
     // Getter
     Vec2D& getPoint(int index) {
         return points[index];

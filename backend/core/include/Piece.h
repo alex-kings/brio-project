@@ -28,6 +28,27 @@ public:
     // Initialise from a json representation.
     Piece(const Json::Value& jsonRep);
 
+    // Return a json representation of this
+    std::string toJson() const {
+        std::string jsonRep = "{\"id\":\"" + id + "\",\"parts\":[";
+        
+        // print parts
+        for(const Part& part: parts) {
+            jsonRep.append(part.toJson());
+        }
+
+        jsonRep.append("],[");
+
+        // print connectors
+        for(const Connector& con : connectors) {
+            jsonRep.append(con.toJson());
+        }
+
+        jsonRep.append("]}");
+        
+        return jsonRep;
+    }
+
     // Getters
     const std::string& getId() const {
         return id;

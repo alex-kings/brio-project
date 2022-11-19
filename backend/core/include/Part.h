@@ -24,6 +24,22 @@ public:
     // Initialise from json representation
     Part(const Json::Value& jsonRep);
 
+    // Parse to json
+    std::string toJson() const {
+        std::string jsonRep = "{\"obbs\":[";
+
+        // print obbs
+        for(const Obb& obb : obbs) {
+            jsonRep.append(obb.toJson());
+        }
+
+        jsonRep.append("],\"level\":");
+        jsonRep.append(std::to_string(level));
+        jsonRep.append("}");
+
+        return jsonRep;
+    }
+
     //Getters
     Obb& getObb(int index) {
         return obbs.at(index);

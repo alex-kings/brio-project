@@ -1,7 +1,7 @@
 #pragma once
 #include "Piece.h"
 #include <json/json.h>
-#include "ReadJson.h"
+#include "ParseJson.h"
 #include "Part.h"
 #include "Obb.h"
 #include "Vec2D.h"
@@ -15,6 +15,9 @@
 /**
  * Generates tracks for a given set of pieces.
 */
+
+// Result file
+std::string resultFile = "../tracks/track_result.json";
 
 /**
  * Returns a track generated from the given piece selection. Returns the starting piece of the track.
@@ -32,3 +35,11 @@ bool generateTrack(const Piece& startPiece, const Connector& openConnector, std:
  * Returns a vector containing all available pieces from a Json::Value selection.
 */
 std::vector<Piece> getAvailablePieces(const Json::Value& selection);
+
+
+
+/**
+ * Write the vector of json values to the result file
+*/
+void writeResult(const std::vector<Piece>& track);
+

@@ -1,4 +1,4 @@
-#include "ReadJson.h"
+#include "ParseJson.h"
 #include <iostream>
 
 Json::Value readJson(const std::string& rawJson) {
@@ -27,3 +27,9 @@ Json::Value getPieceRessources() {
     return readJson(buffer.str());
 }
 
+std::string writeJson(const Json::Value& value) {
+    Json::StreamWriterBuilder builder;
+    // No whitespace in output
+    builder["indentation"] = "";
+    return Json::writeString(builder, value);
+}

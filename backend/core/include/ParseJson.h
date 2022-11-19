@@ -20,3 +20,8 @@ Json::Value readJson(const std::string& rawJson);
 */
 Json::Value getPieceRessources();
 
+
+/**
+ * Returns a string representation of the given Json::Value
+*/
+std::string writeJson(const Json::Value& valueReadJson);
