@@ -27,7 +27,7 @@ public:
 
     // Parse to json
     std::string toJson() const {
-        std::string jsonRep = "{\"obbs\":[";
+        std::string jsonRep = "{\"rectangles\":[";
 
         // print obbs
         for(uint i = 0; i < obbs.size(); i++) {

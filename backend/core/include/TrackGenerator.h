@@ -38,5 +38,5 @@ std::vector<Piece> getAvailablePieces(const Json::Value& selection);
 /**
  * Write the vector of json values to the result file
 */
-void writeResult(const std::vector<Piece>& track);
+void writeTrackToFile(const std::vector<Piece>& track);
 

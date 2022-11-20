@@ -9,9 +9,8 @@ Piece getTrack(const Json::Value& selection) {
         throw std::invalid_argument("Error: At least one piece should be provided.");
     }
 
-    for(const Piece& piece : pieces) {
-        std::cout << piece.toJson() << "\n";
-    }
+    // TEST write result to file
+    writeTrackToFile(pieces);
 
     // Get first piece from available pieces.
     Piece& firstPiece = pieces.back();
@@ -79,15 +78,20 @@ std::vector<Piece> getAvailablePieces(const Json::Value& selection) {
 }
 
 
-void writeResult(std::vector<Piece> track) {
+void writeTrackToFile(const std::vector<Piece>& track) {
 
 
     // Write result to the result file
     std::ofstream file("../tracks/track_result.json");
 
-    for(const Piece& piece : track) {
-        // file << piece << "\n"; 
+    file << "{\"pieces\":[";
+
+    for(uint i = 0; i < track.size(); i++) {
+        file << track[i].toJson();
+        if(i < track.size() - 1) file << ",";
     }
+
+    file << "]}";
 
     file.close();
     std::cout << "done" << "\n";
