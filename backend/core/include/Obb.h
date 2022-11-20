@@ -12,7 +12,6 @@ class Obb {
 private:
     std::array<Vec2D, 4> points;
 
-
 public:
     // Default constructor
     Obb() {
@@ -39,6 +38,17 @@ public:
     Vec2D& getPoint(int index) {
         return points[index];
     }
+
+    // Check whether this OBB collides with the given one using SAT
+    bool collides(const Obb& obb) {
+        // Finds the normals of this OBB
+        Vec2D n1 = points[0] - points[1];
+        Vec2D n2 = points[1] - points[2];
+
+        //CONTINUE
+    }
+
+
 
     // Rotate each point of this OBB around the given point
     void rotate(const Vec2D& rotationPoint, float angle);

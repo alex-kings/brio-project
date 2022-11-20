@@ -47,3 +47,5 @@ Make a canvas to display tracks generated in frontend.
 Add function to translate Pieces by a certain amount.
 Start implementation of the track generating function.
 Check OBB collision detection using SAT (https://gamedev.stackexchange.com/questions/25397/obb-vs-obb-collision-detection).
+
+COULD IMPROVE: OBB Normals are re-calculated at each SAT. Could instead store them.
