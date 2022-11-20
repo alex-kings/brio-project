@@ -32,7 +32,7 @@ export default function MainPage() {
             body: JSON.stringify(selection())
         }).catch(e => {console.log(e)})
         const result = await resp.json()
-        console.log("Track generated: ", (result.output))
+        console.log("Track generated: ", result.pieces)
     }
 
     const hasPieces = () => {

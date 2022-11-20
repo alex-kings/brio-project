@@ -49,13 +49,24 @@ app.post('/generate_track', async (req,res)=>{
     console.log("selection from user: ", req.body)
 
     // Get track from piece selection
-    const track = await executeCore(req.body)
-    console.log("cpp output: \n",track)
+    const coreMsg = await executeCore(req.body)
+    console.log("cpp output: \n",coreMsg)
 
-    console.log(track.length)
+    let track
+    // Get output track from file
+    fs.readFile('../tracks/track_result.json', 'utf8', (err, data) => {
+        if(err) {
+            console.error(err)
+            return
+        }
+        // return data as a javascript object
 
-    res.send({output: track})
-    res.end()
+        track = JSON.parse(data)
+
+        console.log(track)
+
+        res.send(track)
+    })
 })
 
 // Add piece to ressources
@@ -78,7 +89,7 @@ function addPiece(piece){
  * Execute core algorithm.
  * A piece selection in raw Json format is passed. The function returns a track layout.
  */
-function executeCore(selection) {
+async function executeCore(selection) {
     // Stringify piece selection
     const data = JSON.stringify(selection)
     
@@ -95,7 +106,10 @@ function executeCore(selection) {
             reject(e)
         }
     })
-    return corePromise
+    // Log message printed on stdout by the core.
+    const msg = await corePromise
+    console.log("Core message: ", msg)
+    return msg
 }
 
 app.listen(port, () => console.log(`API listening on port ${port}.`))
