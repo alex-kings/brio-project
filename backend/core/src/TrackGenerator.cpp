@@ -61,7 +61,7 @@ bool generateTrack(const Piece& startPiece, const Connector& openConnector, std:
             testPiece.translate(diff);
 
             // Test collision between the test piece and all previously placed pieces
-
+            
         }
     }
 

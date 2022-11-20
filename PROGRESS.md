@@ -41,3 +41,9 @@ Delete backgrounds on track images. Improve track list design. Add page routing.
 
 _26/10/2022_ **Cpp backend**
 Make class for vec2d, Obb, Piece. Add function to rotate single vec2d, and then single Obb.
+
+_20/11/2022_ **Cpp backend and frontend**
+Make a canvas to display tracks generated in frontend.
+Add function to translate Pieces by a certain amount.
+Start implementation of the track generating function.
+Check OBB collision detection using SAT (https://gamedev.stackexchange.com/questions/25397/obb-vs-obb-collision-detection).
