@@ -9,6 +9,9 @@ Piece getTrack(const Json::Value& selection) {
         throw std::invalid_argument("Error: At least one piece should be provided.");
     }
 
+    // TEST rotate the first piece around by pi/2
+    pieces[0].rotate(pieces[0].getConnector(0).getPosition(), 3.14/2);
+
     // TEST write result to file
     writeTrackToFile(pieces);
 

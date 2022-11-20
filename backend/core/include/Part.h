@@ -6,15 +6,15 @@
 
 /**
  * Part of a piece with a specific level and a set of OBBs.
-*/
+ */
 
-class Part {
+class Part
+{
 
 private:
     std::vector<Obb> obbs;
     std::vector<Vec2D> bezierPoints;
     uint level;
-
 
 public:
     // Default constructor
@@ -25,16 +25,17 @@ public:
     }
 
     // Initialise from json representation
-    Part(const Json::Value& jsonRep);
+    Part(const Json::Value &jsonRep);
 
     // Parse to json
     std::string toJson() const {
         std::string jsonRep = "{\"rectangles\":[";
 
         // print obbs
-        for(uint i = 0; i < obbs.size(); i++) {
+        for (uint i = 0; i < obbs.size(); i++) {
             jsonRep.append(obbs[i].toJson());
-            if(i != obbs.size() - 1) jsonRep.append(",");
+            if (i != obbs.size() - 1)
+                jsonRep.append(",");
         }
 
         jsonRep.append("],\"level\":");
@@ -42,9 +43,9 @@ public:
         jsonRep.append(",\"bezierPoints\":[");
 
         // print bezier points
-        for(uint i = 0; i < bezierPoints.size(); i++) {
+        for (uint i = 0; i < bezierPoints.size(); i++) {
             jsonRep.append(bezierPoints[i].toJson());
-            if(i < bezierPoints.size() - 1) jsonRep.append(",");
+            if (i < bezierPoints.size() - 1) jsonRep.append(",");
         }
 
         jsonRep.append("]}");
@@ -52,8 +53,21 @@ public:
         return jsonRep;
     }
 
-    //Getters
-    Obb& getObb(int index) {
+    // Rotate
+    void rotate(const Vec2D &rotationPoint, float angle) {
+        // rotate obbs
+        for (Obb &obb : obbs) {
+            obb.rotate(rotationPoint, angle);
+        }
+
+        // rotate bezier points
+        for (Vec2D &p : bezierPoints) {
+            p.rotate(rotationPoint, angle);
+        }
+    }
+
+    // Getters
+    Obb &getObb(int index) {
         return obbs.at(index);
     }
     uint getNumberObbs() {
