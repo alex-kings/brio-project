@@ -51,30 +51,14 @@ bool generateTrack(const Piece& startPiece, const Connector& openConnector, std:
             // Get angle between the open connector and the test connector.
             float angleDiff = openConnector.getDirection().getAngleDifference(testCon.getDirection());
 
-
-            std::cout << "Initial test position:" <<testCon.getPosition().toJson() << "\n";
-            std::cout << "Initial open position:" <<openConnector.getPosition().toJson() << "\n";
-
             // Get position difference between the two connectors
             Vec2D diff = openConnector.getPosition() - testCon.getPosition();
 
             // Rotate the test piece around its right connector to align with the open connector
             testPiece.rotate(testCon.getPosition(), M_PI - angleDiff);
 
-            std::cout << "After rotation test position:" <<testCon.getPosition().toJson() << "\n";
-            std::cout << "After rotation open position:" <<openConnector.getPosition().toJson() << "\n";
-
-
-            std::cout <<"diff"<< diff.toJson() << "\n";
-
             // Translates the test piece so that the connectors are at the same position
             testPiece.translate(diff);
-
-
-            std::cout << "Final test position:" <<testCon.getPosition().toJson() << "\n";
-            std::cout << "Final open position:" <<openConnector.getPosition().toJson() << "\n";
-
-            std::cout << "Translated!" << "\n";
 
             // Test collision between the test piece and all previously placed pieces
 
