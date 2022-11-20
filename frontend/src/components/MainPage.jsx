@@ -2,7 +2,7 @@
  * Main page.
  */
 
-import { createSignal, onMount, Show } from "solid-js";
+import { createEffect, createSignal, onMount, Show } from "solid-js";
 import PieceList from "./PieceList";
 import TrackCanvas from "./TrackCanvas";
 import "../styles/TrackCanvas.css"
@@ -12,6 +12,7 @@ export default function MainPage() {
     // User selection of the form: {A="2", B="5", ...}
     const [selection, setSelection] = createSignal({})
     const [pieces, setPieces] = createSignal({})
+    const [track, setTrack] = createSignal([])
 
     // Fetch pieces
     onMount(async () => {
@@ -19,6 +20,11 @@ export default function MainPage() {
         const result = await response.json()
 
         setPieces(Object.keys(result).map((key) => { return result[key] }))
+    })
+
+    createEffect(()=>{
+        console.log("Change in track detected!")
+        console.log(track())
     })
 
     // Sends pieces to backend and gets generated track
@@ -33,10 +39,16 @@ export default function MainPage() {
         }).catch(e => {console.log(e)})
         const result = await resp.json()
         console.log("Track generated: ", result.pieces)
+
+        setTrack(result.pieces)
     }
 
     const hasPieces = () => {
         return Object.keys(pieces()).length !== 0
+    }
+
+    const hasTrack = () => {
+        return track().length > 0;
     }
 
     return (
@@ -49,8 +61,8 @@ export default function MainPage() {
             </div>
             <div className="canvas-container">
                 <h3>track</h3>
-                <Show when={hasPieces()} fallback="Loading...">
-                    <TrackCanvas pieces={pieces()}/>
+                <Show when={hasTrack()} fallback="Loading...">
+                    <TrackCanvas pieces={track()}/>
                 </Show>
             </div>
         </div>

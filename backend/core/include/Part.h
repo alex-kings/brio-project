@@ -12,12 +12,14 @@ class Part {
 
 private:
     std::vector<Obb> obbs;
+    std::vector<Vec2D> bezierPoints;
     uint level;
 
 
 public:
     // Default constructor
     Part() {
+        bezierPoints = {};
         obbs = {};
         level = 0;
     }
@@ -37,7 +39,15 @@ public:
 
         jsonRep.append("],\"level\":");
         jsonRep.append(std::to_string(level));
-        jsonRep.append("}");
+        jsonRep.append(",\"bezierPoints\":[");
+
+        // print bezier points
+        for(uint i = 0; i < bezierPoints.size(); i++) {
+            jsonRep.append(bezierPoints[i].toJson());
+            if(i < bezierPoints.size() - 1) jsonRep.append(",");
+        }
+
+        jsonRep.append("]}");
 
         return jsonRep;
     }
