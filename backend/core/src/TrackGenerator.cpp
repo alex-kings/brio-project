@@ -9,11 +9,6 @@ Piece getTrack(const Json::Value& selection) {
         throw std::invalid_argument("Error: At least one piece should be provided.");
     }
 
-    // TEST rotate the first piece around by pi/2
-    pieces[0].rotate(pieces[0].getConnector(0).getPosition(), 3.14/2);
-
-    // TEST write result to file
-    writeTrackToFile(pieces);
 
     // Get first piece from available pieces.
     Piece& firstPiece = pieces.back();
@@ -23,6 +18,11 @@ Piece getTrack(const Json::Value& selection) {
 
     // Connect pieces to the first piece in order to obtain a closed loop track.
     generateTrack(firstPiece, firstPiece.getConnector(0), &pieces);
+
+
+    // TEST write result to file
+    writeTrackToFile(pieces);
+
     
     return Piece();
 }
@@ -34,11 +34,15 @@ bool generateTrack(const Piece& startPiece, const Connector& openConnector, std:
         return false;
     }
 
-    // Try to find a piece that can be placed
+    // Look for pieces that can be placed
     for(Piece& testPiece : (*pieces)) {
+
+        // Check if the piece is already placed
+        if(testPiece.isUsed()) continue;
 
         // Finds if the test piece has a connector of the opposite type to the open one.
         for(uint j = 0; j < testPiece.getNumberConnectors(); j++) {
+
             Connector& testCon = testPiece.getConnector(j);
 
             // Break out of iteration if the connector types are the same 
@@ -47,13 +51,30 @@ bool generateTrack(const Piece& startPiece, const Connector& openConnector, std:
             // Get angle between the open connector and the test connector.
             float angleDiff = openConnector.getDirection().getAngleDifference(testCon.getDirection());
 
+
+            std::cout << "Initial test position:" <<testCon.getPosition().toJson() << "\n";
+            std::cout << "Initial open position:" <<openConnector.getPosition().toJson() << "\n";
+
+            // Get position difference between the two connectors
+            Vec2D diff = openConnector.getPosition() - testCon.getPosition();
+
             // Rotate the test piece around its right connector to align with the open connector
             testPiece.rotate(testCon.getPosition(), M_PI - angleDiff);
 
-            // Get position difference between the two connectors
+            std::cout << "After rotation test position:" <<testCon.getPosition().toJson() << "\n";
+            std::cout << "After rotation open position:" <<openConnector.getPosition().toJson() << "\n";
+
+
+            std::cout <<"diff"<< diff.toJson() << "\n";
 
             // Translates the test piece so that the connectors are at the same position
+            testPiece.translate(diff);
 
+
+            std::cout << "Final test position:" <<testCon.getPosition().toJson() << "\n";
+            std::cout << "Final open position:" <<openConnector.getPosition().toJson() << "\n";
+
+            std::cout << "Translated!" << "\n";
 
             // Test collision between the test piece and all previously placed pieces
 

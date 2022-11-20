@@ -63,6 +63,11 @@ public:
         return (connection == nullptr);
     }
 
+    // Translate this connector's position by the given amount
+    void translate(const Vec2D& amount) {
+        position.add(amount);
+    }
+
     // Rotate this connector's position and direction around the given rotation point.
     void rotate(const Vec2D& rotationPoint, float angle) {
         // Rotate position around rotation point

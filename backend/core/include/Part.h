@@ -53,8 +53,21 @@ public:
         return jsonRep;
     }
 
+    // Translate
+    void translate(const Vec2D& amount) {
+        // Obbs
+        for(Obb& obb : obbs) {
+            obb.translate(amount);
+        }
+
+        // Bezier points
+        for(Vec2D& point : bezierPoints){
+            point.add(amount);
+        }
+    }
+
     // Rotate
-    void rotate(const Vec2D &rotationPoint, float angle) {
+    void rotate(const Vec2D& rotationPoint, float angle) {
         // rotate obbs
         for (Obb &obb : obbs) {
             obb.rotate(rotationPoint, angle);

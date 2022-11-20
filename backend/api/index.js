@@ -50,7 +50,7 @@ app.post('/generate_track', async (req,res)=>{
 
     // Get track from piece selection
     const coreMsg = await executeCore(req.body)
-    console.log("cpp output: \n",coreMsg)
+    console.log("cpp output:\n\n" + coreMsg)
 
     let track
     // Get output track from file
@@ -62,8 +62,6 @@ app.post('/generate_track', async (req,res)=>{
         // return data as a javascript object
 
         track = JSON.parse(data)
-
-        console.log(track)
 
         res.send(track)
     })
@@ -108,7 +106,6 @@ async function executeCore(selection) {
     })
     // Log message printed on stdout by the core.
     const msg = await corePromise
-    console.log("Core message: ", msg)
     return msg
 }
 

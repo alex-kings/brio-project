@@ -25,15 +25,20 @@ public:
     float getY() const {return y;}
 
     // Overload operator + for vector addition
-    Vec2D operator + (Vec2D const& v) {
+    Vec2D operator + (const Vec2D& v) const {
         Vec2D res;
         res.x = x + v.x;
         res.y = y + v.y;
         return res;
     }
 
+    // Overload operator - for vector subtraction
+    Vec2D operator - (Vec2D const& v) const {
+        return Vec2D(x-v.x, y-v.y);
+    }
+
     // Overload operator * for dot product
-    Vec2D operator * (Vec2D const& v) {
+    Vec2D operator * (const Vec2D& v) const {
         Vec2D res;
         res.x = x * v.x;
         res.y = y * v.y;
