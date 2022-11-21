@@ -1,4 +1,5 @@
 #include "Obb.h"
+#include <iostream>
 
 Obb::Obb(const Json::Value& jsonRep) {
     for(int a = 0; a < 4; a++) {
@@ -18,8 +19,8 @@ void Obb::SATtest(const Vec2D& axis, const std::array<Vec2D, 4>& points, float& 
 
 bool Obb::collides(const Obb& obb) {
     // Finds the normals of this OBB
-    Vec2D n1 = points[0] - points[1];
-    Vec2D n2 = points[1] - points[2];
+    Vec2D n1 = points[1] - points[0];
+    Vec2D n2 = points[2] - points[1];
 
     // Find min and maxs for this OBB
     float thisMin1 = points[0] * n1;
@@ -32,10 +33,30 @@ bool Obb::collides(const Obb& obb) {
     SATtest(n1, obb.points, obbMin1, obbMax1);
     SATtest(n2, obb.points, obbMin2, obbMax2);
 
-    // NEED TO CHECK THE OTHER FIGURE'S AXES TOO!
+    // Check overlaps on this OBB's axes
+    if(!(overlap(thisMin1, thisMax1, obbMin1, obbMax1) && overlap(thisMin2, thisMax2, obbMin2, obbMax2))) {
+        std::cout << "First overlap: no" << "\n";
+        return false;
+    };
+
+    // Check the other figure's axes too, reusing the same variables
+
+    // Finds the normals of the OBB
+    n1 = obb.points[1] - obb.points[0];
+    n2 = obb.points[2] - obb.points[1];
+
+    // Find min and maxs for the OBB
+    obbMin1 = obb.points[0] * n1;
+    obbMax1 = obb.points[1] * n1;
+    obbMin2 = obb.points[1] * n2;
+    obbMax2 = obb.points[2] * n2;
+
+    // Find min and maxs for this obb
+    SATtest(n1, points, thisMin1, thisMax1);
+    SATtest(n2, points, thisMin2, thisMax2);
 
     // Check for overlaps
-    return (overlap(thisMin1, thisMax1, obbMin1, obbMax1) && overlap(thisMin2, thisMax2, obbMin2, obbMax2));
+    return(overlap(thisMin1, thisMax1, obbMin1, obbMax1) && overlap(thisMin2, thisMax2, obbMin2, obbMax2));
 }
 
 

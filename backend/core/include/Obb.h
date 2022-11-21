@@ -26,6 +26,11 @@ public:
         points = {Vec2D(), Vec2D(), Vec2D(), Vec2D()};
     }
 
+    // TEST CONSTRUCTOR
+    Obb(float p1x, float p1y, float p2x, float p2y, float p3x, float p3y, float p4x, float p4y) {
+        points = {Vec2D(p1x, p1y),Vec2D(p2x, p2y),Vec2D(p3x, p3y),Vec2D(p4x, p4y)};
+    }
+
     // Initialise from json representation.
     Obb(const Json::Value& jsonRep);
 
