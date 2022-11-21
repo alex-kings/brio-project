@@ -7,7 +7,7 @@ Obb::Obb(const Json::Value& jsonRep) {
     }
 }
 
-void Obb::SATtest(const Vec2D& axis, const std::array<Vec2D, 4>& points, float& min, float& max) {
+void Obb::SATtest(const Vec2D& axis, const std::array<Vec2D, 4>& points, float& min, float& max) const {
     // Huge values.
     min = 100000000000000000000000000000000000.0, max = -100000000000000000000000000000000000.0;
     for(const Vec2D& point : points) {
@@ -17,7 +17,7 @@ void Obb::SATtest(const Vec2D& axis, const std::array<Vec2D, 4>& points, float& 
     }
 }
 
-bool Obb::collides(const Obb& obb) {
+bool Obb::collides(const Obb& obb) const {
     // Finds the normals of this OBB
     Vec2D n1 = points[1] - points[0];
     Vec2D n2 = points[2] - points[1];

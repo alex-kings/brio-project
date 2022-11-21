@@ -13,10 +13,10 @@ private:
     std::array<Vec2D, 4> points;
 
     // Gives the min and max of the points along the given axis.
-    void SATtest(const Vec2D& axis, const std::array<Vec2D, 4>& points, float& min, float& max);
+    void SATtest(const Vec2D& axis, const std::array<Vec2D, 4>& points, float& min, float& max) const;
 
     // Tells whether there is an overlap between the two given sets of floats.
-    bool overlap(float min1, float max1, float min2, float max2) {
+    bool overlap(float min1, float max1, float min2, float max2) const {
         return((min2 >= min1 && min2 <= max1) || (min1 >= min2 && min1 <= max2));
     }
 
@@ -24,11 +24,6 @@ public:
     // Default constructor
     Obb() {
         points = {Vec2D(), Vec2D(), Vec2D(), Vec2D()};
-    }
-
-    // TEST CONSTRUCTOR
-    Obb(float p1x, float p1y, float p2x, float p2y, float p3x, float p3y, float p4x, float p4y) {
-        points = {Vec2D(p1x, p1y),Vec2D(p2x, p2y),Vec2D(p3x, p3y),Vec2D(p4x, p4y)};
     }
 
     // Initialise from json representation.
@@ -53,7 +48,7 @@ public:
     }
 
     // Check whether this OBB collides with the given one using SAT
-    bool collides(const Obb& obb);
+    bool collides(const Obb& obb) const;
 
     // Rotate each point of this OBB around the given point
     void rotate(const Vec2D& rotationPoint, float angle);

@@ -104,4 +104,11 @@ public:
         }
     }
 
+    // Check whether this piece collides with the specified piece.
+    bool collides(const Piece& piece) const {
+        // Iterate through all parts
+        for(const Part& thisPart : parts) {
+            
+        }
+    }
 };

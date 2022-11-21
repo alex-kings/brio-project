@@ -90,4 +90,18 @@ public:
     uint getLevel() const {
         return level;
     }
+
+    // Check collision between this part and another given part
+    bool collides(const Part& part) const {
+        // If the levels aren't the same, the parts don't collide.
+        if(level != part.level) return false;
+        
+        // Checks collision between each Obb of each part.
+        for(const Obb& thisObb : obbs) {
+            for(const Obb& partObb : part.obbs) {
+                if(thisObb.collides(partObb)) return true;
+            }
+        }
+        return false;
+    }
 };

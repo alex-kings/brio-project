@@ -49,3 +49,11 @@ Start implementation of the track generating function.
 Check OBB collision detection using SAT (https://gamedev.stackexchange.com/questions/25397/obb-vs-obb-collision-detection).
 
 COULD IMPROVE: OBB Normals are re-calculated at each SAT. Could instead store them.
+
+_20/11/2022_ **Cpp backend**
+Finish collision function.
+Collision between two pieces is rather expensive? Discussion on the importance to keep OBBS low.
+O(n*m) for collision between two pieces.
+
+/!\ assumption made in track generation algorithm: Two consecutive pieces can never collide with each other.
+/!\ 2nd assumption: parts of different levels do not collide!

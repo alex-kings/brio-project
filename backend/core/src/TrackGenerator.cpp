@@ -61,14 +61,22 @@ bool generateTrack(const Piece& startPiece, const Connector& openConnector, std:
             testPiece.translate(diff);
 
             // Test collision between the test piece and all previously placed pieces
+            for(const Piece& testCollisionPiece : (*pieces)) {
+                if(!testCollisionPiece.isUsed()) continue; // Don't want unplaced pieces
+
+                // Assume that two consecutive pieces can never collide with each other ( /!\ ASSUMPTION)
+                if(&testCollisionPiece == &startPiece) continue;
+
+                
+
+
+            }
             
         }
     }
 
     return true;
 }
-
-
 
 
 std::vector<Piece> getAvailablePieces(const Json::Value& selection) {
