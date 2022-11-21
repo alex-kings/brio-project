@@ -39,9 +39,17 @@ public:
         return jsonRep;
     }
 
-    // Link this Connector to another Connector.
+    // Link this and another connector together.
     void link(Connector* c) {
+        std::cout << "Link two connectors together!" << "\n";
         connection = c;
+        c->connection = this;
+    }
+
+    // Unlink connection between this and the specified connector.
+    void unlink(Connector* c) {
+        connection = nullptr;
+        c->connection = nullptr;
     }
 
     // Getters

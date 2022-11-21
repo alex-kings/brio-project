@@ -57,3 +57,5 @@ O(n*m) for collision between two pieces.
 
 /!\ assumption made in track generation algorithm: Two consecutive pieces can never collide with each other.
 /!\ 2nd assumption: parts of different levels do not collide!
+
+What to do if the placeable piece has no connectors available left?

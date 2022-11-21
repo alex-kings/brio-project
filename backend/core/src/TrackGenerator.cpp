@@ -28,7 +28,7 @@ Piece getTrack(const Json::Value& selection) {
 }
 
 
-bool generateTrack(const Piece& startPiece, const Connector& openConnector, std::vector<Piece>* pieces) {
+bool generateTrack(const Piece& startPiece, const Piece& lastPiece, Connector& openConnector, std::vector<Piece>* pieces) {
     // Check size of available pieces
     if(pieces->size() < 1) {
         return false;
@@ -37,45 +37,70 @@ bool generateTrack(const Piece& startPiece, const Connector& openConnector, std:
     // Look for pieces that can be placed
     for(Piece& testPiece : (*pieces)) {
 
-        // Check if the piece is already placed
-        if(testPiece.isUsed()) continue;
+        if(testPiece.isUsed()) continue; // Skip pieces already placed
 
         // Finds if the test piece has a connector of the opposite type to the open one.
         for(uint j = 0; j < testPiece.getNumberConnectors(); j++) {
-
             Connector& testCon = testPiece.getConnector(j);
 
-            // Break out of iteration if the connector types are the same 
-            if(testCon.getType() == openConnector.getType()) continue;
-            
-            // Get angle between the open connector and the test connector.
+            if(!testCon.isFree()) continue; // The connector is not free.
+
+            if(testCon.getType() == openConnector.getType()) continue; // Skip connectors of the same type.
+
+            // Angle and position difference between the two connectors.            
             float angleDiff = openConnector.getDirection().getAngleDifference(testCon.getDirection());
+            Vec2D positionDiff = openConnector.getPosition() - testCon.getPosition();
 
-            // Get position difference between the two connectors
-            Vec2D diff = openConnector.getPosition() - testCon.getPosition();
-
-            // Rotate the test piece around its right connector to align with the open connector
+            // Connects the pieces around their two connectors.
             testPiece.rotate(testCon.getPosition(), M_PI - angleDiff);
+            testPiece.translate(positionDiff);
 
-            // Translates the test piece so that the connectors are at the same position
-            testPiece.translate(diff);
 
-            // Test collision between the test piece and all previously placed pieces
+            // Checks whether the test piece collides with any placed piece.
+            bool noCollision = true;
             for(const Piece& testCollisionPiece : (*pieces)) {
-                if(!testCollisionPiece.isUsed()) continue; // Don't want unplaced pieces
+                if(!testCollisionPiece.isUsed()) continue; // Skip unplaced pieces.
 
-                // Assume that two consecutive pieces can never collide with each other ( /!\ ASSUMPTION)
-                if(&testCollisionPiece == &startPiece) continue;
+                // Assume that two consecutive pieces can never collide with each other.
+                if(&testCollisionPiece == &lastPiece) continue;
 
-                
-
-
+                if (testPiece.collides(testCollisionPiece)) {
+                    noCollision = false;
+                    break; // Test piece can not be placed.
+                }
             }
-            
+
+            if(noCollision) {
+                // THIS PIECE IS PLACEABLE
+                // Place this piece!
+
+                testPiece.setUsed(true);
+
+                // Link the two connectors together
+                testCon.link(&openConnector);
+
+                // Checks whether this piece has another free connector
+                if(!testPiece.hasOpenConnectors()) return true; // This piece has no more available connectors. The track is built.
+
+                Connector openCon = testPiece.getOpenConnector(); // Get the open connector
+                
+                // Place the next piece.
+                if( generateTrack(startPiece, testPiece, openCon, pieces) ) {
+                    // The track could be built! return true.
+                    return true;
+                }
+                else {
+                    // The track could not be build. Unlink and unplace pieces.
+                    testPiece.setUsed(false);
+                    testCon.unlink(&openConnector);
+
+                    // Re-attempt with next placeable piece.
+                }
+            }
         }
     }
-
-    return true;
+    // No track was found for any placeable piece.
+    return false;
 }
 
 

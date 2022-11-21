@@ -81,6 +81,21 @@ public:
         return connectors.size();
     }
 
+    // Tells whether this piece has open connectors
+    bool hasOpenConnectors() const {
+        for(const Connector& con : connectors) {
+            if(con.isFree()) return true;
+        }
+        return false;
+    }
+
+    // Gives this piece's open connector
+    const Connector& getOpenConnector() const {
+        for(const Connector& con : connectors) {
+            if(con.isFree()) return con;
+        }
+    }
+
     // Translate this piece by the given amount
     void translate(const Vec2D& amount) {
         for(Part& part : parts) {
