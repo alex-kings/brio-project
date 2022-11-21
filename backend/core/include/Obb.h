@@ -12,6 +12,14 @@ class Obb {
 private:
     std::array<Vec2D, 4> points;
 
+    // Gives the min and max of the points along the given axis.
+    void SATtest(const Vec2D& axis, const std::array<Vec2D, 4>& points, float& min, float& max);
+
+    // Tells whether there is an overlap between the two given sets of floats.
+    bool overlap(float min1, float max1, float min2, float max2) {
+        return((min2 >= min1 && min2 <= max1) || (min1 >= min2 && min1 <= max2));
+    }
+
 public:
     // Default constructor
     Obb() {
@@ -40,15 +48,7 @@ public:
     }
 
     // Check whether this OBB collides with the given one using SAT
-    bool collides(const Obb& obb) {
-        // Finds the normals of this OBB
-        Vec2D n1 = points[0] - points[1];
-        Vec2D n2 = points[1] - points[2];
-
-        //CONTINUE
-    }
-
-
+    bool collides(const Obb& obb);
 
     // Rotate each point of this OBB around the given point
     void rotate(const Vec2D& rotationPoint, float angle);

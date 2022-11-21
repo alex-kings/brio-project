@@ -38,11 +38,8 @@ public:
     }
 
     // Overload operator * for dot product
-    Vec2D operator * (const Vec2D& v) const {
-        Vec2D res;
-        res.x = x * v.x;
-        res.y = y * v.y;
-        return res;
+    float operator * (const Vec2D& v) const {
+        return x*v.x + y*v.y;
     }
 
     // Adds the given vector to this vector.
