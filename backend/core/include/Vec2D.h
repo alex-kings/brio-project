@@ -80,7 +80,7 @@ public:
     }
 
     // Returns the euclidian distance between this and the given point
-    float euclidianDist(const Vec2D& v) {
+    float euclidianDist(const Vec2D& v) const {
         float dx = x - v.x;
         float dy = y - v.y;
         return std::sqrt(dx*dx + dy*dy);

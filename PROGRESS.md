@@ -59,3 +59,5 @@ O(n*m) for collision between two pieces.
 /!\ 2nd assumption: parts of different levels do not collide!
 
 What to do if the placeable piece has no connectors available left?
+
+Only take into account euclidian distance for validation conditions for now.

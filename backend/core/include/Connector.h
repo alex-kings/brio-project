@@ -83,4 +83,11 @@ public:
         // Rotate direction around origin
         direction.rotate(angle);
     }
+
+    // Checks whether the given validation conditions are met for the two connectors.
+    bool validate(const Connector& con, const float validationAngle, const float validationDist) {
+        // Only euclidian distance for now...
+        if(position.euclidianDist(con.position) <= validationDist) return true;
+        return false;
+    }
 };
