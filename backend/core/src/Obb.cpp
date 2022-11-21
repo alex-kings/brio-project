@@ -35,7 +35,6 @@ bool Obb::collides(const Obb& obb) const {
 
     // Check overlaps on this OBB's axes
     if(!(overlap(thisMin1, thisMax1, obbMin1, obbMax1) && overlap(thisMin2, thisMax2, obbMin2, obbMax2))) {
-        std::cout << "First overlap: no" << "\n";
         return false;
     };
 

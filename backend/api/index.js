@@ -60,8 +60,15 @@ app.post('/generate_track', async (req,res)=>{
             return
         }
         // return data as a javascript object
-
-        track = JSON.parse(data)
+        try{
+            track = JSON.parse(data)
+        }
+        catch(e) {
+            console.log("Couldn't parse result output file.")
+            console.error(e)
+            res.send(false)
+            return
+        }
 
         res.send(track)
     })

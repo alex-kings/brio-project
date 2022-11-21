@@ -1,4 +1,5 @@
 #include "TrackGenerator.h"
+uint count = 0;
 
 Piece getTrack(const Json::Value& selection) {
     // Get vector of available pieces.
@@ -17,18 +18,21 @@ Piece getTrack(const Json::Value& selection) {
     firstPiece.setUsed(true);
 
     // Connect pieces to the first piece in order to obtain a closed loop track.
-    generateTrack(firstPiece, firstPiece.getConnector(0), &pieces);
+    generateTrack(firstPiece, firstPiece, firstPiece.getConnector(0), &pieces);
 
 
     // TEST write result to file
     writeTrackToFile(pieces);
 
+    std::cout << "Count: " << std::to_string(count) << "\n";
     
     return Piece();
 }
 
 
 bool generateTrack(const Piece& startPiece, const Piece& lastPiece, Connector& openConnector, std::vector<Piece>* pieces) {
+
+    count ++;
     // Check size of available pieces
     if(pieces->size() < 1) {
         return false;
@@ -78,6 +82,9 @@ bool generateTrack(const Piece& startPiece, const Piece& lastPiece, Connector& o
 
                 // Link the two connectors together
                 testCon.link(&openConnector);
+
+                // Checks whether the track is built
+                
 
                 // Checks whether this piece has another free connector
                 if(!testPiece.hasOpenConnectors()) return true; // This piece has no more available connectors. The track is built.

@@ -41,7 +41,6 @@ public:
 
     // Link this and another connector together.
     void link(Connector* c) {
-        std::cout << "Link two connectors together!" << "\n";
         connection = c;
         c->connection = this;
     }

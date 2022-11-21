@@ -78,4 +78,11 @@ public:
         if((x*v.y - y*v.x) < 0) return (2*M_PI - theta);
         return theta;
     }
+
+    // Returns the euclidian distance between this and the given point
+    float euclidianDist(const Vec2D& v) {
+        float dx = x - v.x;
+        float dy = y - v.y;
+        return std::sqrt(dx*dx + dy*dy);
+    }
 };
