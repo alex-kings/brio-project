@@ -76,3 +76,5 @@ Add a bunch of "guides":
 - only show placed pieces
 - Take away the bezier points? (unused for the generation of tracks)
 - multi threading at the start? Or for testing of tracks?
+
+- Somehow determine in advance that a certain track will not work (or is unlikely to)?
