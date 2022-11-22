@@ -13,7 +13,13 @@ int main(int argc, char* argv[]) {
     std::cerr << "Start" << "\n";
 
     // Get input from node program
-    std::string input = argv[1];
+    // std::string input = argv[1];
+
+
+    // TEST
+    std::string input = "{\"E\":\"5\"}";
+
+
 
     // User selection of pieces and their available quantities.
     Json::Value pieceSelection;

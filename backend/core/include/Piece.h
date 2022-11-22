@@ -94,7 +94,7 @@ public:
         for(const Connector& con : connectors) {
             if(con.isFree()) return con;
         }
-        return *(new Connector());
+        return nullptr;
     }
 
     // Translate this piece by the given amount

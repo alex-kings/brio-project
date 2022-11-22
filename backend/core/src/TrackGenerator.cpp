@@ -99,7 +99,7 @@ bool generateTrack(const Connector& validationConnector, const Piece& lastPiece,
             if(noCollision) {
                 // THIS PIECE IS PLACEABLE
                 // Place this piece!
-                std::cout << "No collisions!" << "\n";
+                // std::cout << "No collisions!" << "\n";
 
                 testPiece.setUsed(true);
 
