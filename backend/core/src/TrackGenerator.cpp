@@ -1,4 +1,5 @@
 #include "TrackGenerator.h"
+#include <unordered_set>
 
 // TEST
 uint count = 0;
@@ -39,12 +40,19 @@ Piece getTrack(const Json::Value& selection) {
 bool generateTrack(const Connector& validationConnector, const Piece& lastPiece, Connector& openConnector, std::vector<Piece>& pieces, const float validationAngle, const float validationDist) {
     count ++;
 
-    std::cout << "Round number: " << std::to_string(count) << "\n";
+    // std::cout << "Round number: " << std::to_string(count) << "\n";
+
+    // Keep track of previously tested pieces
+    std::unordered_set<std::string> previouslyTested;
 
     // Look for pieces that can be placed
     for(Piece& testPiece : pieces) {
 
         if(testPiece.isUsed()) continue; // Skip pieces already placed
+
+        // Checks whether the piece has already been tested
+        if(previouslyTested.count(testPiece.getId())) continue;
+        previouslyTested.insert(testPiece.getId());
 
         // Finds if the test piece has a connector of the opposite type to the open one.
         for(uint j = 0; j < testPiece.getNumberConnectors(); j++) {

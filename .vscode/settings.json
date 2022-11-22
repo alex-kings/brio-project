@@ -52,7 +52,8 @@
         "stdexcept": "cpp",
         "streambuf": "cpp",
         "cinttypes": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "unordered_set": "cpp"
     },
     "sonarlint.pathToCompileCommands": "${workspaceFolder}\\backend\\src\\core\\build\\compile_commands.json"
 }

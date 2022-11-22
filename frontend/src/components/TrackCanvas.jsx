@@ -5,16 +5,17 @@ export default function TrackCanvas(props) {
 
     // number of iterations to plot curves
     const ITERATIONS = 50
-    
-    // Test with effect?
-    createEffect(()=>{
-        const canvas = document.getElementById("canvas")
+
+    let canvas; 
+
+    // On mount
+    onMount(()=>{
+        canvas = document.getElementById("canvas")
 
         // Set width and height of canvas
         canvas.width = canvas.offsetWidth;
         canvas.height = canvas.offsetHeight;
 
-        // Create scrollable and zoomable canvas
         new CanvasDragZoom(canvas, draw)
     })
 

@@ -3,6 +3,7 @@
 #include <json/json.h>
 #include <iostream>
 #include <string>
+#include <cmath>
 
 
 class Connector {
@@ -87,7 +88,7 @@ public:
     // Checks whether the given validation conditions are met for the two connectors.
     bool validate(const Connector& con, const float validationAngle, const float validationDist) {
         // Only euclidian distance for now...
-        if(position.euclidianDist(con.position) <= validationDist) return true;
-        return false;
+        return ( (position.euclidianDist(con.position) <= validationDist) );
+        // (std::abs(direction.getAngleDifference(con.direction)) <= validationAngle) );
     }
 };

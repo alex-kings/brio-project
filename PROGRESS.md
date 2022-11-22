@@ -69,6 +69,8 @@ First successfully generated layouts!!
 Add a bunch of "guides":
 - Try to place a piece both left and right!
 - Only attempt piece flipping ones that have not been placed yet.
+- Remove connection between connectors for a simple boolean.
+- Fast flipping: no flip for straight tracks, only exchange of the connector types for symmetric ones...
 - AVOID TESTING OF THE SAME TYPE OF TRACK TWICE!! This is done many times, and can potentially save a LOT of time.
 - Place a piece left with more importance depending on the total amount placed already...
 - Split the number of turns in multiple smaller batches
@@ -77,4 +79,9 @@ Add a bunch of "guides":
 - Take away the bezier points? (unused for the generation of tracks)
 - multi threading at the start? Or for testing of tracks?
 
+
+- Problem with tracks containing the same connectors.
 - Somehow determine in advance that a certain track will not work (or is unlikely to)?
+
+ MAJOR ISSUES :
+ - { E: '8', E1: '0', A2: '0', A: '6', D: '3' }
