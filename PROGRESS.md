@@ -30,19 +30,19 @@ Now need a separate input row that automatically fills in the bezier inputs for 
 _25/09/2022_ **Work on Bezier curve piece helper: plotting arc circles**  
 Add function to plot a bezier curve representation of an arc circle. Add inputs to specify the arc circle to plot on screen. Distance between bezier points 1-2 and 3-4 is given by a formula found on https://stackoverflow.com/questions/1734745/how-to-create-circle-with-b%C3%A9zier-curves.
 
-_29/09/2022_ **Finish Bezier curve piece helper. Start on frontend with Solid.**  
+_29/09/2022_ **Finish Bezier curve piece helper. Start on frontend with Solid.**   
 Determine 13 simple tracks with bezier curve piece helper.  
 Chose Solid as JS framework for frontend of the application. Other frameworks were considered (svelte, react...). Chose because of performance and package size. Don't need a massive framework with lots of support for specific things for this like react - small app. 
 See https://krausest.github.io/js-framework-benchmark/current.html
 Get images of pieces as assets.
 
-_06/10/2022_ **Fronted**
+_06/10/2022_ **Fronted**  
 Delete backgrounds on track images. Improve track list design. Add page routing.
 
-_26/10/2022_ **Cpp backend**
+_26/10/2022_ **Cpp backend**  
 Make class for vec2d, Obb, Piece. Add function to rotate single vec2d, and then single Obb.
 
-_20/11/2022_ **Cpp backend and frontend**
+_20/11/2022_ **Cpp backend and frontend**  
 Make a canvas to display tracks generated in frontend.
 Add function to translate Pieces by a certain amount.
 Start implementation of the track generating function.
@@ -50,7 +50,7 @@ Check OBB collision detection using SAT (https://gamedev.stackexchange.com/quest
 
 COULD IMPROVE: OBB Normals are re-calculated at each SAT. Could instead store them.
 
-_20/11/2022_ **Cpp backend**
+_20/11/2022_ **Cpp backend**  
 Finish collision function.
 Collision between two pieces is rather expensive? Discussion on the importance to keep OBBS low.
 O(n*m) for collision between two pieces.
@@ -61,3 +61,8 @@ O(n*m) for collision between two pieces.
 What to do if the placeable piece has no connectors available left?
 
 Only take into account euclidian distance for validation conditions for now.
+
+
+_22/11/2022_ **Cpp backend**  
+First successfully generated layouts!!
+4 E, 2 A, 2 D, 2 A1, 1 A2, 5 E1, generates a track with 2 separate connected pieces??!
