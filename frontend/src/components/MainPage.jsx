@@ -51,6 +51,13 @@ export default function MainPage() {
         return track().length > 0;
     }
 
+    const setPreviousTrack = async () => {
+        const response = await fetch("http://localhost:5000/current_track")
+        const result = await response.json()
+        console.log(result)
+        setTrack(()=>(result.pieces))
+    }
+
     return (
         <div className="two-cols">
             <div>
@@ -61,7 +68,8 @@ export default function MainPage() {
             </div>
             <div className="canvas-container">
                 <h3>track</h3>
-                <Show when={hasTrack()} fallback="Loading...">
+                <button onClick={setPreviousTrack}>Load previous track</button>
+                <Show when={hasTrack()} fallback="">
                     <TrackCanvas pieces={track()}/>
                 </Show>
             </div>

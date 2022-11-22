@@ -43,6 +43,32 @@ app.get('/all_pieces', (req,res) => {
 })
 
 /**
+ * Returns the currently stored track.
+ */
+app.get('/current_track',(req,res) => {
+    let track
+    // Get output track from file
+    fs.readFile('../tracks/track_result.json', 'utf8', (err, data) => {
+        if(err) {
+            console.error(err)
+            return
+        }
+        // return data as a javascript object
+        try{
+            track = JSON.parse(data)
+        }
+        catch(e) {
+            console.log("Couldn't parse result output file.")
+            console.error(e)
+            res.send(false)
+            return
+        }
+
+        res.send(track)
+    })
+})
+
+/**
  * Get a selection of pieces from frontend. Generates the track by sending this selection to core. Return the track generated to frontend.
  */
 app.post('/generate_track', async (req,res)=>{

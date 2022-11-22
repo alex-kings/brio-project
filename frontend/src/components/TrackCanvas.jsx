@@ -1,4 +1,4 @@
-import { onMount } from "solid-js"
+import { createEffect, onMount } from "solid-js"
 import { CanvasDragZoom } from "../dependencies/scroll.js"
 
 export default function TrackCanvas(props) {
@@ -6,8 +6,8 @@ export default function TrackCanvas(props) {
     // number of iterations to plot curves
     const ITERATIONS = 50
     
-
-    onMount(()=>{
+    // Test with effect?
+    createEffect(()=>{
         const canvas = document.getElementById("canvas")
 
         // Set width and height of canvas
@@ -112,6 +112,8 @@ export default function TrackCanvas(props) {
     }
 
     return (
-        <canvas id="canvas" className="track-canvas"></canvas>
+        <>
+            <canvas id="canvas" className="track-canvas"></canvas>
+        </>
     )
 }

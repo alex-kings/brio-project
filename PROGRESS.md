@@ -66,3 +66,6 @@ Only take into account euclidian distance for validation conditions for now.
 _22/11/2022_ **Cpp backend**  
 First successfully generated layouts!!
 4 E, 2 A, 2 D, 2 A1, 1 A2, 5 E1, generates a track with 2 separate connected pieces??!
+Add a bunch of "guides":
+- Try to place a piece both left and right!
+- Place a piece left with more importance depending on the total amount placed already...
