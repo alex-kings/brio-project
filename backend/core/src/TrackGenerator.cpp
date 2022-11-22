@@ -25,11 +25,11 @@ Piece getTrack(const Json::Value& selection) {
     firstPiece.setUsed(true);
 
     // Connect pieces to the first piece in order to obtain a closed loop track.
-    //generateTrack(firstPiece.getConnector(1), firstPiece, firstPiece.getConnector(0), pieces, validationAngle, validationDist);
+    generateTrack(firstPiece.getConnector(1), firstPiece, firstPiece.getConnector(0), pieces, validationAngle, validationDist);
 
 
     // firstPiece.rotate(firstPiece.getConnector(0).getPosition(), 3);
-    std::cout << firstPiece.getConnector(1).getPosition().toJson() << "\n";
+    // std::cout << firstPiece.getConnector(1).getPosition().toJson() << "\n";
     // firstPiece.rotate(firstPiece.getConnector(1).getPosition(), 1.5);
 
     // Vec2D pos1 = firstPiece.getConnector(1).getPosition();
@@ -37,8 +37,8 @@ Piece getTrack(const Json::Value& selection) {
     // Vec2D pos2 = firstPiece.getConnector(0).getPosition();
     // firstPiece.rotate(pos2, 1);
 
-    firstPiece.rotate(firstPiece.getConnector(1).getPosition(), 1);
-    firstPiece.rotate(firstPiece.getConnector(0).getPosition(), 1);
+    // firstPiece.rotate(firstPiece.getConnector(1).getPosition(), 1);
+    // firstPiece.rotate(firstPiece.getConnector(0).getPosition(), 1);
 
 
 
