@@ -37,11 +37,16 @@ export default function TrackCanvas(props) {
                 drawRect(ctx,r,"blue")
             })
         })
+
+        // Draw connectors
+        piece.connectors.forEach(con => {
+            drawPoint(ctx, con.position.x, con.position.y, con.type? "red" : "green");
+        })
     }
 
     // Draw point at given position on canvas
-    function drawPoint(ctx, x, y) {
-        ctx.fillStyle = "red"
+    function drawPoint(ctx, x, y, colour) {
+        ctx.fillStyle = colour
         ctx.beginPath()
         ctx.arc(x, y, 3, 0, 2 * Math.PI)
         ctx.fill()
@@ -52,10 +57,10 @@ export default function TrackCanvas(props) {
         // Check number of points is correct
         if (points.length < 2 || points.length > 4) return
 
-        // Draw the bezier points
-        points.forEach(p => {
-            drawPoint(ctx, p.x, p.y)
-        })
+        // // Draw the bezier points
+        // points.forEach(p => {
+        //     drawPoint(ctx, p.x, p.y, "red")
+        // })
 
         // 2d bezier curve
         if (points.length === 2) {

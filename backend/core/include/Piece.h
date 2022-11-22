@@ -108,7 +108,7 @@ public:
     }
 
     // Rotate piece around the given point. This is done by rotating all the obbs and the connectors of this piece around the given rotation point.
-    void rotate(const Vec2D& rotationPoint, float angle) {
+    void rotate(const Vec2D rotationPoint, float angle) {
         // Rotate parts
         for(Part& part : parts) {
             part.rotate(rotationPoint, angle);
