@@ -39,6 +39,8 @@ Piece getTrack(const Json::Value& selection) {
 bool generateTrack(const Connector& validationConnector, const Piece& lastPiece, Connector& openConnector, std::vector<Piece>& pieces, const float validationAngle, const float validationDist) {
     count ++;
 
+    std::cout << "Round number: " << std::to_string(count) << "\n";
+
     // Look for pieces that can be placed
     for(Piece& testPiece : pieces) {
 

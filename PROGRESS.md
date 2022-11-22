@@ -68,4 +68,10 @@ First successfully generated layouts!!
 4 E, 2 A, 2 D, 2 A1, 1 A2, 5 E1, generates a track with 2 separate connected pieces??!
 Add a bunch of "guides":
 - Try to place a piece both left and right!
+- AVOID TESTING OF THE SAME TYPE OF TRACK TWICE!! This is done many times, and can potentially save a LOT of time.
 - Place a piece left with more importance depending on the total amount placed already...
+- Split the number of turns in multiple smaller batches
+- randomize the initial set of pieces before running 
+- only show placed pieces
+- Take away the bezier points? (unused for the generation of tracks)
+- multi threading at the start? Or for testing of tracks?
