@@ -1,11 +1,13 @@
 #pragma once
 #include <string>
 #include <cmath>
+#include <iostream>
 
 class Vec2D {
 private:
     float x;
     float y;
+
 
 public:
     // Constructors
@@ -73,9 +75,18 @@ public:
 
     // Gives the angle difference between this and another Vec2D. Positive is counterclockwise. First vector is this.
     float getAngleDifference(const Vec2D& v) const {
-        float theta = acos((x*v.x + y*v.y) / (getModulus()*v.getModulus()));
+        float val = (x*v.x + y*v.y) / (getModulus()*v.getModulus());
+        
+        // Safe acos.
+        float theta;
+        if(val <= -1.0) theta = M_PI;
+        else if(val >= 1.0) theta = 0;
+        else theta = acos(val);
+
         // Sign of theta
-        if((x*v.y - y*v.x) < 0) return (2*M_PI - theta);
+        if((x*v.y - y*v.x) < 0) {
+            return (2*M_PI - theta);
+        }
         return theta;
     }
 

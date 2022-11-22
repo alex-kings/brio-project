@@ -110,6 +110,13 @@ public:
 
     // Rotate piece around the given point. This is done by rotating all the obbs and the connectors of this piece around the given rotation point.
     void rotate(const Vec2D rotationPoint, float angle) {
+        // std::cout << "inputs: " << std::to_string(rotationPoint.getX()) << " " << std::to_string(rotationPoint.getY()) << " " << std::to_string(angle) << "\n";
+        
+        // std::cout << "in:" << std::to_string(connectors.at(0).getPosition().getX())
+        // << std::to_string(connectors.at(0).getPosition().getY())
+        // << std::to_string(connectors.at(1).getPosition().getX())
+        // << std::to_string(connectors.at(1).getPosition().getY()) << "\n";
+
         // Rotate parts
         for(Part& part : parts) {
             part.rotate(rotationPoint, angle);
@@ -119,6 +126,11 @@ public:
         for(Connector& con : connectors) {
             con.rotate(rotationPoint, angle);
         }
+
+        // std::cout << "out:" << std::to_string(connectors.at(0).getPosition().getX())
+        // << std::to_string(connectors.at(0).getPosition().getY())
+        // << std::to_string(connectors.at(1).getPosition().getX())
+        // << std::to_string(connectors.at(1).getPosition().getY()) << "\n";
     }
 
     // Check whether this piece collides with the specified piece.
