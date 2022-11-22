@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <json/json.h>
+#include <stdexcept>
 
 /**
  * A track piece.
@@ -94,7 +95,7 @@ public:
         for(const Connector& con : connectors) {
             if(con.isFree()) return con;
         }
-        return nullptr;
+        throw std::invalid_argument("This piece does not have any open connectors.");
     }
 
     // Translate this piece by the given amount
