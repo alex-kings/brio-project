@@ -22,7 +22,10 @@ export default function TrackCanvas(props) {
     // Initial drawing on canvas
     function draw(options){       
         props.pieces.forEach(piece => {
-            drawPiece(options.ctx, piece)
+            // Only draw used pieces!
+            if(piece.used) {
+                drawPiece(options.ctx, piece)
+            }
         })
     }
 

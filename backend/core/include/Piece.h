@@ -31,7 +31,7 @@ public:
 
     // Return a json representation of this
     std::string toJson() const {
-        std::string jsonRep = "{\"id\":\"" + id + "\",\"parts\":[";
+        std::string jsonRep = "{\"id\":\"" + id + "\",\"used\":" + (used ? "true" : "false") + ",\"parts\":[";
         
         // print parts
         for(uint i = 0; i < parts.size(); i++) {
