@@ -24,13 +24,17 @@ export default function TrackCanvas(props) {
         props.pieces.forEach(piece => {
             // Only draw used pieces!
             if(piece.used) {
-                drawPiece(options.ctx, piece)
+                drawPiece(options.ctx, piece, "blue")
             }
+   
+
+            // if(piece.used) drawPiece(options.ctx, piece, "blue")
+            // else drawPiece(options.ctx, piece, "gray")
         })
     }
 
     // Draw a piece at position given on the canvas
-    function drawPiece(ctx, piece) {
+    function drawPiece(ctx, piece, colour) {
         // Draw each part
         piece.parts.forEach(part => {
             // Draw the bezier curve for this piece
@@ -38,7 +42,7 @@ export default function TrackCanvas(props) {
 
             // Draw the rectangles for this part
             part.rectangles.forEach(r=>{
-                drawRect(ctx,r,"blue")
+                drawRect(ctx,r,colour)
             })
         })
 

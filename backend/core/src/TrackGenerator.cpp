@@ -1,5 +1,8 @@
 #include "TrackGenerator.h"
 #include <unordered_set>
+#include <algorithm>
+#include <random>
+#include <chrono>
 
 // TEST
 uint count = 0;
@@ -17,6 +20,12 @@ Piece getTrack(const Json::Value& selection) {
     if(pieces.size() < 1) {
         throw std::invalid_argument("Error: At least one piece should be provided.");
     }
+
+    // OPTIONAL: Shuffles the pieces before starting generation
+    // obtain a time-based seed:
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::default_random_engine e(seed);
+    std::shuffle(pieces.begin(), pieces.end(), e);
 
 
     // Get first piece from available pieces.
