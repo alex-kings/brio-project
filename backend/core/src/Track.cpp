@@ -1,28 +1,25 @@
-#include "TrackGenerator.h"
-#include <unordered_set>
+#include "Track.h"
+#include "ParseJson.h"
+#include <chrono>
 #include <algorithm>
 #include <random>
-#include <chrono>
+#include <unordered_set>
+#include <iostream>
 
-// TEST
-uint count = 0;
+Track::Track(const Json::Value& selection) {
+    Json::Value ressources = getPieceRessources(); // Library of pieces
 
-Piece getTrack(const Json::Value& selection) {
-    // Get vector of available pieces.
-    std::vector<Piece> pieces = getAvailablePieces(selection);
-
+    for(const std::string& member : selection.getMemberNames()) {
+        for(int i = 0; i < std::stoi(selection[member].asString()); i++) {
+            // Add Piece to available pieces.
+            pieces.emplace_back(ressources[member]);
+        }
+    }
 
     // Validation conditions
-    const float validationAngle =  3*0.31415; // ~2*18 degrees.
-    const float validationDist = pieces.size() * 5;
-    // Minimum pieces to place
-    const uint minPieceNb = std::floor(pieces.size()*0.6); // 60% of pieces
-
-
-    // Check if there is an available piece.
-    if(pieces.size() < 1) {
-        throw std::invalid_argument("Error: At least one piece should be provided.");
-    }
+    validationAngle =  2*0.31415; // ~2*18 degrees.
+    validationDist = pieces.size() * 5;
+    minPieceNb = std::floor(pieces.size()*0.6); // 60% of pieces
 
     // OPTIONAL: Shuffles the pieces before starting generation
     // obtain a time-based seed:
@@ -30,26 +27,26 @@ Piece getTrack(const Json::Value& selection) {
     std::default_random_engine e(seed);
     std::shuffle(pieces.begin(), pieces.end(), e);
 
-
     // Get first piece from available pieces.
-    Piece& firstPiece = pieces.back();
+    firstPiece = &pieces.back();
+    validationConnector = &firstPiece->getConnector(1);
 
     // Mark this piece as used.
-    firstPiece.setUsed(true);
+    firstPiece->setUsed(true);
 
-    // Connect pieces to the first piece in order to obtain a closed loop track.
-    generateTrack(firstPiece.getConnector(1), firstPiece, firstPiece.getConnector(0), pieces, validationAngle, validationDist, minPieceNb);
+    // Generate the track!
+    bool res = generateTrack((*firstPiece), firstPiece->getConnector(0));
+    std::cout << "Track could be generated: " << std::to_string(res) << "\n";
 
-    // TEST write result to file
-    writeTrackToFile(pieces);
+    // Write result to file
+    writeToFile();
 
     std::cout << "Recursions: " << std::to_string(count) << "\n";
-    
-    return Piece();
+
 }
 
 
-bool generateTrack(const Connector& validationConnector, const Piece& lastPiece, Connector& openConnector, std::vector<Piece>& pieces, const float validationAngle, const float validationDist, const uint minPieceNb) {
+bool Track::generateTrack(const Piece& lastPiece, Connector& openConnector) {
     count ++;
 
     // std::cout << "Round number: " << std::to_string(count) << "\n";
@@ -67,21 +64,21 @@ bool generateTrack(const Connector& validationConnector, const Piece& lastPiece,
         previouslyTested.insert(testPiece.getId());
 
         // Attempt placement of this piece.
-        if(attemptPlacement(testPiece, validationConnector, lastPiece, openConnector, pieces, validationAngle, validationDist, minPieceNb)) return true;
+        if(attemptPlacement(testPiece, lastPiece, openConnector)) return true;
 
         if(testPiece.isFlippable()) {
             testPiece.flip();
         }
 
         // Re-attempt placement of this piece after flipping.
-        if(attemptPlacement(testPiece, validationConnector, lastPiece, openConnector, pieces, validationAngle, validationDist, minPieceNb)) return true;
+        if(attemptPlacement(testPiece, lastPiece, openConnector)) return true;
 
     }
     // No track was found for any placeable piece.
     return false;
 }
 
-bool attemptPlacement(Piece& testPiece, const Connector& validationConnector,const Piece& lastPiece, Connector& openConnector, std::vector<Piece>& pieces, const float validationAngle, const float validationDist, const uint minPieceNb) {
+bool Track::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connector& openConnector) {
     // Finds if the test piece has a connector of the opposite type to the open one.
     for(uint j = 0; j < testPiece.getNumberConnectors(); j++) {
         Connector& testCon = testPiece.getConnector(j);
@@ -112,6 +109,7 @@ bool attemptPlacement(Piece& testPiece, const Connector& validationConnector,con
         if(noCollision) {
             // Place this piece!
             testPiece.setUsed(true);
+            nbPiecesPlaced += 1;
 
             // Link the two connectors together
             testCon.link(openConnector);
@@ -121,19 +119,13 @@ bool attemptPlacement(Piece& testPiece, const Connector& validationConnector,con
             Connector openCon = testPiece.getOpenConnector(); // Get the open connector
 
             // Checks whether the validation conditions are met between the validation connector and the test piece's open connector.
-            if(openCon.validate(validationConnector, validationAngle, validationDist)) {
+            if(openCon.validate(*validationConnector, validationAngle, validationDist)) {
 
-                // Add min piece condition
-                uint piecesPlaced = 0;
-                for(const Piece& p : pieces) {
-                    if(p.isUsed()) piecesPlaced += 1;
-                }
-
-                if(piecesPlaced >= minPieceNb) return true; // Track is closed!
+                if(nbPiecesPlaced >= minPieceNb) return true; // Track is closed!
             }
             
             // Place the next piece.
-            if( generateTrack(validationConnector, testPiece, openCon, pieces, validationAngle, validationDist, minPieceNb) ) {
+            if( generateTrack(testPiece, openCon) ) {
                 // The track was built! return true.
                 return true;
             }
@@ -141,6 +133,7 @@ bool attemptPlacement(Piece& testPiece, const Connector& validationConnector,con
             else {
                 // The track could not be build. Unlink and remove piece.
                 testPiece.setUsed(false);
+                nbPiecesPlaced -= 1;
                 testCon.unlink(openConnector);
             }
         }
@@ -148,32 +141,16 @@ bool attemptPlacement(Piece& testPiece, const Connector& validationConnector,con
     return false; // Piece placement was unsuccessful.
 }
 
-std::vector<Piece> getAvailablePieces(const Json::Value& selection) {
-    std::vector<Piece> availablePieces;
-    Json::Value ressources = getPieceRessources(); // Library of pieces
 
-    for(const std::string& member : selection.getMemberNames()) {
-        for(int i = 0; i < std::stoi(selection[member].asString()); i++) {
-            // Add Piece to available pieces.
-            availablePieces.emplace_back(ressources[member]);
-        }
-    }
-
-    return availablePieces;
-}
-
-
-void writeTrackToFile(const std::vector<Piece>& track) {
-
-
+void Track::writeToFile() const {
     // Write result to the result file
     std::ofstream file("../tracks/track_result.json");
 
     file << "{\"pieces\":[";
 
-    for(uint i = 0; i < track.size(); i++) {
-        file << track[i].toJson();
-        if(i < track.size() - 1) file << ",";
+    for(uint i = 0; i < pieces.size(); i++) {
+        file << pieces[i].toJson();
+        if(i < pieces.size() - 1) file << ",";
     }
 
     file << "]}";

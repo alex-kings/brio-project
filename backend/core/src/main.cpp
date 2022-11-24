@@ -5,6 +5,7 @@
 #include "Piece.h"
 #include <vector>
 #include "Vec2D.h"
+#include "Track.h"
 
 #include <fstream>
 
@@ -31,8 +32,9 @@ int main(int argc, char* argv[]) {
     }
 
     // Get track
-    Piece startPiece = getTrack(pieceSelection);
+    // Piece startPiece = getTrack(pieceSelection);
 
+    Track t(pieceSelection);
 }
 
 

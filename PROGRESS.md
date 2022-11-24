@@ -95,3 +95,17 @@ Removed testing of the same track multiple times. This saves a LOT of time. (com
 Similar inputs can take SIGNIFICANTLY different run times.
 This means that a lot of improvement can be done.
 (look at track 1, 2, 3) => 1 and 2 were made with initial shuffling, 3 without.
+
+HUGE problems:
+ - When a rather early track is place just in from of the validation track thus blocking it.
+ - When the initial track goes "too far too soon" thus making the validation piece out of reach for all the incoming tests.
+
+How to solve these?
+ - Make it more difficult for the first half of pieces placed to come close the initial piece.
+ - Make it impossible (or perhaps better, more difficult) for initial tracks to be placed out of reach.
+
+_24/11/2022_ **Cpp backend**  
+Added validation angle condition.
+Add flip of pieces.
+
+Found a case of impossible track (see impossible track).
