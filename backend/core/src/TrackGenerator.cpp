@@ -8,13 +8,14 @@
 uint count = 0;
 
 Piece getTrack(const Json::Value& selection) {
-    // Validation conditions
-    const float validationAngle = 0.31415; // ~2*18 degrees.
-    const float validationDist = 50;
-
-
     // Get vector of available pieces.
     std::vector<Piece> pieces = getAvailablePieces(selection);
+
+
+    // Validation conditions
+    const float validationAngle = 0.31415; // ~2*18 degrees.
+    const float validationDist = pieces.size() * 5;
+
 
     // Check if there is an available piece.
     if(pieces.size() < 1) {
@@ -40,7 +41,7 @@ Piece getTrack(const Json::Value& selection) {
     // TEST write result to file
     writeTrackToFile(pieces);
 
-    std::cout << "Count: " << std::to_string(count) << "\n";
+    std::cout << "Recursions: " << std::to_string(count) << "\n";
     
     return Piece();
 }
@@ -65,6 +66,14 @@ bool generateTrack(const Connector& validationConnector, const Piece& lastPiece,
 
         // Attempt placement of this piece.
         if(attemptPlacement(testPiece, validationConnector, lastPiece, openConnector, pieces, validationAngle, validationDist)) return true;
+
+        if(testPiece.isFlippable()) {
+            testPiece.flip();
+        }
+
+        // Re-attempt placement of this piece after flipping.
+        if(attemptPlacement(testPiece, validationConnector, lastPiece, openConnector, pieces, validationAngle, validationDist)) return true;
+
     }
     // No track was found for any placeable piece.
     return false;

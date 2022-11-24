@@ -74,9 +74,16 @@ app.get('/current_track',(req,res) => {
 app.post('/generate_track', async (req,res)=>{
     console.log("selection from user: ", req.body)
 
+    // Time execution
+    const start = new Date()
+
     // Get track from piece selection
     const coreMsg = await executeCore(req.body)
     console.log("cpp output:\n\n" + coreMsg)
+
+    const dt = (new Date() - start) / 1000 // in seconds
+
+    console.log(`Execution time: ${dt}s.`)
 
     let track
     // Get output track from file

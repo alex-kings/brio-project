@@ -13,6 +13,7 @@ private:
     bool type; // true = in, false = out.
     uint level;
     Connector* connection = nullptr; // Connector linked to this connector, initially nullptr.
+    bool connected = false; // Tells whether this connector is connected to another.
     
 public:
     // Default constructor

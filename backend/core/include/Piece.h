@@ -57,9 +57,12 @@ public:
     const std::string& getId() const {
         return id;
     }
-
     bool isUsed() const {
         return used;
+    }
+    bool isFlippable() const {
+        // Any flip type over 0 is flippable by definition.
+        return (flipType > 0);
     }
 
     // Setter

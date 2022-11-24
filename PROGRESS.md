@@ -67,8 +67,8 @@ _22/11/2022_ **Cpp backend**
 First successfully generated layouts!!
 4 E, 2 A, 2 D, 2 A1, 1 A2, 5 E1, generates a track with 2 separate connected pieces??!
 Add a bunch of "guides":
-- Try to place a piece both left and right!
-- Only attempt piece flipping ones that have not been placed yet.
+- Try to place a piece both left and right! (pretty much done)
+- Only attempt piece flipping ones that have not been placed yet. (OK I think?)
 - Remove connection between connectors for a simple boolean.
 - Fast flipping: no flip for straight tracks, only exchange of the connector types for symmetric ones...
 - Place a piece left with more importance depending on the total amount placed already...
@@ -83,6 +83,13 @@ Add a bunch of "guides":
 - Somehow determine in advance that a certain track will not work (or is unlikely to)?
 
 - Mix up the order of each generation
+- Add condition for the farthest away a piece can be placed.
 
+- Modify the validation conditions for larger tracks (make them a percentage of the number of pieces perhaps?)
 
 Removed testing of the same track multiple times. This saves a LOT of time. (comparison with / without ?) Talk about the FACTORIAL nature of the problem otherwise.
+
+
+Similar inputs can take SIGNIFICANTLY different run times.
+This means that a lot of improvement can be done.
+(look at track 1, 2, 3) => 1 and 2 were made with initial shuffling, 3 without.
