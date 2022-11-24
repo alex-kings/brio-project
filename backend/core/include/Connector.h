@@ -66,6 +66,16 @@ public:
         return direction;
     }
 
+    // Setters
+    void setType(bool t) {
+        type = t;
+    }
+
+    // Changes this connector's type
+    void switchType() {
+        type = !type;
+    }
+
     // Tells if this connector is free.
     bool isFree() const {
         return (connection == nullptr);

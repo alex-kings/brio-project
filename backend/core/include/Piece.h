@@ -17,6 +17,7 @@ private:
     std::vector<Part> parts;
     std::vector<Connector> connectors;
     bool used = false;  // Tells whether the piece is in use.
+    int flipType = 0; // This tells how to best flip this piece.
 
 public:
     // Default constructor
@@ -110,13 +111,6 @@ public:
 
     // Rotate piece around the given point. This is done by rotating all the obbs and the connectors of this piece around the given rotation point.
     void rotate(const Vec2D rotationPoint, float angle) {
-        // std::cout << "inputs: " << std::to_string(rotationPoint.getX()) << " " << std::to_string(rotationPoint.getY()) << " " << std::to_string(angle) << "\n";
-        
-        // std::cout << "in:" << std::to_string(connectors.at(0).getPosition().getX())
-        // << std::to_string(connectors.at(0).getPosition().getY())
-        // << std::to_string(connectors.at(1).getPosition().getX())
-        // << std::to_string(connectors.at(1).getPosition().getY()) << "\n";
-
         // Rotate parts
         for(Part& part : parts) {
             part.rotate(rotationPoint, angle);
@@ -126,11 +120,6 @@ public:
         for(Connector& con : connectors) {
             con.rotate(rotationPoint, angle);
         }
-
-        // std::cout << "out:" << std::to_string(connectors.at(0).getPosition().getX())
-        // << std::to_string(connectors.at(0).getPosition().getY())
-        // << std::to_string(connectors.at(1).getPosition().getX())
-        // << std::to_string(connectors.at(1).getPosition().getY()) << "\n";
     }
 
     // Check whether this piece collides with the specified piece.
@@ -142,5 +131,17 @@ public:
             }
         }
         return false;
+    }
+
+    // Flips this piece
+    void flip() {
+        if(flipType == 0) return; // No need to do anything.
+        if(flipType == 1) { // Switch the two connectors (there has to be two for this switch type).
+            // Assumes that the connectors have to be of different types for this to work.
+            connectors.at(0).switchType();
+            connectors.at(1).switchType();
+            return;
+        }
+        // Have to perform a full flip of the piece
     }
 };

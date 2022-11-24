@@ -7,6 +7,7 @@ export default function TrackCanvas(props) {
     const ITERATIONS = 50
 
     let canvas; 
+    let cdz;
 
     // On mount
     onMount(()=>{
@@ -16,7 +17,12 @@ export default function TrackCanvas(props) {
         canvas.width = canvas.offsetWidth;
         canvas.height = canvas.offsetHeight;
 
-        new CanvasDragZoom(canvas, draw)
+        cdz = new CanvasDragZoom(canvas, draw)
+    })
+
+    createEffect(()=>{
+        console.log(props.pieces);
+        cdz.redraw()
     })
 
     // Initial drawing on canvas

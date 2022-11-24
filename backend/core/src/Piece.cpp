@@ -14,4 +14,7 @@ Piece::Piece(const Json::Value& pieceRep) {
 
     // Create ID
     id = pieceRep["id"].asString();
+
+    // Create flip
+    flipType = pieceRep["flip"].asInt();
 }

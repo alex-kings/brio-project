@@ -31,10 +31,15 @@ bool generateTrack(const Connector& validationConnector, const Piece& lastPiece,
 
 
 /**
+ * Attempt placement of the given piece.
+*/
+bool attemptPlacement(Piece& testPiece, const Connector& validationConnector,const Piece& lastPiece, Connector& openConnector, std::vector<Piece>& pieces, const float validationAngle, const float validationDist);
+
+
+/**
  * Returns a vector containing all available pieces from a Json::Value selection.
 */
 std::vector<Piece> getAvailablePieces(const Json::Value& selection);
-
 
 
 /**

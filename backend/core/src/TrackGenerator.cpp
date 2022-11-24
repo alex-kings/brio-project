@@ -63,75 +63,72 @@ bool generateTrack(const Connector& validationConnector, const Piece& lastPiece,
         if(previouslyTested.count(testPiece.getId())) continue;
         previouslyTested.insert(testPiece.getId());
 
-        // Finds if the test piece has a connector of the opposite type to the open one.
-        for(uint j = 0; j < testPiece.getNumberConnectors(); j++) {
-            Connector& testCon = testPiece.getConnector(j);
-
-            if(!testCon.isFree()) continue; // The connector is not free.
-
-            if(testCon.getType() == openConnector.getType()) continue; // Skip connectors of the same type.
-
-            // Angle and position difference between the two connectors.            
-            float angleDiff = openConnector.getDirection().getAngleDifference(testCon.getDirection());
-            Vec2D positionDiff = openConnector.getPosition() - testCon.getPosition();
-
-            // Connects the pieces around their two connectors.
-            // Connector position
-            testPiece.rotate(testCon.getPosition(), M_PI - angleDiff);
-            testPiece.translate(positionDiff);
-
-            // Checks whether the test piece collides with any placed piece.
-            bool noCollision = true;
-            for(const Piece& testCollisionPiece : pieces) {
-                if(!testCollisionPiece.isUsed()) continue; // Skip unplaced pieces.
-
-                // Skip collision checking between consecutive pieces.
-                if(&testCollisionPiece == &lastPiece) continue;
-
-                if (testPiece.collides(testCollisionPiece)) {
-                    noCollision = false;
-                    // std::cout << "Collision detected.\n";
-                    break; // Test piece can not be placed.
-                }
-            }
-
-            if(noCollision) {
-                // Place this piece!
-
-                testPiece.setUsed(true);
-
-                // Link the two connectors together
-                testCon.link(&openConnector);
-
-                // Checks whether this piece has another free connector
-                if(!testPiece.hasOpenConnectors()) return true; // This piece has no more available connectors. The track is built.
-
-                Connector openCon = testPiece.getOpenConnector(); // Get the open connector
-
-                // Checks whether the validation conditions are met between the validation connector and the test piece's open connector.
-                if(openCon.validate(validationConnector, validationAngle, validationDist)) {
-                    return true; // Track is closed!
-                }
-                
-                // Place the next piece.
-                if( generateTrack(validationConnector, testPiece, openCon, pieces, validationAngle, validationDist) ) {
-                    // The track was built! return true.
-                    return true;
-                }
-                else {
-                    // The track could not be build. Unlink and unplace pieces.
-                    testPiece.setUsed(false);
-                    testCon.unlink(&openConnector);
-
-                    // Re-attempt with next placeable piece.
-                }
-            }
-        }
+        // Attempt placement of this piece.
+        if(attemptPlacement(testPiece, validationConnector, lastPiece, openConnector, pieces, validationAngle, validationDist)) return true;
     }
     // No track was found for any placeable piece.
     return false;
 }
 
+bool attemptPlacement(Piece& testPiece, const Connector& validationConnector,const Piece& lastPiece, Connector& openConnector, std::vector<Piece>& pieces, const float validationAngle, const float validationDist) {
+    // Finds if the test piece has a connector of the opposite type to the open one.
+    for(uint j = 0; j < testPiece.getNumberConnectors(); j++) {
+        Connector& testCon = testPiece.getConnector(j);
+
+        if(!testCon.isFree()) continue; // The connector is not free.
+        if(testCon.getType() == openConnector.getType()) continue; // Skip connectors of the same type.
+
+        // Angle and position difference between the two connectors.            
+        float angleDiff = openConnector.getDirection().getAngleDifference(testCon.getDirection());
+        Vec2D positionDiff = openConnector.getPosition() - testCon.getPosition();
+
+        // Connects the pieces around their two connectors.
+        testPiece.rotate(testCon.getPosition(), M_PI - angleDiff);
+        testPiece.translate(positionDiff);
+
+        // Checks whether the test piece collides with any placed piece.
+        bool noCollision = true;
+        for(const Piece& testCollisionPiece : pieces) {
+            if(!testCollisionPiece.isUsed()) continue; // Skip unplaced pieces.
+            // Skip collision checking between consecutive pieces.
+            if(&testCollisionPiece == &lastPiece) continue;
+            if (testPiece.collides(testCollisionPiece)) {
+                noCollision = false;
+                break; // Test piece can not be placed.
+            }
+        }
+
+        if(noCollision) {
+            // Place this piece!
+            testPiece.setUsed(true);
+
+            // Link the two connectors together
+            testCon.link(&openConnector);
+
+            // Checks whether this piece has another free connector
+            if(!testPiece.hasOpenConnectors()) return true; // This piece has no more available connectors. The track is built.
+            Connector openCon = testPiece.getOpenConnector(); // Get the open connector
+
+            // Checks whether the validation conditions are met between the validation connector and the test piece's open connector.
+            if(openCon.validate(validationConnector, validationAngle, validationDist)) {
+                return true; // Track is closed!
+            }
+            
+            // Place the next piece.
+            if( generateTrack(validationConnector, testPiece, openCon, pieces, validationAngle, validationDist) ) {
+                // The track was built! return true.
+                return true;
+            }
+
+            else {
+                // The track could not be build. Unlink and remove piece.
+                testPiece.setUsed(false);
+                testCon.unlink(&openConnector);
+            }
+        }
+    }
+    return false; // Piece placement was unsuccessful.
+}
 
 std::vector<Piece> getAvailablePieces(const Json::Value& selection) {
     std::vector<Piece> availablePieces;
