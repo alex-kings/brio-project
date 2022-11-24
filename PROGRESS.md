@@ -87,6 +87,8 @@ Add a bunch of "guides":
 
 - Modify the validation conditions for larger tracks (make them a percentage of the number of pieces perhaps?)
 
+- Made modulus a constant value of a vector to avoid lots of calculation!
+
 Removed testing of the same track multiple times. This saves a LOT of time. (comparison with / without ?) Talk about the FACTORIAL nature of the problem otherwise.
 
 

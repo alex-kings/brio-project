@@ -13,7 +13,7 @@ Piece getTrack(const Json::Value& selection) {
 
 
     // Validation conditions
-    const float validationAngle = 0.31415; // ~2*18 degrees.
+    const float validationAngle =  0.31415; // ~2*18 degrees.
     const float validationDist = pieces.size() * 5;
 
 

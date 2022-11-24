@@ -56,10 +56,9 @@ public:
         y += b;
     }
 
-    // Dots this vector with the given vector.
-    void dot(const Vec2D& v) {
-        x *= v.x;
-        y *= v.y;
+    // returns the result of the dot product between this and the given vector
+    float dot(const Vec2D& v) const {
+        return (x * v.x + y * v.y);
     }
 
     // Return the modulus of this vector.
@@ -95,5 +94,13 @@ public:
         float dx = x - v.x;
         float dy = y - v.y;
         return std::sqrt(dx*dx + dy*dy);
+    }
+
+    // Returns the absolute angle difference between two vectors
+    float absoluteAngleDiff(const Vec2D& v) const {
+        float val = dot(v)/(getModulus() * v.getModulus());
+        if(val <= -1) return M_PI;
+        if(val >= 1) return 0;
+        return std::acos(val);
     }
 };
