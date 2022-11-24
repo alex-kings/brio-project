@@ -88,7 +88,8 @@
             }
         ],
         "id": "E",
-        "name": "Large curve"
+        "name": "Large curve",
+        "flip":1
     },
     "A": {
         "parts": [
@@ -153,7 +154,8 @@
             }
         ],
         "id": "A",
-        "name": "Medium straight"
+        "name": "Medium straight",
+        "flip":0
     },
     "B": {
         "parts": [
@@ -218,7 +220,8 @@
             }
         ],
         "id": "B",
-        "name": "Medium straight"
+        "name": "Medium straight",
+        "flip":0
     },
     "C": {
         "parts": [
@@ -283,7 +286,8 @@
             }
         ],
         "id": "C",
-        "name": "Medium straight"
+        "name": "Medium straight",
+        "flip":0
     },
     "D": {
         "parts": [
@@ -348,7 +352,8 @@
             }
         ],
         "id": "D",
-        "name": "Long straight"
+        "name": "Long straight",
+        "flip":0
     },
     "A1": {
         "parts": [
@@ -413,7 +418,8 @@
             }
         ],
         "id": "A1",
-        "name": "Short straight"
+        "name": "Short straight",
+        "flip":0
     },
     "B1": {
         "parts": [
@@ -478,7 +484,8 @@
             }
         ],
         "id": "B1",
-        "name": "Short straight"
+        "name": "Short straight",
+        "flip":0
     },
     "C1": {
         "parts": [
@@ -543,7 +550,8 @@
             }
         ],
         "id": "C1",
-        "name": "Short straight"
+        "name": "Short straight",
+        "flip":0
     },
     "A2": {
         "parts": [
@@ -608,7 +616,8 @@
             }
         ],
         "id": "A2",
-        "name": "Mini straight"
+        "name": "Mini straight",
+        "flip":0
     },
     "B2": {
         "parts": [
@@ -673,7 +682,8 @@
             }
         ],
         "id": "B2",
-        "name": "Mini straight"
+        "name": "Mini straight",
+        "flip":0
     },
     "C2": {
         "parts": [
@@ -738,7 +748,8 @@
             }
         ],
         "id": "C2",
-        "name": "Mini straight"
+        "name": "Mini straight",
+        "flip":0
     },
     "E1": {
         "parts": [
@@ -829,7 +840,8 @@
             }
         ],
         "id": "E1",
-        "name": "Short curve"
+        "name": "Short curve",
+        "flip":1
     },
     "M": {
         "parts": [
@@ -965,6 +977,7 @@
             }
         ],
         "id": "M",
-        "name": "Curved switch"
+        "name": "Curved switch",
+        "flip":2
     }
 }

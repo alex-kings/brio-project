@@ -71,7 +71,6 @@ Add a bunch of "guides":
 - Only attempt piece flipping ones that have not been placed yet.
 - Remove connection between connectors for a simple boolean.
 - Fast flipping: no flip for straight tracks, only exchange of the connector types for symmetric ones...
-- AVOID TESTING OF THE SAME TYPE OF TRACK TWICE!! This is done many times, and can potentially save a LOT of time.
 - Place a piece left with more importance depending on the total amount placed already...
 - Split the number of turns in multiple smaller batches
 - randomize the initial set of pieces before running 
@@ -83,5 +82,7 @@ Add a bunch of "guides":
 - Problem with tracks containing the same connectors.
 - Somehow determine in advance that a certain track will not work (or is unlikely to)?
 
- MAJOR ISSUES :
- - { E: '8', E1: '0', A2: '0', A: '6', D: '3' }
+- Mix up the order of each generation
+
+
+Removed testing of the same track multiple times. This saves a LOT of time. (comparison with / without ?) Talk about the FACTORIAL nature of the problem otherwise.
