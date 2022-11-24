@@ -12,7 +12,6 @@ private:
     Vec2D direction;
     bool type; // true = in, false = out.
     uint level;
-    Connector* connection = nullptr; // Connector linked to this connector, initially nullptr.
     bool connected = false; // Tells whether this connector is connected to another.
     
 public:
@@ -42,20 +41,15 @@ public:
     }
 
     // Link this and another connector together.
-    void link(Connector* c) {
-        connection = c;
-        c->connection = this;
+    void link(Connector& c) {
+        c.connected = true;
+        connected = true;
     }
 
     // Unlink connection between this and the specified connector.
-    void unlink(Connector* c) {
-        connection = nullptr;
-        c->connection = nullptr;
-    }
-
-    // Getters
-    Connector* getConnection() const {
-        return connection;
+    void unlink(Connector c) {
+        connected = false;
+        c.connected = false;
     }
     bool getType() const {
         return type;
@@ -79,7 +73,7 @@ public:
 
     // Tells if this connector is free.
     bool isFree() const {
-        return (connection == nullptr);
+        return (!connected);
     }
 
     // Translate this connector's position by the given amount

@@ -112,7 +112,7 @@ bool attemptPlacement(Piece& testPiece, const Connector& validationConnector,con
             testPiece.setUsed(true);
 
             // Link the two connectors together
-            testCon.link(&openConnector);
+            testCon.link(openConnector);
 
             // Checks whether this piece has another free connector
             if(!testPiece.hasOpenConnectors()) return true; // This piece has no more available connectors. The track is built.
@@ -132,7 +132,7 @@ bool attemptPlacement(Piece& testPiece, const Connector& validationConnector,con
             else {
                 // The track could not be build. Unlink and remove piece.
                 testPiece.setUsed(false);
-                testCon.unlink(&openConnector);
+                testCon.unlink(openConnector);
             }
         }
     }
