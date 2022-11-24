@@ -48,7 +48,7 @@ private:
     /**
      * Provides a random vector of length l containing all integers from 0 to l-1.
     */
-    std::vector<int> getRandomIteration(uint l) ;
+    std::vector<int> getRandomIterable(uint l) ;
 
 public:
     /**

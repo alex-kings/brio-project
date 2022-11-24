@@ -54,7 +54,30 @@ bool Track::generateTrack(const Piece& lastPiece, Connector& openConnector) {
     std::unordered_set<std::string> previouslyTested;
 
     // Look for pieces that can be placed
-    for(Piece& testPiece : pieces) {
+    // for(Piece& testPiece : pieces) {
+
+    //     if(testPiece.isUsed()) continue; // Skip pieces already placed
+
+    //     // Checks whether the piece has already been tested
+    //     if(previouslyTested.count(testPiece.getId())) continue;
+    //     previouslyTested.insert(testPiece.getId());
+
+    //     // Attempt placement of this piece.
+    //     if(attemptPlacement(testPiece, lastPiece, openConnector)) return true;
+
+    //     if(testPiece.isFlippable()) {
+    //         testPiece.flip();
+    //     }
+
+    //     // Re-attempt placement of this piece after flipping.
+    //     if(attemptPlacement(testPiece, lastPiece, openConnector)) return true;
+    // }
+
+
+    // Random version!
+    // Look for pieces that can be placed
+    for(int i : getRandomIterable(pieces.size())) {
+        Piece& testPiece = pieces.at(i);
 
         if(testPiece.isUsed()) continue; // Skip pieces already placed
 
@@ -71,8 +94,10 @@ bool Track::generateTrack(const Piece& lastPiece, Connector& openConnector) {
 
         // Re-attempt placement of this piece after flipping.
         if(attemptPlacement(testPiece, lastPiece, openConnector)) return true;
-
     }
+
+
+
     // No track was found for any placeable piece.
     return false;
 }
@@ -157,7 +182,7 @@ void Track::writeToFile() const {
     file.close();
 }
 
-std::vector<int> Track::getRandomIteration(uint l) {
+std::vector<int> Track::getRandomIterable(uint l) {
     std::vector<int> res;
     for(uint i = 0; i < l; i ++) {
         res.push_back(i);
