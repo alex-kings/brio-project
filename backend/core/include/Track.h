@@ -2,6 +2,9 @@
 #include <json/json.h>
 #include <vector>
 #include "Piece.h"
+#include <random>
+#include <chrono>
+
 
 
 /** 
@@ -12,6 +15,10 @@ class Track {
 
 private:
     std::vector<Piece> pieces;
+
+    // Random engine
+    std::default_random_engine randomEngine = std::default_random_engine(std::chrono::system_clock::now().time_since_epoch().count());
+
 
     // Number of recursive steps
     uint count = 0; 
@@ -37,6 +44,11 @@ private:
      * Attempt placement of the given piece.
     */
     bool attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connector& openConnector);
+
+    /**
+     * Provides a random vector of length l containing all integers from 0 to l-1.
+    */
+    std::vector<int> getRandomIteration(uint l) ;
 
 public:
     /**

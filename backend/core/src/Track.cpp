@@ -2,7 +2,6 @@
 #include "ParseJson.h"
 #include <chrono>
 #include <algorithm>
-#include <random>
 #include <unordered_set>
 #include <iostream>
 
@@ -23,9 +22,9 @@ Track::Track(const Json::Value& selection) {
 
     // OPTIONAL: Shuffles the pieces before starting generation
     // obtain a time-based seed:
-    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-    std::default_random_engine e(seed);
-    std::shuffle(pieces.begin(), pieces.end(), e);
+    // unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    // std::default_random_engine randomEngine = std::default_random_engine(seed);
+    std::shuffle(pieces.begin(), pieces.end(), randomEngine);
 
     // Get first piece from available pieces.
     firstPiece = &pieces.back();
@@ -156,4 +155,14 @@ void Track::writeToFile() const {
     file << "]}";
 
     file.close();
+}
+
+std::vector<int> Track::getRandomIteration(uint l) {
+    std::vector<int> res;
+    for(uint i = 0; i < l; i ++) {
+        res.push_back(i);
+    }
+    // Shuffle the vector using the random engine
+    std::shuffle(std::begin(res), std::end(res), randomEngine);
+    return res;
 }
