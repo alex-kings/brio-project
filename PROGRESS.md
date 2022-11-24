@@ -109,3 +109,6 @@ Added validation angle condition.
 Add flip of pieces.
 
 Found a case of impossible track (see impossible track).
+
+Silly idea? Because the generation time is so dependant on initial conditions and has times varying from very very small to huge...
+Could try for a certain amount of time, and if not successful re-try with a different initial set of pieces...
