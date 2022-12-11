@@ -24,42 +24,42 @@ void printHello(int i) {
 
 int main(int argc, char* argv[]) {
 
-    // std::cerr << "Start" << "\n";
+    std::cerr << "Start" << "\n";
 
-    // // Get input from node program
-    // std::string input = argv[1];
-
-
-    // // TEST
-    // // std::string input = "{\"E\":\"8\",\"A\":\"6\",\"E1\":\"4\",\"D\":\"2\"}";
+    // Get input from node program
+    std::string input = argv[1];
 
 
-    // // User selection of pieces and their available quantities.
-    // Json::Value pieceSelection;
-    // try {
-    //     // Example
-    //     pieceSelection = readJson(input);
-    // }
-    // catch(const std::domain_error& e) {
-    //     std::cerr << e.what() << std::endl;
-    // }
+    // TEST
+    // std::string input = "{\"E\":\"8\",\"A\":\"6\",\"E1\":\"4\",\"D\":\"2\"}";
 
-    // // Get track
-    // // Piece startPiece = getTrack(pieceSelection);
 
-    // Track t(pieceSelection);
+    // User selection of pieces and their available quantities.
+    Json::Value pieceSelection;
+    try {
+        // Example
+        pieceSelection = readJson(input);
+    }
+    catch(const std::domain_error& e) {
+        std::cerr << e.what() << std::endl;
+    }
+
+    // Get track
+    // Piece startPiece = getTrack(pieceSelection);
+
+    Track t(pieceSelection);
 
 
     // TEST MULTITHREADING
 
-    uint maxThreads = std::thread::hardware_concurrency()*2; // 2 times the number of available cores.
-    std::thread threads[maxThreads];
-    for (uint i = 0; i < maxThreads; i++) {
-        threads[i] = std::thread(printHello, i);
-    }
-    for(uint i = 0; i < maxThreads; i++) {
-        threads[i].join();
-    }
+    // uint maxThreads = std::thread::hardware_concurrency()*2; // 2 times the number of available cores.
+    // std::thread threads[maxThreads];
+    // for (uint i = 0; i < maxThreads; i++) {
+    //     threads[i] = std::thread(printHello, i);
+    // }
+    // for(uint i = 0; i < maxThreads; i++) {
+    //     threads[i].join();
+    // }
 }
 
 
