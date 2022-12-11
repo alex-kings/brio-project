@@ -5,15 +5,17 @@
 #include <unordered_set>
 #include <iostream>
 
-Track::Track(const Json::Value& selection) {
-    Json::Value ressources = getPieceRessources(); // Library of pieces
+Track::Track(const std::vector<Piece> availablePieces) {
+    // Json::Value ressources = getPieceRessources(); // Library of pieces
 
-    for(const std::string& member : selection.getMemberNames()) {
-        for(int i = 0; i < std::stoi(selection[member].asString()); i++) {
-            // Add Piece to available pieces.
-            pieces.emplace_back(ressources[member]);
-        }
-    }
+    // for(const std::string& member : selection.getMemberNames()) {
+    //     for(int i = 0; i < std::stoi(selection[member].asString()); i++) {
+    //         // Add Piece to available pieces.
+    //         pieces.emplace_back(ressources[member]);
+    //     }
+    // }
+
+    pieces = availablePieces;
 
     // Validation conditions
     validationAngle =  2*0.31415; // ~2*18 degrees.

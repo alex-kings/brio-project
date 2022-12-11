@@ -54,7 +54,9 @@ public:
     /**
      * Construct from a selection of pieces.
     */
-    Track(const Json::Value& selection);
+    // Track(const Json::Value& selection);
+    Track(const std::vector<Piece> availablePieces);
+
 
     void writeToFile() const;
 };

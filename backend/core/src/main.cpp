@@ -44,10 +44,19 @@ int main(int argc, char* argv[]) {
         std::cerr << e.what() << std::endl;
     }
 
+    Json::Value ressources = getPieceRessources(); // Library of pieces
+    std::vector<Piece> pieces;
+    for(const std::string& member : pieceSelection.getMemberNames()) {
+        for(int i = 0; i < std::stoi(pieceSelection[member].asString()); i++) {
+            // Add Piece to available pieces.
+            pieces.emplace_back(ressources[member]);
+        }
+    }
+
     // Get track
     // Piece startPiece = getTrack(pieceSelection);
 
-    Track t(pieceSelection);
+    Track t(pieces);
 
 
     // TEST MULTITHREADING
