@@ -36,6 +36,7 @@ private:
     float validationAngle;
     float validationDist;
     uint minPieceNb;
+    float halfMaxDist; // Half of the maximum linear distance of this track.
 
     /**
      * Recursively connects pieces together to generate a closed track.
@@ -62,6 +63,11 @@ private:
      * Re-shuffles the available pieces around and mark all pieces as unused. Restarts the timer.
     */
     void reset();
+
+    /**
+     * Returns the maximum linear distance of this track.
+    */
+    float getMaxDist() const;
 
 public:
     /**

@@ -22,6 +22,7 @@ Track::Track(const std::vector<Piece> availablePieces) {
     validationAngle = 0.3*M_PI;
     validationDist = pieces.size() * 5;
     minPieceNb = std::floor(pieces.size()*0.6); // 60% of pieces
+    halfMaxDist = getMaxDist() / 2;
 
     // OPTIONAL: Shuffles the pieces before starting generation
     // obtain a time-based seed:
@@ -43,6 +44,7 @@ Track::Track(const std::vector<Piece> availablePieces) {
 
     // Generate the track!
     bool res = generateTrack((*firstPiece), firstPiece->getConnector(0));
+    std::cout << (res ? "Track could be generated." : "Track couldn't be generated.") << "\n";
 
     // Write result to file
     writeToFile();
@@ -198,4 +200,12 @@ void Track::reset() {
     }
     // Reset timer
     startTime = std::chrono::steady_clock::now();
+}
+
+float Track::getMaxDist() const {
+    float tot = 0;
+    for(const Piece& piece: pieces) {
+        tot += piece.getDist();
+    }
+    return tot;
 }

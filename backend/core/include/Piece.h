@@ -147,4 +147,9 @@ public:
         }
         // Have to perform a full flip of the piece
     }
+
+    // Returns the euclidian distance between the two first connectors of this piece
+    float getDist() const {
+        return connectors[0].getPosition().euclidianDist(connectors[1].getPosition());
+    }
 };
