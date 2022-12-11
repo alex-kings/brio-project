@@ -56,9 +56,10 @@ int main(int argc, char* argv[]) {
     std::thread threads[maxThreads];
     for (uint i = 0; i < maxThreads; i++) {
         threads[i] = std::thread(printHello, i);
+    }
+    for(uint i = 0; i < maxThreads; i++) {
         threads[i].join();
     }
-
 }
 
 
