@@ -42,7 +42,7 @@ Track::Track(const std::vector<Piece> availablePieces) {
         this->reset();
     }
 
-    std::cout << "Generated after:" << generationCount << "Generations\n";
+    std::cout << "Generated after " << generationCount << " generations\n";
 
     // Write result to file
     writeToFile();
