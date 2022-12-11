@@ -22,16 +22,16 @@ void printHello(int i) {
 
 
 
-int main(int argc, char* argv[]) {
+int main(int, char* argv[]) {
 
     std::cerr << "Start" << "\n";
 
     // Get input from node program
-    std::string input = argv[1];
+    // std::string input = argv[1];
 
 
     // TEST
-    // std::string input = "{\"E\":\"8\",\"A\":\"6\",\"E1\":\"4\",\"D\":\"2\"}";
+    std::string input = "{\"E\":\"8\",\"A\":\"6\",\"E1\":\"4\",\"D\":\"2\"}";
 
 
     // User selection of pieces and their available quantities.

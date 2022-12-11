@@ -47,7 +47,7 @@ public:
     }
 
     // Unlink connection between this and the specified connector.
-    void unlink(Connector c) {
+    void unlink(Connector& c) {
         connected = false;
         c.connected = false;
     }

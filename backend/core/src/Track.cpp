@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <unordered_set>
 #include <iostream>
+#include <math.h>
 
 Track::Track(const std::vector<Piece> availablePieces) {
     // Json::Value ressources = getPieceRessources(); // Library of pieces
@@ -18,7 +19,7 @@ Track::Track(const std::vector<Piece> availablePieces) {
     pieces = availablePieces;
 
     // Validation conditions
-    validationAngle =  2*0.31415; // ~2*18 degrees.
+    validationAngle = 0.3*M_PI;
     validationDist = pieces.size() * 5;
     minPieceNb = std::floor(pieces.size()*0.6); // 60% of pieces
 
@@ -26,7 +27,12 @@ Track::Track(const std::vector<Piece> availablePieces) {
     // obtain a time-based seed:
     // unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     // std::default_random_engine randomEngine = std::default_random_engine(seed);
-    std::shuffle(pieces.begin(), pieces.end(), randomEngine);
+    // std::shuffle(pieces.begin(), pieces.end(), randomEngine);
+
+    shufflePieces();
+
+    // Start timer
+    startTime = std::chrono::steady_clock::now();
 
     // Get first piece from available pieces.
     firstPiece = &pieces.back();
@@ -37,7 +43,6 @@ Track::Track(const std::vector<Piece> availablePieces) {
 
     // Generate the track!
     bool res = generateTrack((*firstPiece), firstPiece->getConnector(0));
-    std::cout << "Track could be generated: " << std::to_string(res) << "\n";
 
     // Write result to file
     writeToFile();
@@ -50,33 +55,21 @@ Track::Track(const std::vector<Piece> availablePieces) {
 bool Track::generateTrack(const Piece& lastPiece, Connector& openConnector) {
     count ++;
 
-    // std::cout << "Round number: " << std::to_string(count) << "\n";
+    // Check if timer ran out
+    double elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - startTime).count();
+
+    if(elapsed > maxTime) {
+        // Time ran out
+        std::cout << "MORE THAN 20: " << elapsed << "\n";
+        // return false;
+    }
+    else {
+        std::cout << "less than 20 seconds" << "\n";
+    }
 
     // Keep track of previously tested pieces
     std::unordered_set<std::string> previouslyTested;
 
-    // Look for pieces that can be placed
-    // for(Piece& testPiece : pieces) {
-
-    //     if(testPiece.isUsed()) continue; // Skip pieces already placed
-
-    //     // Checks whether the piece has already been tested
-    //     if(previouslyTested.count(testPiece.getId())) continue;
-    //     previouslyTested.insert(testPiece.getId());
-
-    //     // Attempt placement of this piece.
-    //     if(attemptPlacement(testPiece, lastPiece, openConnector)) return true;
-
-    //     if(testPiece.isFlippable()) {
-    //         testPiece.flip();
-    //     }
-
-    //     // Re-attempt placement of this piece after flipping.
-    //     if(attemptPlacement(testPiece, lastPiece, openConnector)) return true;
-    // }
-
-
-    // Random version!
     // Look for pieces that can be placed
     for(int i : getRandomIterable(pieces.size())) {
         Piece& testPiece = pieces.at(i);
@@ -97,8 +90,6 @@ bool Track::generateTrack(const Piece& lastPiece, Connector& openConnector) {
         // Re-attempt placement of this piece after flipping.
         if(attemptPlacement(testPiece, lastPiece, openConnector)) return true;
     }
-
-
 
     // No track was found for any placeable piece.
     return false;
@@ -192,4 +183,19 @@ std::vector<int> Track::getRandomIterable(uint l) {
     // Shuffle the vector using the random engine
     std::shuffle(std::begin(res), std::end(res), randomEngine);
     return res;
+}
+
+void Track::shufflePieces() {
+    std::shuffle(pieces.begin(), pieces.end(), randomEngine);
+}
+
+void Track::reset() {
+    // Shuffle pieces around
+    shufflePieces();
+    // Mark all pieces as unused
+    for(Piece& piece : pieces) {
+        piece.setUsed(false);
+    }
+    // Reset timer
+    startTime = std::chrono::steady_clock::now();
 }

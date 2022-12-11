@@ -5,8 +5,6 @@
 #include <random>
 #include <chrono>
 
-
-
 /** 
  * Class for the generation of tracks.
 */
@@ -19,6 +17,11 @@ private:
     // Random engine
     std::default_random_engine randomEngine = std::default_random_engine(std::chrono::system_clock::now().time_since_epoch().count());
 
+    // The start date of search
+    std::chrono::steady_clock::time_point startTime;
+
+    // Max time before starting generation again
+    const double maxTime = 20000; // 20 seconds.
 
     // Number of recursive steps
     uint count = 0; 
@@ -49,6 +52,16 @@ private:
      * Provides a random vector of length l containing all integers from 0 to l-1.
     */
     std::vector<int> getRandomIterable(uint l) ;
+
+    /**
+     * Shuffles pieces in random order.
+    */
+    void shufflePieces();
+
+    /**
+     * Re-shuffles the available pieces around and mark all pieces as unused. Restarts the timer.
+    */
+    void reset();
 
 public:
     /**

@@ -11,13 +11,11 @@ Piece getTrack(const Json::Value& selection) {
     // Get vector of available pieces.
     std::vector<Piece> pieces = getAvailablePieces(selection);
 
-
     // Validation conditions
-    const float validationAngle =  3*0.31415; // ~2*18 degrees.
+    const float validationAngle =  0.3*M_PI; // ~2*18 degrees.
     const float validationDist = pieces.size() * 5;
     // Minimum pieces to place
     const uint minPieceNb = std::floor(pieces.size()*0.6); // 60% of pieces
-
 
     // Check if there is an available piece.
     if(pieces.size() < 1) {
