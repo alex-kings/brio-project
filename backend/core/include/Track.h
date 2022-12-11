@@ -37,6 +37,7 @@ private:
     float validationDist;
     uint minPieceNb;
     float halfMaxDist; // Half of the maximum linear distance of this track.
+    // float minDistToStartCon = 
 
     /**
      * Recursively connects pieces together to generate a closed track.

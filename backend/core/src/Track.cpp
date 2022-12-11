@@ -10,7 +10,7 @@ Track::Track(const std::vector<Piece> availablePieces) {
     pieces = availablePieces;
 
     // Validation conditions
-    validationAngle = 0.3*M_PI;
+    validationAngle = 0.2*M_PI;
     validationDist = pieces.size() * 5;
     minPieceNb = std::floor(pieces.size()*0.6); // 60% of pieces
     halfMaxDist = getMaxDist() / 2;
@@ -114,6 +114,11 @@ bool Track::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connector
             continue;
         }
 
+        // Check "not too close to start connector" heuistic
+        // if(pieces.size() - nbPiecesPlaced != 1) {
+        //     if(validationConnector->getPosition().euclidianDist())
+        // }
+
         // Checks whether the test piece collides with any placed piece.
         bool noCollision = true;
         for(const Piece& testCollisionPiece : pieces) {
@@ -199,6 +204,8 @@ void Track::reset() {
     for(Piece& piece : pieces) {
         piece.setUsed(false);
     }
+    // Reset number pieces placed
+    nbPiecesPlaced = 0;
     // Reset timer
     startTime = std::chrono::steady_clock::now();
 }

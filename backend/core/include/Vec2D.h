@@ -93,6 +93,7 @@ public:
     float euclidianDist(const Vec2D& v) const {
         float dx = x - v.x;
         float dy = y - v.y;
+        // Maybe can get rid of the square root for most uses?
         return std::sqrt(dx*dx + dy*dy);
     }
 
