@@ -152,4 +152,10 @@ public:
     float getDist() const {
         return connectors[0].getPosition().euclidianDist(connectors[1].getPosition());
     }
+
+    // Place piece at origin
+    void placeAtOrigin() {
+        Vec2D currentPos = connectors[0].getPosition();
+        this->translate(Vec2D(-currentPos.getX(), -currentPos.getY()));
+    }
 };

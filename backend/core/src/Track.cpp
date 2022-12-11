@@ -22,22 +22,27 @@ Track::Track(const std::vector<Piece> availablePieces) {
 
     uint generationCount = 0;
 
-    // while(true) {
-    //     generationCount++;
+    while(true) {
+        generationCount++;
 
+        // Get first piece from available pieces.
+        firstPiece = &pieces.back();
+        validationConnector = &firstPiece->getConnector(1);
 
-    // }
+        // Place the initial piece at the origin
+        firstPiece->placeAtOrigin();
 
-    // Get first piece from available pieces.
-    firstPiece = &pieces.back();
-    validationConnector = &firstPiece->getConnector(1);
+        // Mark this piece as used.
+        firstPiece->setUsed(true);
 
-    // Mark this piece as used.
-    firstPiece->setUsed(true);
+        // Generate the track!
+        if(generateTrack((*firstPiece), firstPiece->getConnector(0))) break; // Track generated!
 
-    // Generate the track!
-    bool res = generateTrack((*firstPiece), firstPiece->getConnector(0));
-    std::cout << (res ? "Track could be generated." : "Track couldn't be generated.") << "\n";
+        // Track could not be generated.
+        this->reset();
+    }
+
+    std::cout << "Generated after:" << generationCount << "Generations\n";
 
     // Write result to file
     writeToFile();
@@ -54,12 +59,8 @@ bool Track::generateTrack(const Piece& lastPiece, Connector& openConnector) {
     double elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - startTime).count();
 
     if(elapsed > maxTime) {
-        // Time ran out
-        // std::cout << "MORE THAN 20: " << elapsed << "\n";
-        // return false;
-    }
-    else {
-        // std::cout << "less than 20 seconds" << "\n";
+        // Took too long.
+        return false; 
     }
 
     // Keep track of previously tested pieces
@@ -109,7 +110,7 @@ bool Track::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connector
         // Check "half-max-linear-distance" heuristic
         if(firstPiece->getConnector(0).getPosition().euclidianDist(testCon.getPosition()) > halfMaxDist) {
             // Piece is further away than the half maximum linear distance
-            std::cout << "Attempted to place a piece too far.\n";
+            // std::cout << "Attempted to place a piece too far.\n";
             continue;
         }
 
