@@ -7,15 +7,6 @@
 #include <math.h>
 
 Track::Track(const std::vector<Piece> availablePieces) {
-    // Json::Value ressources = getPieceRessources(); // Library of pieces
-
-    // for(const std::string& member : selection.getMemberNames()) {
-    //     for(int i = 0; i < std::stoi(selection[member].asString()); i++) {
-    //         // Add Piece to available pieces.
-    //         pieces.emplace_back(ressources[member]);
-    //     }
-    // }
-
     pieces = availablePieces;
 
     // Validation conditions
@@ -24,16 +15,18 @@ Track::Track(const std::vector<Piece> availablePieces) {
     minPieceNb = std::floor(pieces.size()*0.6); // 60% of pieces
     halfMaxDist = getMaxDist() / 2;
 
-    // OPTIONAL: Shuffles the pieces before starting generation
-    // obtain a time-based seed:
-    // unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-    // std::default_random_engine randomEngine = std::default_random_engine(seed);
-    // std::shuffle(pieces.begin(), pieces.end(), randomEngine);
-
     shufflePieces();
 
     // Start timer
     startTime = std::chrono::steady_clock::now();
+
+    uint generationCount = 0;
+
+    // while(true) {
+    //     generationCount++;
+
+
+    // }
 
     // Get first piece from available pieces.
     firstPiece = &pieces.back();
@@ -62,11 +55,11 @@ bool Track::generateTrack(const Piece& lastPiece, Connector& openConnector) {
 
     if(elapsed > maxTime) {
         // Time ran out
-        std::cout << "MORE THAN 20: " << elapsed << "\n";
+        // std::cout << "MORE THAN 20: " << elapsed << "\n";
         // return false;
     }
     else {
-        std::cout << "less than 20 seconds" << "\n";
+        // std::cout << "less than 20 seconds" << "\n";
     }
 
     // Keep track of previously tested pieces
@@ -112,6 +105,13 @@ bool Track::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connector
         // Connects the pieces around their two connectors.
         testPiece.rotate(testCon.getPosition(), M_PI - angleDiff);
         testPiece.translate(positionDiff);
+
+        // Check "half-max-linear-distance" heuristic
+        if(firstPiece->getConnector(0).getPosition().euclidianDist(testCon.getPosition()) > halfMaxDist) {
+            // Piece is further away than the half maximum linear distance
+            std::cout << "Attempted to place a piece too far.\n";
+            continue;
+        }
 
         // Checks whether the test piece collides with any placed piece.
         bool noCollision = true;
