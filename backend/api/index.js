@@ -30,9 +30,13 @@ app.post('/add_piece', (req,res) => {
 })
 
 // Store circle for the piece given
-app.post('append_circle', (req,res) => {
-    const circleData = req.body.circle
+app.post('/append_circle', (req,res) => {
+
+    const circleData = req.body.boundingCircle
     const pieceId = req.body.id
+
+    console.log(`Appending circle ${circleData} to figure ${pieceId}.`)
+
 
     // Get current file contents
     const data = JSON.parse(fs.readFileSync(JSON_FILE))

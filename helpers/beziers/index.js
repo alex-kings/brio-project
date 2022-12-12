@@ -122,7 +122,7 @@ storeCircleBtn.addEventListener('click', async()=>{
         y:parseFloat(circleInputY.value),
         radius:parseFloat(circleRadiusInput.value)
     }}
-    await fetch( BASE_URL + '/append_circle',{
+    const res = await fetch( BASE_URL + '/append_circle',{
         method:"POST",
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify(data)
