@@ -35,6 +35,12 @@ const out2 = document.getElementById('out2')
 const out3 = document.getElementById('out3')
 const out4 = document.getElementById('out4')
 
+const circleInputX = document.getElementById("circleInputX")
+const circleInputY = document.getElementById("circleInputY")
+const circleRadiusInput = document.getElementById("circleRadiusInput")
+const storeCircleBtn = document.getElementById("storeCircleBtn")
+const drawCircleBtn = document.getElementById("drawCircleBtn")
+
 const radiusInput = document.getElementById('radiusInput')
 const angleStartInput = document.getElementById('angleStartInput')
 const angleStopInput = document.getElementById('angleStopInput')
@@ -98,6 +104,30 @@ function drawPiece(piece) {
         drawPoint(c.pos, "green", 5)
     })
 }
+
+
+// Draw circle on screen
+drawCircleBtn.addEventListener("click", () => {
+    let x = parseFloat(circleInputX.value)
+    let y = parseFloat(circleInputY.value)
+    let r = parseFloat(circleRadiusInput.value)
+    drawPoint(new Vec2d(x,y), "black", 2)
+    drawArc(x,y,r,0,Math.PI*2, "black")
+})
+
+// Store the new bounding circle
+storeCircleBtn.addEventListener('click', async()=>{
+    const data = {id:idInput.value, boundingCircle:{
+        x:parseFloat(circleInputX.value),
+        y:parseFloat(circleInputY.value),
+        radius:parseFloat(circleRadiusInput.value)
+    }}
+    await fetch( BASE_URL + '/append_circle',{
+        method:"POST",
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(data)
+    })
+})
 
 // Print current figure in console
 debugBtn.addEventListener('click', ()=>{

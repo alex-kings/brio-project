@@ -120,3 +120,5 @@ COULD IMPROVE THAT HEURISTIC TO RATHER NOT GO FURTHER THAN THE TOTAL DISTANCE LE
 
 Added option to load figure in the bezier helper to add a circle.
 Added a circle to each figure, encompassing all the OBBS in that figure to make a much more efficient collision detection system.
+
+![Bounding circle](./progression_images/Bounding_circle.png "Bounding circle around E track")

@@ -9,8 +9,8 @@ const port = 5000
 app.use(cors())
 
 // Configuring express to use body-parser as middle-ware
-app.use(parser.urlencoded({ extended: false }));
-app.use(parser.json());
+app.use(parser.urlencoded({ extended: false }))
+app.use(parser.json())
 
 
 // Add a new piece to database
@@ -27,6 +27,25 @@ app.post('/add_piece', (req,res) => {
     }
 
     res.json('Piece added to database.')
+})
+
+// Store circle for the piece given
+app.post('append_circle', (req,res) => {
+    const circleData = req.body.circle
+    const pieceId = req.body.id
+
+    // Get current file contents
+    const data = JSON.parse(fs.readFileSync(JSON_FILE))
+    // Append circle
+    data[pieceId].boundingCircle = circleData
+    // Save new pieces to file
+    const newData = JSON.stringify(data)
+    fs.writeFile(JSON_FILE, newData, err=>{
+        if(err) console.log(err)
+    })
+
+    res.end()
+
 })
 
 // Get a piece from ressources by specifying its ID
