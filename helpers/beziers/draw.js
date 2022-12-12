@@ -1,5 +1,3 @@
-import { Vec2d } from "./Vec2d.js"
-
 /**
  * Functions to draw on canvas.
  */

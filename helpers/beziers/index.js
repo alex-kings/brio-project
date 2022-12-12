@@ -3,6 +3,7 @@ import { Vec2d } from './Vec2d.js'
 
 // Constants
 const trackWidth = 40 // mm
+const BASE_URL = 'http://localhost:5000'
 
 // Inputs
 const sendBtn = document.getElementById('sendBtn')
@@ -11,6 +12,7 @@ const clearBtn = document.getElementById('clearBtn')
 const levelInput = document.getElementById('levelInput')
 const debugBtn = document.getElementById('debugBtn')
 const nameInput = document.getElementById('nameInput')
+const loadBtn = document.getElementById('loadBtn')
 
 const vInput11 = document.getElementById('vInput11')
 const vInput12 = document.getElementById('vInput12')
@@ -57,6 +59,45 @@ drawCircularGuidelines()
 
 // Current figure
 let currentFigure = null
+
+
+// Load a figure from ressources
+loadBtn.addEventListener("click", async ()=>{
+    let data = {id:idInput.value}
+    
+    const resp = await fetch( BASE_URL + '/get_piece',{
+        method:"POST",
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(data)
+    })
+    // Get the piece
+    const piece = await resp.json()
+    console.log(piece)
+    // Plot it
+    drawPiece(piece)
+
+})
+
+// Display piece on canvas
+function drawPiece(piece) {
+    
+    piece.parts.forEach(part => {
+        // Draw curve
+        part.rectangles.forEach(rect=> {
+            drawRect(rect, "blue")
+        })
+
+        // Draw points
+        part.bezierPoints.forEach(p => {
+            drawPoint(p, "red", 3)
+        })
+    })
+
+    piece.connectors.forEach(c => {
+        // Draw a point
+        drawPoint(c.pos, "green", 5)
+    })
+}
 
 // Print current figure in console
 debugBtn.addEventListener('click', ()=>{
@@ -220,7 +261,7 @@ function getRect(v1, v2){
 
 // Sends piece to backend to keep
 async function savePiece(piece){
-    const resp = await fetch('http://localhost:3000/add_piece',{
+    const resp = await fetch(BASE_URL + '/add_piece',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify(piece)

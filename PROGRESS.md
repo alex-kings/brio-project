@@ -113,3 +113,10 @@ Found a case of impossible track (see impossible track).
 Silly idea? Because the generation time is so dependant on initial conditions and has times varying from very very small to huge...
 Could try for a certain amount of time, and if not successful re-try with a different initial set of pieces...
 With multiple threads trying it could be fine..?
+
+_12/12/2022_ **Helper**
+Added a heuristic in the core to not allow pieces to be placed further away than half the total distance.
+COULD IMPROVE THAT HEURISTIC TO RATHER NOT GO FURTHER THAN THE TOTAL DISTANCE LEFT IN HAND? (Need a nice way to know how much distance is left in hand)
+
+Added option to load figure in the bezier helper to add a circle.
+Added a circle to each figure, encompassing all the OBBS in that figure to make a much more efficient collision detection system.

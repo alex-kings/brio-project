@@ -29,6 +29,22 @@ app.post('/add_piece', (req,res) => {
     res.json('Piece added to database.')
 })
 
+// Get a piece from ressources by specifying its ID
+app.post('/get_piece', (req,res) => {
+    let id = req.body.id
+
+    let pieces = null
+    try{
+        pieces = JSON.parse(fs.readFileSync(JSON_FILE))
+    }
+    catch(e) {
+        console.error("Couldn't load pieces.")
+        console.error(e)
+        return
+    }
+    res.send(pieces[id])
+})
+
 // Get all pieces from json file
 app.get('/all_pieces', (req,res) => {
     let pieces = null
