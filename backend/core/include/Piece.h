@@ -19,6 +19,11 @@ private:
     bool used = false;  // Tells whether the piece is in use.
     int flipType = 0; // This tells how to best flip this piece.
 
+    // Bounding circle
+    float circleX;
+    float circleY;
+    float circleR;
+
 public:
     // Default constructor
     Piece() {
@@ -126,15 +131,7 @@ public:
     }
 
     // Check whether this piece collides with the specified piece.
-    bool collides(const Piece& piece) const {
-        // Check collision between all of this and the other piece's parts.
-        for(const Part& thisPart : parts) {
-            for(const Part& piecePart : piece.parts) {
-                if(thisPart.collides(piecePart)) return true;
-            }
-        }
-        return false;
-    }
+    bool collides(const Piece& piece) const;
 
     // Flips this piece
     void flip() {
