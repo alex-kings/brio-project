@@ -58,4 +58,7 @@ public:
 
     // Translate each point of this OBB by a given x and y
     void translate(int x, int y);
+
+    // Checks whether the line between the two given points intersects this OBB
+    bool intersects(const Vec2D& p1, const Vec2D& p2) const;
 };

@@ -77,3 +77,37 @@ void Obb::translate(int x, int y) {
         point.add(x, y);
     }
 }
+
+bool Obb::intersects(const Vec2D& p1, const Vec2D& p2) const {
+    if(p1.getX() - p2.getX() == 0) {
+        // Can not determine slope
+        bool allRight = true;
+        bool allLeft = true;
+        for(const Vec2D& point : points) {
+            if(point.getX() > 0) {
+                allLeft = false;
+            }
+            else allRight = false;
+        }
+        return (allLeft && allRight || !allLeft && !allRight);
+    }
+
+    // Determine the slope
+    float a = (p1.getY() - p2.getY()) / (p1.getX() - p2.getX());
+
+    // Determine elevation
+    float b = p1.getY() - a*p1.getX();
+
+    bool allTrue = true;
+    bool allFalse = true;
+    for(const Vec2D& point : this->points) {
+        // determine whether the point is above or below the line
+        if(point.getY() < a*point.getX() + b) {
+            allFalse = false;
+        }
+        else {
+            allTrue = false;
+        }
+    }
+    return(allTrue && allFalse || !allTrue && !allFalse);
+}
