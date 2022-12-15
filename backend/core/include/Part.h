@@ -104,4 +104,6 @@ public:
         }
         return false;
     }
+
+    bool intersects(const Vec2D& p1, const Vec2D& p2) const;
 };

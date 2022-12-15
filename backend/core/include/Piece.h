@@ -155,4 +155,7 @@ public:
         Vec2D currentPos = connectors[0].getPosition();
         this->translate(Vec2D(-currentPos.getX(), -currentPos.getY()));
     }
+
+    // Checks whether the given line intersects with an OBB of this piece
+    bool intersects(const Vec2D& p1, const Vec2D& p2) const;
 };

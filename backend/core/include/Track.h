@@ -70,6 +70,11 @@ private:
     */
     float getMaxDist() const;
 
+    /**
+     * Determines whether there are pieces placed in between c1 and c2
+    */
+    bool piecesInBetween(const Connector& c1, const Connector& c2) const;
+
 public:
     /**
      * Construct from a selection of pieces.
