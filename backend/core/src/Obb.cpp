@@ -89,7 +89,7 @@ bool Obb::intersects(const Vec2D& p1, const Vec2D& p2) const {
             }
             else allRight = false;
         }
-        return (allLeft && allRight || !allLeft && !allRight);
+        return ((allLeft && allRight) || (!allLeft && !allRight));
     }
 
     // Determine the slope
@@ -109,5 +109,5 @@ bool Obb::intersects(const Vec2D& p1, const Vec2D& p2) const {
             allTrue = false;
         }
     }
-    return(allTrue && allFalse || !allTrue && !allFalse);
+    return((allTrue && allFalse) || (!allTrue && !allFalse));
 }
