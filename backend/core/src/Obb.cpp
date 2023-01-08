@@ -78,36 +78,41 @@ void Obb::translate(int x, int y) {
     }
 }
 
+bool Obb::isBetween(float test, float a, float b) const {
+    return ((test > a && test < b) || (test < a && test > b));
+}
+
+bool Obb::segmentIntersect(const Vec2D& a1, const Vec2D& a2, const Vec2D& b1, const Vec2D& b2) const {
+    // Line 1 is horizontal
+    if(a1.getX() == a2.getX()) {
+        return isBetween(a1.getX(), b1.getX(), b2.getX());
+    }
+
+    // Line 2 is horizontal
+    if(b1.getX() == b2.getX()) {
+        return isBetween(b1.getX(), a1.getX(), a2.getX());
+    }
+
+    // No horizontal lines: can calculate the slopes
+    float s1 = (a1.getY() - a2.getY()) / (a1.getX() - a2.getX());
+    float s2 = (b1.getY() - b2.getY()) / (b1.getX() - b2.getX());
+
+    if(s1 == s2) return false; // The two lines are collinear
+
+    float k1 = a1.getY() - s1 * a1.getX();
+    float k2 = b1.getY() - s2 * b1.getX();
+
+    float xIntersect = (k2 - k1) / (s1 - s2);
+
+    // Check intersection
+    return (isBetween(xIntersect, a1.getX(), a2.getX()) && isBetween(xIntersect, b1.getX(), b2.getX()));
+}
+
 bool Obb::intersects(const Vec2D& p1, const Vec2D& p2) const {
-    if(p1.getX() - p2.getX() == 0) {
-        // Can not determine slope
-        bool allRight = true;
-        bool allLeft = true;
-        for(const Vec2D& point : points) {
-            if(point.getX() > 0) {
-                allLeft = false;
-            }
-            else allRight = false;
-        }
-        return ((allLeft && allRight) || (!allLeft && !allRight));
-    }
-
-    // Determine the slope
-    float a = (p1.getY() - p2.getY()) / (p1.getX() - p2.getX());
-
-    // Determine elevation
-    float b = p1.getY() - a*p1.getX();
-
-    bool allTrue = true;
-    bool allFalse = true;
-    for(const Vec2D& point : this->points) {
-        // determine whether the point is above or below the line
-        if(point.getY() < a*point.getX() + b) {
-            allFalse = false;
-        }
-        else {
-            allTrue = false;
-        }
-    }
-    return((allTrue && allFalse) || (!allTrue && !allFalse));
+    // Check whether the given segment intersects with any of this OBB's segments
+    if(segmentIntersect(p1, p2, this->points[1], this->points[2])) return true;
+    if(segmentIntersect(p1, p2, this->points[2], this->points[3])) return true;
+    if(segmentIntersect(p1, p2, this->points[3], this->points[4])) return true;
+    if(segmentIntersect(p1, p2, this->points[4], this->points[1])) return true;
+    return false;
 }

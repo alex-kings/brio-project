@@ -2,6 +2,7 @@
     padding:0;
     margin:0;
     font-family: sans-serif;
+    box-sizing: border-box;
     --green-1:rgb(95, 163, 95);
     --green-2:rgb(59, 128, 59);
     --green-3:rgb(20, 85, 20);
@@ -33,10 +34,7 @@
     background-color:var(--grey-2);
 }
 .app{
-    padding:1rem;
-}
-.scrollable{
-    height:40rem;
-    /* overflow: hidden; */
-    overflow-y: scroll;
+    display:flex;
+    flex-direction: column;
+    height:100vh;
 }

@@ -20,6 +20,12 @@ private:
         return((min2 >= min1 && min2 <= max1) || (min1 >= min2 && min1 <= max2));
     }
 
+    // Determines whether the two segments a and b intersect each other.
+    bool segmentIntersect(const Vec2D& a1, const Vec2D& a2, const Vec2D& b1, const Vec2D& b2) const;
+
+    // Determines whether the given float is between the two next floats
+    bool isBetween(float test, float a, float b) const;
+
 public:
     // Default constructor
     Obb() {

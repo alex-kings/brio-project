@@ -105,5 +105,6 @@ public:
         return false;
     }
 
+    // Check whether the given line passes through this part.
     bool intersects(const Vec2D& p1, const Vec2D& p2) const;
 };

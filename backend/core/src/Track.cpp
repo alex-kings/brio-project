@@ -146,9 +146,9 @@ bool Track::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connector
             // Checks whether the validation conditions are met between the validation connector and the test piece's open connector.
             if(openCon.validate(*validationConnector, validationAngle, validationDist)) {
                 // Tests if there are pieces in between the two validation connectors
-                //if(!piecesInBetween(openCon, *validationConnector)) {}
-
-                if(nbPiecesPlaced >= minPieceNb) return true; // Track is closed!
+                if(!piecesInBetween(openCon, *validationConnector)) {
+                    if(nbPiecesPlaced >= minPieceNb) return true; // Track is closed!
+                }
             }
             
             // Place the next piece.

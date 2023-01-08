@@ -5,7 +5,7 @@
 import { createEffect, createSignal, onMount, Show } from "solid-js";
 import PieceList from "./PieceList";
 import TrackCanvas from "./TrackCanvas";
-import "../styles/TrackCanvas.css"
+import "../styles/MainPage.css"
 
 export default function MainPage() {
 
@@ -51,8 +51,8 @@ export default function MainPage() {
     }
 
     return (
-        <div className="two-cols">
-            <div>
+        <div className="main">
+            <div className="piece-selector-container">
                 <div className="scrollable">
                     <PieceList pieces={pieces()} setSelection={setSelection} selection={selection()} />
                 </div>

@@ -1,5 +1,6 @@
 import { createEffect, onMount } from "solid-js"
 import { CanvasDragZoom } from "../dependencies/scroll.js"
+import "../styles/TrackCanvas.css"
 
 export default function TrackCanvas(props) {
 
