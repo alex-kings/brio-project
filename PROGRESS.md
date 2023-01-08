@@ -122,3 +122,9 @@ Added option to load figure in the bezier helper to add a circle.
 Added a circle to each figure, encompassing all the OBBS in that figure to make a much more efficient collision detection system.
 
 ![Bounding circle](./progression_images/Bounding_circle.png "Bounding circle around E track")
+
+
+_8/01/2023_ **BACKEND CORE**
+Add a test for rails in between the validation connectors before validating the track.
+Can talk about how to test if there are pieces in between the two validation connectors:
+this is done by virtually drawing a line between the two connectors and testing if there is any placed piece that has an OBB that intersects that line.
