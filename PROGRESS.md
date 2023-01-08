@@ -131,3 +131,7 @@ this is done by virtually drawing a line between the two connectors and testing 
 
 There is a very serious performance issue with the algorithm to test for pieces in between two connectors. Has been disabled at the minute.
 Need to verify the complexity of it. (or time it?)
+
+Need to disable the complete randomness.
+
+Also need to modify the "between connectors" algorithm to not take into account the first and last pieces.
