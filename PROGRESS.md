@@ -128,3 +128,6 @@ _8/01/2023_ **BACKEND CORE**
 Add a test for rails in between the validation connectors before validating the track.
 Can talk about how to test if there are pieces in between the two validation connectors:
 this is done by virtually drawing a line between the two connectors and testing if there is any placed piece that has an OBB that intersects that line.
+
+There is a very serious performance issue with the algorithm to test for pieces in between two connectors. Has been disabled at the minute.
+Need to verify the complexity of it. (or time it?)
