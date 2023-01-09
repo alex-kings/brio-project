@@ -27,8 +27,8 @@ private:
     const double maxTime = 200000; // 200 seconds.
 
     // Number of recursive steps
-    uint count = 0; 
-    uint nbPiecesPlaced = 0;
+    unsigned int count = 0; 
+    unsigned int nbPiecesPlaced = 0;
 
     // The initial piece
     Piece* firstPiece;
@@ -38,7 +38,7 @@ private:
     // Validation conditions
     float validationAngle;
     float validationDist;
-    uint minPieceNb;
+    unsigned int minPieceNb;
     float halfMaxDist; // Half of the maximum linear distance of this track.
     // float minDistToStartCon = 
 
@@ -56,7 +56,7 @@ private:
     /**
      * Provides a random vector of length l containing all integers from 0 to l-1.
     */
-    std::vector<int> getRandomIterable(uint l) ;
+    std::vector<int> getRandomIterable(unsigned int l) ;
 
     /**
      * Shuffles pieces in random order.

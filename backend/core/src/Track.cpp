@@ -20,7 +20,7 @@ Track::Track(const std::vector<Piece> availablePieces) {
     // Start timer
     startTime = std::chrono::steady_clock::now();
 
-    uint generationCount = 0;
+    unsigned int generationCount = 0;
 
     while(true) {
         generationCount++;
@@ -96,7 +96,7 @@ bool Track::generateTrack(const Piece& lastPiece, Connector& openConnector) {
 
 bool Track::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connector& openConnector) {
     // Finds if the test piece has a connector of the opposite type to the open one.
-    for(uint j = 0; j < testPiece.getNumberConnectors(); j++) {
+    for(unsigned int j = 0; j < testPiece.getNumberConnectors(); j++) {
         Connector& testCon = testPiece.getConnector(j);
 
         if(!testCon.isFree()) continue; // The connector is not free.
@@ -178,7 +178,7 @@ void Track::writeToFile() const {
 
     file << "{\"pieces\":[";
 
-    for(uint i = 0; i < pieces.size(); i++) {
+    for(unsigned int i = 0; i < pieces.size(); i++) {
         file << pieces[i].toJson();
         if(i < pieces.size() - 1) file << ",";
     }
@@ -188,9 +188,9 @@ void Track::writeToFile() const {
     file.close();
 }
 
-std::vector<int> Track::getRandomIterable(uint l) {
+std::vector<int> Track::getRandomIterable(unsigned int l) {
     std::vector<int> res;
-    for(uint i = 0; i < l; i ++) {
+    for(unsigned int i = 0; i < l; i ++) {
         res.push_back(i);
     }
     // Shuffle the vector using the random engine

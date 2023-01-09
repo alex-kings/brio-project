@@ -39,7 +39,7 @@ public:
     std::string toJson() const {
         std::string jsonRep = "[";
 
-        for(uint i = 0; i < points.size(); i++) {
+        for(unsigned int i = 0; i < points.size(); i++) {
             jsonRep.append(points[i].toJson());
             if(i != points.size() - 1) jsonRep.append(",");
         }

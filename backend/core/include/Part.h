@@ -14,7 +14,7 @@ class Part
 private:
     std::vector<Obb> obbs;
     std::vector<Vec2D> bezierPoints;
-    uint level;
+    unsigned int level;
 
 public:
     // Default constructor
@@ -32,7 +32,7 @@ public:
         std::string jsonRep = "{\"rectangles\":[";
 
         // print obbs
-        for (uint i = 0; i < obbs.size(); i++) {
+        for (unsigned int i = 0; i < obbs.size(); i++) {
             jsonRep.append(obbs[i].toJson());
             if (i != obbs.size() - 1)
                 jsonRep.append(",");
@@ -43,7 +43,7 @@ public:
         jsonRep.append(",\"bezierPoints\":[");
 
         // print bezier points
-        for (uint i = 0; i < bezierPoints.size(); i++) {
+        for (unsigned int i = 0; i < bezierPoints.size(); i++) {
             jsonRep.append(bezierPoints[i].toJson());
             if (i < bezierPoints.size() - 1) jsonRep.append(",");
         }
@@ -83,11 +83,11 @@ public:
     Obb &getObb(int index) {
         return obbs.at(index);
     }
-    uint getNumberObbs() {
+    unsigned int getNumberObbs() {
         return obbs.size();
     }
 
-    uint getLevel() const {
+    unsigned int getLevel() const {
         return level;
     }
 

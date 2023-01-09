@@ -11,7 +11,7 @@ private:
     Vec2D position;
     Vec2D direction;
     bool type; // true = in, false = out.
-    uint level;
+    unsigned int level;
     bool connected = false; // Tells whether this connector is connected to another.
     
 public:

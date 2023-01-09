@@ -40,7 +40,7 @@ public:
         std::string jsonRep = "{\"id\":\"" + id + "\",\"used\":" + (used ? "true" : "false") + ",\"parts\":[";
         
         // print parts
-        for(uint i = 0; i < parts.size(); i++) {
+        for(unsigned int i = 0; i < parts.size(); i++) {
             jsonRep.append(parts[i].toJson());
             if(i != parts.size() - 1) jsonRep.append(",");
         }
@@ -48,7 +48,7 @@ public:
         jsonRep.append("],\"connectors\":[");
 
         // print connectors
-        for(uint i = 0; i < connectors.size(); i++) {
+        for(unsigned int i = 0; i < connectors.size(); i++) {
             jsonRep.append(connectors[i].toJson());
             if(i != connectors.size() - 1) jsonRep.append(",");
         }
@@ -79,7 +79,7 @@ public:
     Part& getPart(int index) {
         return parts.at(index);
     }
-    uint getNumberParts() const {
+    unsigned int getNumberParts() const {
         return parts.size();
     }
 
@@ -87,7 +87,7 @@ public:
     Connector& getConnector(int index) {
         return connectors.at(index);
     }
-    uint getNumberConnectors() const {
+    unsigned int getNumberConnectors() const {
         return connectors.size();
     }
 

@@ -1,3 +1,5 @@
+#include <emscripten/bind.h>
+
 #include "json/json.h"
 #include <iostream>
 #include "ParseJson.h"
@@ -9,6 +11,8 @@
 #include <thread>
 
 #include <fstream>
+
+// using namespace emscripten;
 
 
 void printHello(int i) {
@@ -56,16 +60,24 @@ int main(int, char* argv[]) {
 
     // TEST MULTITHREADING
 
-    // uint maxThreads = std::thread::hardware_concurrency()*2; // 2 times the number of available cores.
+    // unsigned int maxThreads = std::thread::hardware_concurrency()*2; // 2 times the number of available cores.
     // std::thread threads[maxThreads];
-    // for (uint i = 0; i < maxThreads; i++) {
+    // for (unsigned int i = 0; i < maxThreads; i++) {
     //     threads[i] = std::thread(printHello, i);
     // }
-    // for(uint i = 0; i < maxThreads; i++) {
+    // for(unsigned int i = 0; i < maxThreads; i++) {
     //     threads[i].join();
     // }
 }
 
+std::string generateTrack(const std::string& pieceSelection) {
+    return "Track generated";
+}
 
-
+/**
+ * Expose generating function
+*/
+EMSCRIPTEN_BINDINGS(my_module) {
+   emscripten::function("generateTrack", &generateTrack);
+}
 

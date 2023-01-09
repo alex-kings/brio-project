@@ -7,3 +7,8 @@ git pull
 ./emsdk activate latest
 source ./emsdk_env.sh
 ```
+
+Compile with meson and emscripten:
+```
+meson setup build --cross-file=wasm.ini
+```
