@@ -29,22 +29,29 @@ export default function MainPage() {
     })
 
     // Sends pieces to backend and gets generated track
+    // const generateTrack = async () => {
+    //     console.log(selection())
+
+    //     const resp = await fetch("http://localhost:5000/generate_track", {
+    //         method: "POST",
+    //         headers: {'Content-Type': 'application/json'}, 
+    //         body: JSON.stringify(selection())
+    //     }).catch(e => {console.log(e)})
+    //     const result = await resp.json()
+    //     console.log("Track generated: ", result.pieces)
+
+    //     setTrack(result.pieces)
+    // }
+
     const generateTrack = async () => {
         console.log(selection())
+        let result;
+        createModule().then(({generateTrack}) => {
+            result = JSON.parse(generateTrack(JSON.stringify(selection())))
+            setTrack(result.pieces)
+        })
 
-        const resp = await fetch("http://localhost:5000/generate_track", {
-            method: "POST",
-            headers: {'Content-Type': 'application/json'}, 
-            body: JSON.stringify(selection())
-        }).catch(e => {console.log(e)})
-        const result = await resp.json()
-        console.log("Track generated: ", result.pieces)
-
-        setTrack(result.pieces)
-    }
-
-    const hasPieces = () => {
-        return Object.keys(pieces()).length !== 0
+        // setTrack(result.pieces)
     }
 
     const hasTrack = () => {
