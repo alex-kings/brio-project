@@ -76,6 +76,9 @@ bool Track::generateTrack(const Piece& lastPiece, Connector& openConnector) {
         if(previouslyTested.count(testPiece.getId())) continue;
         previouslyTested.insert(testPiece.getId());
 
+        // Randomly pick whether we should start with the piece going left or right
+        if (randomEngine() % 2 == 1) testPiece.flip(); 
+
         // Attempt placement of this piece.
         if(attemptPlacement(testPiece, lastPiece, openConnector)) return true;
 

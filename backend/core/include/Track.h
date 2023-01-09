@@ -15,13 +15,16 @@ private:
     std::vector<Piece> pieces;
 
     // Random engine
-    std::default_random_engine randomEngine = std::default_random_engine(std::chrono::system_clock::now().time_since_epoch().count());
+    std::default_random_engine randomEngine = std::default_random_engine();
+
+    // UNCOMMENT FOR A TIME-SEEDED RANDOM ENGINE
+    // std::default_random_engine randomEngine = std::default_random_engine(std::chrono::system_clock::now().time_since_epoch().count());
 
     // The start date of search
     std::chrono::steady_clock::time_point startTime;
 
     // Max time before starting generation again
-    const double maxTime = 2000; // 2 seconds.
+    const double maxTime = 200000; // 200 seconds.
 
     // Number of recursive steps
     uint count = 0; 
