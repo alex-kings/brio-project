@@ -24,7 +24,7 @@ private:
     std::chrono::steady_clock::time_point startTime;
 
     // Max time before starting generation again
-    const double maxTime = 200000; // 200 seconds.
+    const double maxTime = 1000; // 1 seconds.
 
     // Number of recursive steps
     unsigned int count = 0; 
