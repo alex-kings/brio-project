@@ -44,7 +44,7 @@ export default function TrackCanvas(props) {
         // Draw each part
         piece.parts.forEach(part => {
             // Draw the bezier curve for this piece
-            drawBezier(ctx, part.bezierPoints)
+            // drawBezier(ctx, part.bezierPoints)
 
             // Draw the rectangles for this part
             part.rectangles.forEach(r=>{
