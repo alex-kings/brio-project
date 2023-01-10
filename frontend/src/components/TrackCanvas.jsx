@@ -30,14 +30,52 @@ export default function TrackCanvas(props) {
         props.pieces.forEach(piece => {
             // Only draw used pieces!
             if(piece.used) {
-                drawPiece(options.ctx, piece, "blue")
+                drawPiece(options.ctx, piece, getPieceColour(piece.id))
             }
+            console.log("hello")
+            
    
 
             // if(piece.used) drawPiece(options.ctx, piece, "blue")
             // else drawPiece(options.ctx, piece, "gray")
         })
     }
+
+    // Piece-dependant colouring
+    function getPieceColour(pieceType) {
+        switch (pieceType) {
+            case "E":
+                return '#fcba03'
+            case "A":
+                return '#f2ffa6'
+            case "B":
+                return '#c1ffa6'   
+            case "C":
+                return '#9de697'   
+            case "D":
+                return '#85bfd4'   
+            case "A1":
+                return '#7987b0'   
+            case "B1":
+                return '#bf95de'   
+            case "C1":
+                return '#dfbef7'   
+            case "A2":
+                return '#e07e9a'   
+            case "B2":
+                return '#bab29e'   
+            case "C2":
+                return '#8a8c88'   
+            case "E1":
+                return '#948cff'   
+            case "M":
+                return '#c495b7'   
+        
+            default:
+                return '#ffa9a6';
+        }
+    }
+
 
     // Draw a piece at position given on the canvas
     function drawPiece(ctx, piece, colour) {
@@ -104,14 +142,28 @@ export default function TrackCanvas(props) {
 
     // Draw rectangle
     function drawRect(ctx, rect, colour){
-        ctx.strokeStyle = colour
-        ctx.beginPath()
-        ctx.moveTo(rect[0].x, rect[0].y)
-        ctx.lineTo(rect[1].x, rect[1].y)
-        ctx.lineTo(rect[2].x, rect[2].y)
-        ctx.lineTo(rect[3].x, rect[3].y)
-        ctx.lineTo(rect[0].x, rect[0].y)
-        ctx.stroke()
+        // ctx.strokeStyle = colour
+        // ctx.beginPath()
+        // ctx.moveTo(rect[0].x, rect[0].y)
+        // ctx.lineTo(rect[1].x, rect[1].y)
+        // ctx.lineTo(rect[2].x, rect[2].y)
+        // ctx.lineTo(rect[3].x, rect[3].y)
+        // ctx.lineTo(rect[0].x, rect[0].y)
+        // ctx.stroke()
+
+        let region = new Path2D()
+        region.moveTo(rect[0].x, rect[0].y)
+        region.lineTo(rect[1].x, rect[1].y)
+        region.lineTo(rect[2].x, rect[2].y)
+        region.lineTo(rect[3].x, rect[3].y)
+        region.lineTo(rect[0].x, rect[0].y)
+
+        region.closePath()
+
+        ctx.fillStyle = colour
+        ctx.fill(region, 'evenodd')
+        ctx.strokeStyle = "black"
+        ctx.stroke(region)
     }
 
     // Draw curve
