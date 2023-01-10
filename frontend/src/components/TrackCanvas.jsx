@@ -31,11 +31,7 @@ export default function TrackCanvas(props) {
             // Only draw used pieces!
             if(piece.used) {
                 drawPiece(options.ctx, piece, getPieceColour(piece.id))
-            }
-            console.log("hello")
-            
-   
-
+            }            
             // if(piece.used) drawPiece(options.ctx, piece, "blue")
             // else drawPiece(options.ctx, piece, "gray")
         })
