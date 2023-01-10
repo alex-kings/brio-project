@@ -134,16 +134,7 @@ public:
     bool collides(const Piece& piece) const;
 
     // Flips this piece
-    void flip() {
-        if(flipType == 0) return; // No need to do anything.
-        if(flipType == 1) { // Switch the two connectors (there has to be two for this switch type).
-            // Assumes that the connectors have to be of different types for this to work.
-            connectors.at(0).switchType();
-            connectors.at(1).switchType();
-            return;
-        }
-        // Have to perform a full flip of the piece
-    }
+    void flip();
 
     // Returns the euclidian distance between the two first connectors of this piece
     float getDist() const {

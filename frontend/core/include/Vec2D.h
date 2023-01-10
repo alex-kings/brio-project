@@ -8,7 +8,6 @@ private:
     float x;
     float y;
 
-
 public:
     // Constructors
     Vec2D() { x = y = 0; }
@@ -103,5 +102,10 @@ public:
         if(val <= -1) return M_PI;
         if(val >= 1) return 0;
         return std::acos(val);
+    }
+
+    // Changes this point's coordinates to it's symmetrical position along the x axis.
+    void horizontalFlip() {
+        this->y = - this->y;
     }
 };
