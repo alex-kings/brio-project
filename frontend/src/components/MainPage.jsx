@@ -17,7 +17,7 @@ export default function MainPage() {
     // Fetch pieces
     onMount(async () => {
         // const response = await fetch('http://localhost:5000/all_pieces')
-        const response = await fetch('../../ressources/pieces.json')
+        const response = await fetch('/src/assets/pieces.json')
         const result = await response.json()
 
         setPieces(Object.keys(result).map((key) => { return result[key] }))
@@ -49,6 +49,8 @@ export default function MainPage() {
             result = JSON.parse(generateTrack(JSON.stringify(selection())))
             setTrack(result.pieces)
         })
+
+        console.log(selection())
 
         // setTrack(result.pieces)
     }
