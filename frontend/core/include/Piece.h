@@ -40,7 +40,7 @@ public:
         std::string jsonRep = "{\"id\":\"" + id + "\",\"used\":" + (used ? "true" : "false") + ",\"parts\":[";
         
         // print parts
-        for(uint i = 0; i < parts.size(); i++) {
+        for(unsigned int i = 0; i < parts.size(); i++) {
             jsonRep.append(parts[i].toJson());
             if(i != parts.size() - 1) jsonRep.append(",");
         }
@@ -48,7 +48,7 @@ public:
         jsonRep.append("],\"connectors\":[");
 
         // print connectors
-        for(uint i = 0; i < connectors.size(); i++) {
+        for(unsigned int i = 0; i < connectors.size(); i++) {
             jsonRep.append(connectors[i].toJson());
             if(i != connectors.size() - 1) jsonRep.append(",");
         }
@@ -79,7 +79,7 @@ public:
     Part& getPart(int index) {
         return parts.at(index);
     }
-    uint getNumberParts() const {
+    unsigned int getNumberParts() const {
         return parts.size();
     }
 
@@ -87,7 +87,7 @@ public:
     Connector& getConnector(int index) {
         return connectors.at(index);
     }
-    uint getNumberConnectors() const {
+    unsigned int getNumberConnectors() const {
         return connectors.size();
     }
 
@@ -134,16 +134,7 @@ public:
     bool collides(const Piece& piece) const;
 
     // Flips this piece
-    void flip() {
-        if(flipType == 0) return; // No need to do anything.
-        if(flipType == 1) { // Switch the two connectors (there has to be two for this switch type).
-            // Assumes that the connectors have to be of different types for this to work.
-            connectors.at(0).switchType();
-            connectors.at(1).switchType();
-            return;
-        }
-        // Have to perform a full flip of the piece
-    }
+    void flip();
 
     // Returns the euclidian distance between the two first connectors of this piece
     float getDist() const {

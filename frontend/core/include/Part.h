@@ -13,13 +13,13 @@ class Part
 
 private:
     std::vector<Obb> obbs;
-    std::vector<Vec2D> bezierPoints;
-    uint level;
+    // std::vector<Vec2D> bezierPoints;
+    unsigned int level;
 
 public:
     // Default constructor
     Part() {
-        bezierPoints = {};
+        // bezierPoints = {};
         obbs = {};
         level = 0;
     }
@@ -32,7 +32,7 @@ public:
         std::string jsonRep = "{\"rectangles\":[";
 
         // print obbs
-        for (uint i = 0; i < obbs.size(); i++) {
+        for (unsigned int i = 0; i < obbs.size(); i++) {
             jsonRep.append(obbs[i].toJson());
             if (i != obbs.size() - 1)
                 jsonRep.append(",");
@@ -40,15 +40,16 @@ public:
 
         jsonRep.append("],\"level\":");
         jsonRep.append(std::to_string(level));
-        jsonRep.append(",\"bezierPoints\":[");
+        // jsonRep.append(",\"bezierPoints\":[");
 
-        // print bezier points
-        for (uint i = 0; i < bezierPoints.size(); i++) {
-            jsonRep.append(bezierPoints[i].toJson());
-            if (i < bezierPoints.size() - 1) jsonRep.append(",");
-        }
+        // // print bezier points
+        // for (unsigned int i = 0; i < bezierPoints.size(); i++) {
+        //     jsonRep.append(bezierPoints[i].toJson());
+        //     if (i < bezierPoints.size() - 1) jsonRep.append(",");
+        // }
 
-        jsonRep.append("]}");
+        // jsonRep.append("]}");
+        jsonRep.append("}");
 
         return jsonRep;
     }
@@ -60,10 +61,10 @@ public:
             obb.translate(amount);
         }
 
-        // Bezier points
-        for(Vec2D& point : bezierPoints){
-            point.add(amount);
-        }
+        // // Bezier points
+        // for(Vec2D& point : bezierPoints){
+        //     point.add(amount);
+        // }
     }
 
     // Rotate
@@ -73,21 +74,21 @@ public:
             obb.rotate(rotationPoint, angle);
         }
 
-        // rotate bezier points
-        for (Vec2D &p : bezierPoints) {
-            p.rotate(rotationPoint, angle);
-        }
+        // // rotate bezier points
+        // for (Vec2D &p : bezierPoints) {
+        //     p.rotate(rotationPoint, angle);
+        // }
     }
 
     // Getters
     Obb &getObb(int index) {
         return obbs.at(index);
     }
-    uint getNumberObbs() {
+    unsigned int getNumberObbs() {
         return obbs.size();
     }
 
-    uint getLevel() const {
+    unsigned int getLevel() const {
         return level;
     }
 

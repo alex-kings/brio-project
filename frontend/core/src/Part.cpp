@@ -6,10 +6,10 @@ Part::Part(const Json::Value& jsonRep) {
         obbs.emplace_back(rectangle);
     }
 
-    // Add bezier points
-    for(const Json::Value& bezierPoint : jsonRep["bezierPoints"]) {
-        bezierPoints.emplace_back(bezierPoint["x"].asFloat(), bezierPoint["y"].asFloat());
-    }
+    // // Add bezier points
+    // for(const Json::Value& bezierPoint : jsonRep["bezierPoints"]) {
+    //     bezierPoints.emplace_back(bezierPoint["x"].asFloat(), bezierPoint["y"].asFloat());
+    // }
 
     // Add level
     level = jsonRep["level"].asInt();

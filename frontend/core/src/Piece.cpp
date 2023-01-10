@@ -44,3 +44,17 @@ bool Piece::intersects(const Vec2D& p1, const Vec2D& p2) const {
     }
     return false;
 }
+
+void Piece::flip() {
+    if(flipType == 0) return; // No need to do anything.
+    if(flipType == 1) { // Switch the two connectors (there has to be two for this switch type).
+        // Assumes that the connectors have to be of different types for this to work.
+        connectors.at(0).switchType();
+        connectors.at(1).switchType();
+        return;
+    }
+    if(flipType == 2) { // Have to perform a full flip of the piece
+        // The flip happens along the x axis, using a flipping matrix ((1,0),(0,-1))
+        
+    }
+}

@@ -15,12 +15,14 @@ Track::Track(const std::vector<Piece> availablePieces) {
     minPieceNb = std::floor(pieces.size()*0.6); // 60% of pieces
     halfMaxDist = getMaxDist() / 2;
 
+    // Start with a random arrangement of the original set of pieces.
     shufflePieces();
 
     // Start timer
     startTime = std::chrono::steady_clock::now();
 
-    uint generationCount = 0;
+    // The number of times the generation starts from scratch.
+    unsigned int generationCount = 0;
 
     while(true) {
         generationCount++;
@@ -45,7 +47,7 @@ Track::Track(const std::vector<Piece> availablePieces) {
     std::cout << "Generated after " << generationCount << " generations\n";
 
     // Write result to file
-    writeToFile();
+    //writeToFile();
 
     std::cout << "Recursions: " << std::to_string(count) << "\n";
 
@@ -96,7 +98,7 @@ bool Track::generateTrack(const Piece& lastPiece, Connector& openConnector) {
 
 bool Track::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connector& openConnector) {
     // Finds if the test piece has a connector of the opposite type to the open one.
-    for(uint j = 0; j < testPiece.getNumberConnectors(); j++) {
+    for(unsigned int j = 0; j < testPiece.getNumberConnectors(); j++) {
         Connector& testCon = testPiece.getConnector(j);
 
         if(!testCon.isFree()) continue; // The connector is not free.
@@ -178,7 +180,7 @@ void Track::writeToFile() const {
 
     file << "{\"pieces\":[";
 
-    for(uint i = 0; i < pieces.size(); i++) {
+    for(unsigned int i = 0; i < pieces.size(); i++) {
         file << pieces[i].toJson();
         if(i < pieces.size() - 1) file << ",";
     }
@@ -188,9 +190,9 @@ void Track::writeToFile() const {
     file.close();
 }
 
-std::vector<int> Track::getRandomIterable(uint l) {
+std::vector<int> Track::getRandomIterable(unsigned int l) {
     std::vector<int> res;
-    for(uint i = 0; i < l; i ++) {
+    for(unsigned int i = 0; i < l; i ++) {
         res.push_back(i);
     }
     // Shuffle the vector using the random engine
@@ -229,4 +231,19 @@ bool Track::piecesInBetween(const Connector& c1, const Connector& c2) const {
         if(p.intersects(c1.getPosition(), c2.getPosition())) return true;
     }
     return false;
+}
+
+std::string Track::getTrackJson() const {
+    
+    std::string result;
+    result += "{\"pieces\":[";
+
+    for(unsigned int i = 0; i < pieces.size(); i++) {
+        result += pieces[i].toJson();
+        if(i < pieces.size() - 1) result += ",";
+    }
+
+    result += "]}";
+
+    return result;
 }
