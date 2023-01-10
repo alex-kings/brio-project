@@ -21,3 +21,9 @@ bool Part::intersects(const Vec2D& p1, const Vec2D&p2) const {
     }
     return false;
 }
+
+void Part::changeLevel(const int amount) {
+    if(amount < 0) this->level -= (unsigned int)abs(amount);
+    else this->level += (unsigned int)amount;
+}
+

@@ -60,6 +60,9 @@ public:
     const Vec2D& getDirection() const {
         return direction;
     }
+    const unsigned int getLevel() const {
+        return this->level;
+    }
 
     // Setters
     void setType(bool t) {
@@ -96,4 +99,7 @@ public:
         return ( (position.euclidianDist(con.position) <= validationDist) && std::abs((direction.absoluteAngleDiff(con.direction)) - M_PI ) <= validationAngle );
         // ;
     }
+
+    // Changes the level by the given amount. It is trusted that the level will not be bought below 0.
+    void changeLevel(const int amount);
 };

@@ -149,4 +149,7 @@ public:
 
     // Checks whether the given line intersects with an OBB of this piece
     bool intersects(const Vec2D& p1, const Vec2D& p2) const;
+
+    // Change the level of this piece by the given amount
+    bool changeLevel(const int amount);
 };

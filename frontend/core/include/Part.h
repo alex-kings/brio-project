@@ -54,6 +54,10 @@ public:
         return jsonRep;
     }
 
+    const unsigned int getLevel() const {
+        return this->level;
+    }
+
     // Translate
     void translate(const Vec2D& amount) {
         // Obbs
@@ -88,10 +92,6 @@ public:
         return obbs.size();
     }
 
-    unsigned int getLevel() const {
-        return level;
-    }
-
     // Check collision between this part and another given part
     bool collides(const Part& part) const {
         // If the levels aren't the same, the parts don't collide.
@@ -108,4 +108,7 @@ public:
 
     // Check whether the given line passes through this part.
     bool intersects(const Vec2D& p1, const Vec2D& p2) const;
+
+    // Changes the level by the given amount. It is trusted that the level will not be bought below 0.
+    void changeLevel(const int amount);
 };

@@ -16,3 +16,8 @@ Connector::Connector(const Json::Value& jsonRep) {
     type = jsonRep["type"].asBool();
     level = jsonRep["level"].asInt();
 }
+
+void Connector::changeLevel(const int amount) {
+    if(amount < 0) this->level -= (unsigned int)abs(amount);
+    else this->level += (unsigned int)amount;
+}
