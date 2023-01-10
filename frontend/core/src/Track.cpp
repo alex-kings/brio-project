@@ -15,11 +15,13 @@ Track::Track(const std::vector<Piece> availablePieces) {
     minPieceNb = std::floor(pieces.size()*0.6); // 60% of pieces
     halfMaxDist = getMaxDist() / 2;
 
+    // Start with a random arrangement of the original set of pieces.
     shufflePieces();
 
     // Start timer
     startTime = std::chrono::steady_clock::now();
 
+    // The number of times the generation starts from scratch.
     unsigned int generationCount = 0;
 
     while(true) {
@@ -45,7 +47,7 @@ Track::Track(const std::vector<Piece> availablePieces) {
     std::cout << "Generated after " << generationCount << " generations\n";
 
     // Write result to file
-    writeToFile();
+    //writeToFile();
 
     std::cout << "Recursions: " << std::to_string(count) << "\n";
 

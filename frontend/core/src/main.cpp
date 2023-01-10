@@ -72,10 +72,8 @@ void printHello(int i) {
 
 std::string generateTrack(const std::string& selection) {
     // User selection of pieces and their available quantities.
-    std::cout << "Hello" << "\n";
     // std::string input = "{\"E\":\"8\",\"A\":\"6\",\"E1\":\"4\",\"D\":\"2\"}";
 
-    std::cout << selection << "\n";
     Json::Value pieceSelection;
     try {
         // Example

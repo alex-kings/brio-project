@@ -135,3 +135,9 @@ Need to verify the complexity of it. (or time it?)
 Need to disable the complete randomness.
 
 Also need to modify the "between connectors" algorithm to not take into account the first and last pieces.
+
+_10/01/2023_ **WASM FRONTEND**
+
+Put core to interact with frontend via WASM.
+
+IMPORTANT IMPROVEMENT: Made it so that a piece is first randomly flipped to the right or to the left before attempting to place it the first time. This prevents a "spiral" like generation.

@@ -23,10 +23,10 @@ export default function MainPage() {
         setPieces(Object.keys(result).map((key) => { return result[key] }))
     })
 
-    createEffect(()=>{
-        console.log("Change in track detected!")
-        console.log(track())
-    })
+    // createEffect(()=>{
+    //     console.log("Change in track detected!")
+    //     console.log(track())
+    // })
 
     // Sends pieces to backend and gets generated track
     // const generateTrack = async () => {
@@ -44,7 +44,6 @@ export default function MainPage() {
     // }
 
     const generateTrack = async () => {
-        console.log(selection())
         let result;
         createModule().then(({generateTrack}) => {
             result = JSON.parse(generateTrack(JSON.stringify(selection())))

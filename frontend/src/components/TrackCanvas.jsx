@@ -22,7 +22,6 @@ export default function TrackCanvas(props) {
     })
 
     createEffect(()=>{
-        console.log(props.pieces);
         cdz.redraw()
     })
 
