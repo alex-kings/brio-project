@@ -18,7 +18,10 @@ Track::Track(const std::vector<Piece> availablePieces) {
     // Start with a random arrangement of the original set of pieces.
     shufflePieces();
 
-    // Start timer
+    // Start timer for the entier generation
+    absoluteStartTime = std::chrono::steady_clock::now();
+
+    // Start timer for the current search
     startTime = std::chrono::steady_clock::now();
 
     // The number of times the generation starts from scratch.
@@ -39,6 +42,14 @@ Track::Track(const std::vector<Piece> availablePieces) {
 
         // Generate the track!
         if(generateTrack((*firstPiece), firstPiece->getConnector(0))) break; // Track generated!
+
+        // Check if absolute timer ran out
+        double elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - absoluteStartTime).count();
+        if(elapsed > absoluteMaxTime) {
+            // Generation should stop now
+            break;
+        }
+
 
         // Track could not be generated.
         this->reset();

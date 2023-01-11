@@ -20,10 +20,16 @@ private:
     // UNCOMMENT FOR A TIME-SEEDED RANDOM ENGINE
     // std::default_random_engine randomEngine = std::default_random_engine(std::chrono::system_clock::now().time_since_epoch().count());
 
-    // The start date of search
+    // The start date of the current search
     std::chrono::steady_clock::time_point startTime;
 
-    // Max time before starting generation again
+    // The start date of the entire generation
+    std::chrono::steady_clock::time_point absoluteStartTime;
+
+    // Max time before the generation searching completely stops
+    const double absoluteMaxTime = 10000; // 10 seconds
+
+    // Max time before starting the next generation
     const double maxTime = 100; // 0.1 seconds.
 
     // Number of recursive steps
