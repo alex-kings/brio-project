@@ -143,3 +143,7 @@ Put core to interact with frontend via WASM.
 IMPORTANT IMPROVEMENT: Made it so that a piece is first randomly flipped to the right or to the left before attempting to place it the first time. This prevents a "spiral" like generation.
 
 Visual improvement: Modify colour of the piece depending on the piece type.
+
+_11/01/2023_ **FRONTEND**
+Add loader and maximum generating time.
+Fix memory issues.
