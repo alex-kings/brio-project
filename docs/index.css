@@ -114,3 +114,6 @@
 .error-msg {
     color: red;
 }
+.input {
+    width:6rem;
+}

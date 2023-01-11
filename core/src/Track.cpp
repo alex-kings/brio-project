@@ -6,8 +6,11 @@
 #include <iostream>
 #include <math.h>
 
-Track::Track(const std::vector<Piece> availablePieces) {
+Track::Track(const std::vector<Piece> availablePieces, const int seed) {
     pieces = availablePieces;
+
+    // Generate random engine with seed
+    this->randomEngine = std::default_random_engine(seed);
 
     // Validation conditions
     validationAngle = 0.2*M_PI;

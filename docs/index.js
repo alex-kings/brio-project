@@ -31,10 +31,20 @@ ref('generateBtn').addEventListener('click',()=>{
         }
     })
     let result
+
+    // Get seed
+    let seed = parseInt(ref("seedInput").value)
+    if(seed === NaN) {
+        seed = -1;
+        console.log("Not a correct seed, using -1 instead.")
+    }
+
     createModule().then(({generateTrack}) => {
         // Stop loading
         ref("loadingPane").style.display = "none"
-        result = JSON.parse(generateTrack(JSON.stringify(selection)))
+        // Generate with options = std::default_random_engine();
+        result = JSON.parse(generateTrack(JSON.stringify(selection), seed))
+        // console.log(result)
         if(result.error == null) {
             redraw(result.pieces)
         }

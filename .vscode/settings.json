@@ -89,7 +89,16 @@
         "thread": "cpp",
         "typeindex": "cpp",
         "valarray": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "__bits": "cpp",
+        "__config": "cpp",
+        "__debug": "cpp",
+        "__errc": "cpp",
+        "__locale": "cpp",
+        "__verbose_abort": "cpp",
+        "ios": "cpp",
+        "locale": "cpp",
+        "queue": "cpp"
     },
     "sonarlint.pathToCompileCommands": "${workspaceFolder}\\backend\\src\\core\\build\\compile_commands.json"
 }

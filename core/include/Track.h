@@ -15,7 +15,7 @@ private:
     std::vector<Piece> pieces;
 
     // Random engine
-    std::default_random_engine randomEngine = std::default_random_engine();
+    std::default_random_engine randomEngine;
 
     // UNCOMMENT FOR A TIME-SEEDED RANDOM ENGINE
     // std::default_random_engine randomEngine = std::default_random_engine(std::chrono::system_clock::now().time_since_epoch().count());
@@ -91,7 +91,7 @@ public:
      * Construct from a selection of pieces.
     */
     // Track(const Json::Value& selection);
-    Track(const std::vector<Piece> availablePieces);
+    Track(const std::vector<Piece> availablePieces, const int seed);
 
 
     /**
