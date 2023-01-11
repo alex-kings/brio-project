@@ -21,16 +21,10 @@ Track::Track(const std::vector<Piece> availablePieces) {
 
 bool Track::generate() {
     // Start timer for the entier generation
-    absoluteStartTime = std::chrono::steady_clock::now();
-
-    // Start timer for the current search
-    startTime = std::chrono::steady_clock::now();
-
-    // The number of times the generation starts from scratch.
-    unsigned int generationCount = 0;
+    this->startTime = std::chrono::steady_clock::now();
 
     while(true) {
-        generationCount++;
+        this->generationCount++;
 
         // Get first piece from available pieces.
         firstPiece = &pieces.back();
@@ -45,16 +39,11 @@ bool Track::generate() {
         // Generate the track!
         if(generateTrack((*firstPiece), firstPiece->getConnector(0))) {
             std::cout << "Generated after " << generationCount << " generations\n";
-            std::cout << "Recursions: " << std::to_string(count) << "\n";
             return true;
         }
 
-        // Check if absolute timer ran out
-        double elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - absoluteStartTime).count();
-        if(elapsed > absoluteMaxTime) {
-            // Generation should stop now
-            return false;
-        }
+        // Check if the maximum number of generations has been reached.
+        if(generationCount >= maxGenerations) return false;
 
         // Track could not be generated.
         this->reset();
@@ -62,15 +51,9 @@ bool Track::generate() {
 }
 
 bool Track::generateTrack(const Piece& lastPiece, Connector& openConnector) {
-    count ++;
+    currentNumberRecursions ++;
 
-    // Check if timer ran out
-    double elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - startTime).count();
-
-    if(elapsed > maxTime) {
-        // Took too long.
-        return false; 
-    }
+    if(currentNumberRecursions >= maxNumberRecursions) return false; // Unsuccessful generation.
 
     // Keep track of previously tested pieces
     std::unordered_set<std::string> previouslyTested;
@@ -220,8 +203,8 @@ void Track::reset() {
     }
     // Reset number pieces placed
     nbPiecesPlaced = 0;
-    // Reset timer
-    startTime = std::chrono::steady_clock::now();
+    // Reset number of recursions in this generation
+    currentNumberRecursions = 0;
 }
 
 float Track::getMaxDist() const {
