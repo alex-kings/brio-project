@@ -5,5 +5,5 @@ backend/core/build/
 frontend/node_modules
 frontend/dist
 emsdk
-frontend/core/subprojects/jsoncpp-1.9.5/
-frontend/core/subprojects/packagecache/
+core/subprojects/jsoncpp-1.9.5/
+core/subprojects/packagecache/
