@@ -1,3 +1,5 @@
+import { redraw } from "./draw.js";
+
 function ref(id) {
     return document.getElementById(id);
 }
@@ -29,7 +31,8 @@ ref('generateBtn').addEventListener('click',()=>{
     let result
     createModule().then(({generateTrack}) => {
         result = JSON.parse(generateTrack(JSON.stringify(selection)))
-        setTrack(result.pieces)
+        console.log(result.pieces)
+        redraw(result.pieces)
     })
 })
 
