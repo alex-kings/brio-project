@@ -92,7 +92,15 @@ public:
     Track(const std::vector<Piece> availablePieces);
 
 
+    /**
+     * Write result track to output file (OUTDATED)
+    */
     void writeToFile() const;
+
+    /**
+     * Generate the track
+    */
+    bool generate();
 
     /**
      * Get the Json representation of this track.

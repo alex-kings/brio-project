@@ -31,8 +31,15 @@ ref('generateBtn').addEventListener('click',()=>{
     let result
     createModule().then(({generateTrack}) => {
         result = JSON.parse(generateTrack(JSON.stringify(selection)))
-        console.log(result.pieces)
-        redraw(result.pieces)
+        if(result.error == null) {
+            redraw(result.pieces)
+        }
+        else {
+            ref("errorMsg").innerText="Couldn't generate track: time ran out."
+            setTimeout(()=>{
+                ref("errorMsg").innerText = "";
+            }, 8000)
+        }
     })
 })
 

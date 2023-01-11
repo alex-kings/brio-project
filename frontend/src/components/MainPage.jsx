@@ -47,7 +47,14 @@ export default function MainPage() {
         let result;
         createModule().then(({generateTrack}) => {
             result = JSON.parse(generateTrack(JSON.stringify(selection())))
-            setTrack(result.pieces)
+
+            if(result.error == null) {
+                setTrack(result.pieces)
+            }
+            else {
+                // Track couldn't be generated
+                console.log("Time ran out.")
+            }
         })
 
         console.log(selection())

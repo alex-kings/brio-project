@@ -17,7 +17,9 @@ Track::Track(const std::vector<Piece> availablePieces) {
 
     // Start with a random arrangement of the original set of pieces.
     shufflePieces();
+}
 
+bool Track::generate() {
     // Start timer for the entier generation
     absoluteStartTime = std::chrono::steady_clock::now();
 
@@ -41,29 +43,23 @@ Track::Track(const std::vector<Piece> availablePieces) {
         firstPiece->setUsed(true);
 
         // Generate the track!
-        if(generateTrack((*firstPiece), firstPiece->getConnector(0))) break; // Track generated!
+        if(generateTrack((*firstPiece), firstPiece->getConnector(0))) {
+            std::cout << "Generated after " << generationCount << " generations\n";
+            std::cout << "Recursions: " << std::to_string(count) << "\n";
+            return true;
+        }
 
         // Check if absolute timer ran out
         double elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - absoluteStartTime).count();
         if(elapsed > absoluteMaxTime) {
             // Generation should stop now
-            break;
+            return false;
         }
-
 
         // Track could not be generated.
         this->reset();
     }
-
-    std::cout << "Generated after " << generationCount << " generations\n";
-
-    // Write result to file
-    //writeToFile();
-
-    std::cout << "Recursions: " << std::to_string(count) << "\n";
-
 }
-
 
 bool Track::generateTrack(const Piece& lastPiece, Connector& openConnector) {
     count ++;

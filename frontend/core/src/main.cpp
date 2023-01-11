@@ -95,7 +95,10 @@ std::string generateTrack(const std::string& selection) {
     // Get track
     Track t(pieces);
 
-    return t.getTrackJson();
+    if(t.generate()) {
+        return t.getTrackJson();
+    }
+    else return "{\"error\":1}";
 }
 
 /**
