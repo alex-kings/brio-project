@@ -22,6 +22,8 @@ pieces.forEach(piece => {
 
 // Kick off generation
 ref('generateBtn').addEventListener('click',()=>{
+    // Start loader
+    ref("loadingPane").style.display = "flex";
     let selection = {}
     pieces.forEach(piece => {
         if(ref(`quantity${piece.id}`).value != ""){
@@ -30,6 +32,8 @@ ref('generateBtn').addEventListener('click',()=>{
     })
     let result
     createModule().then(({generateTrack}) => {
+        // Stop loading
+        ref("loadingPane").style.display = "none"
         result = JSON.parse(generateTrack(JSON.stringify(selection)))
         if(result.error == null) {
             redraw(result.pieces)
