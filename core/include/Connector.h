@@ -60,7 +60,7 @@ public:
     const Vec2D& getDirection() const {
         return direction;
     }
-    const unsigned int getLevel() const {
+    const int getLevel() const {
         return this->level;
     }
 

@@ -54,7 +54,7 @@ public:
         return jsonRep;
     }
 
-    const unsigned int getLevel() const {
+    const int getLevel() const {
         return this->level;
     }
 

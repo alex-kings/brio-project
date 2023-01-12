@@ -155,4 +155,7 @@ public:
 
     // Checks that this piece's lowest level is not below zero
     bool levelBelowZero() const;
+
+    // Returns this piece's lowest level
+    int getLowestLevel() const;
 };

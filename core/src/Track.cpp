@@ -35,6 +35,11 @@ bool Track::generate() {
         firstPiece = &pieces.back();
         validationConnector = &firstPiece->getConnector(1);
 
+        // Make sure the first piece is placed at level zero
+        if(firstPiece->getLowestLevel() > 0) {
+            firstPiece->changeLevel(-(firstPiece->getLowestLevel()));
+        }
+
         // Place the initial piece at the origin
         firstPiece->placeAtOrigin();
 
@@ -110,7 +115,9 @@ bool Track::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connector
 
         // If the piece is a level piece, test that it does not go below zero before placement.
         if(testPiece.getId() == "N") {
-            if(testPiece.levelBelowZero()) continue;
+            if(testPiece.levelBelowZero()) {
+                continue;
+            }
         }
 
         // Angle and position difference between the two connectors.            

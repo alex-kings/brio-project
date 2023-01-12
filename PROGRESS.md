@@ -150,3 +150,5 @@ Fix memory issues.
 
 _12/01/2023_ **CORE**
 Keep solid on a separate legacy branch.
+Add levelling to placement of pieces. For efficiency, only check that the pieces that CHANGE the level are below zero.
+Subtlety: After the first generation is unsuccessful, need to check that the first piece placed is at level zero.
