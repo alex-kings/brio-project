@@ -29,6 +29,7 @@ bool Track::generate() {
 
     while(true) {
         this->generationCount++;
+        std::cout<<"Generation " << generationCount << " starting.\n";
 
         // Get first piece from available pieces.
         firstPiece = &pieces.back();
@@ -45,6 +46,8 @@ bool Track::generate() {
             std::cout << "Generated after " << generationCount << " generations\n";
             return true;
         }
+
+        std::cout << "Generation " << generationCount << " unsuccessful after " << currentNumberRecursions << " recursions.\n";
 
         // Check if the maximum number of generations has been reached.
         if(generationCount >= maxGenerations) return false;
@@ -97,6 +100,18 @@ bool Track::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connector
 
         if(!testCon.isFree()) continue; // The connector is not free.
         if(testCon.getType() == openConnector.getType()) continue; // Skip connectors of the same type.
+
+        // Checks whether the connectors are at the same height.
+        if(testCon.getLevel() != openConnector.getLevel()) {
+            // Try to readjust the piece at the level of the open connector
+            int levelDiff = openConnector.getLevel() - testCon.getLevel();
+            testPiece.changeLevel(levelDiff);
+        }
+
+        // If the piece is a level piece, test that it does not go below zero before placement.
+        if(testPiece.getId() == "N") {
+            if(testPiece.levelBelowZero()) continue;
+        }
 
         // Angle and position difference between the two connectors.            
         float angleDiff = openConnector.getDirection().getAngleDifference(testCon.getDirection());

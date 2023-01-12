@@ -6,13 +6,21 @@ Part::Part(const Json::Value& jsonRep) {
         obbs.emplace_back(rectangle);
     }
 
-    // // Add bezier points
-    // for(const Json::Value& bezierPoint : jsonRep["bezierPoints"]) {
-    //     bezierPoints.emplace_back(bezierPoint["x"].asFloat(), bezierPoint["y"].asFloat());
-    // }
-
     // Add level
     level = jsonRep["level"].asInt();
+}
+
+bool Part::collides(const Part& part) const {
+    // If the levels aren't the same, the parts don't collide.
+    if(this->level != part.level) return false;
+    
+    // Checks collision between each Obb of each part.
+    for(const Obb& thisObb : obbs) {
+        for(const Obb& partObb : part.obbs) {
+            if(thisObb.collides(partObb)) return true;
+        }
+    }
+    return false;
 }
 
 bool Part::intersects(const Vec2D& p1, const Vec2D&p2) const {
@@ -23,7 +31,6 @@ bool Part::intersects(const Vec2D& p1, const Vec2D&p2) const {
 }
 
 void Part::changeLevel(const int amount) {
-    if(amount < 0) this->level -= (unsigned int)abs(amount);
-    else this->level += (unsigned int)amount;
+    this->level += amount;
 }
 

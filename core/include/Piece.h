@@ -151,5 +151,8 @@ public:
     bool intersects(const Vec2D& p1, const Vec2D& p2) const;
 
     // Change the level of this piece by the given amount
-    bool changeLevel(const int amount);
+    void changeLevel(const int amount);
+
+    // Checks that this piece's lowest level is not below zero
+    bool levelBelowZero() const;
 };

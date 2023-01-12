@@ -27,10 +27,10 @@ private:
     unsigned int generationCount = 0;
 
     // Maximum number of generations before stopping
-    const unsigned int maxGenerations = 30;
+    const unsigned int maxGenerations = 100;
 
     // Max number of iterations before starting the next generation
-    const unsigned int maxNumberRecursions = 500000; // 500 000
+    const unsigned int maxNumberRecursions = 10000; // 10 000
 
     // Number of recursive steps in this generation
     unsigned int currentNumberRecursions = 0; 

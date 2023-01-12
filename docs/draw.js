@@ -59,7 +59,8 @@ function drawPiece(ctx, piece, colour) {
 
         // Draw the rectangles for this part
         part.rectangles.forEach(r=>{
-            drawRect(ctx,r,colour)
+            console.log(part.level)
+            drawRect(ctx,r,colour, part.level)
         })
     })
 
@@ -78,7 +79,7 @@ function drawPoint(ctx, x, y, colour) {
 }
 
 // Draw rectangle
-function drawRect(ctx, rect, colour){
+function drawRect(ctx, rect, colour, pieceLevel){
     // ctx.strokeStyle = colour
     // ctx.beginPath()
     // ctx.moveTo(rect[0].x, rect[0].y)
@@ -99,7 +100,9 @@ function drawRect(ctx, rect, colour){
 
     ctx.fillStyle = colour
     ctx.fill(region, 'evenodd')
-    ctx.strokeStyle = "black"
+
+    // Stoke colour depends on the piece level.
+    ctx.strokeStyle = (pieceLevel === 1 ? "black" : "yellow")
     ctx.stroke(region)
 }
 

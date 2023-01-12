@@ -59,19 +59,16 @@ void Piece::flip() {
     }
 }
 
-bool Piece::changeLevel(const int amount) {
-    // Check whether the change of level will not result in a piece below 0.
-    if(amount < 0) {
-        for(Connector& con : this->connectors) {
-            if(amount > (int) con.getLevel()) return false;
-        }
-        for(Part& part : this->parts) {
-            if(amount > (int) part.getLevel()) return false;
-        }
-    }
+void Piece::changeLevel(const int amount) {
     // Modify level
     for(Connector& con : this->connectors) con.changeLevel(amount);
     for(Part& part : this->parts) part.changeLevel(amount);
-    return true;   
 }
 
+bool Piece::levelBelowZero() const {
+    int lowestLevel = 0;
+    for(const Connector& con : this->connectors) {
+        if(con.getLevel() < lowestLevel) lowestLevel = con.getLevel();
+    }
+    return (lowestLevel < 0);
+}
