@@ -147,3 +147,6 @@ Visual improvement: Modify colour of the piece depending on the piece type.
 _11/01/2023_ **FRONTEND**
 Add loader and maximum generating time.
 Fix memory issues.
+
+_12/01/2023_ **CORE**
+Keep solid on a separate legacy branch.
