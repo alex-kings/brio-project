@@ -34,7 +34,7 @@ ref('generateBtn').addEventListener('click',()=>{
 
     // Get seed
     let seed = parseInt(ref("seedInput").value)
-    if(seed === NaN) {
+    if(isNaN(seed) || seed < 0) {
         seed = -1;
         console.log("Not a correct seed, using -1 instead.")
     }

@@ -9,8 +9,9 @@
 Track::Track(const std::vector<Piece> availablePieces, const int seed) {
     pieces = availablePieces;
 
-    // Generate random engine with seed
-    this->randomEngine = std::default_random_engine(seed);
+    // Generate random engine with seed. If seed is -1, the current time is used for the seed.
+    if(seed == -1) this->randomEngine = std::default_random_engine(std::chrono::system_clock::now().time_since_epoch().count());
+    else this->randomEngine = std::default_random_engine(seed);
 
     // Validation conditions
     validationAngle = 0.2*M_PI;
