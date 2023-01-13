@@ -12,12 +12,12 @@
     <link rel="stylesheet" href="./loader.css">
 </head>
 <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <noscript>Javascript is needed to run the app.</noscript>
     <div id="root">
         <div class="app">
             <h1>The BRIO track generator!</h1>
             <div class="main">
-                <div class="piece-selector-container">
+                <div class="col">
                     <div class="scrollable">
                         <table class="table">
                             <tbody id="tableBody">
@@ -27,17 +27,22 @@
                                     <th>Image</th>
                                     <th>Selection</th>
                                 </tr>
-                                
-                
                             </tbody>
                         </table>
                     </div>
                     <button id="generateBtn" class="btn">Generate</button>
                 </div>
                 <div>
-                    <h3>Options</h3>
-                    <div>
-                        <input type="text" id="seedInput" class="input" placeholder="seed">
+                    <div class="options-container">
+                        <h3>Options</h3>
+                        <div>
+                            <label for="seedInput">Optional seed:</label>
+                            <input type="text" id="seedInput" class="input" placeholder="seed">
+                        </div>
+                        <div>
+                            <label for="twoLevel">Two-level track only:</label>
+                            <input type="checkbox" id="twoLevel">
+                        </div>
                     </div>
                 </div>
                 <div class="canvas-container">
@@ -50,6 +55,7 @@
             </div>
         </div>
     </div>
+    <!-- Loading panel kicks in when generation is taking place -->
     <div class="loading-pane" id="loadingPane">
         <div class="loader"></div>
     </div>
