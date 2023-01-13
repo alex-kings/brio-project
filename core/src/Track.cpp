@@ -276,15 +276,28 @@ std::string Track::getTrackJson() const {
 
 void Track::sanitise() {
     int ascendingPieces = 0;
+    int mPieces = 0;
+    int lPieces = 0;
     for(const Piece& piece : this->pieces) {
-        if(piece.getId() == "N") {
-            ascendingPieces++;
-        }
+        const std::string pieceId = piece.getId();
+        if(pieceId == "N") ascendingPieces++;
+        if(pieceId == "M") mPieces++;
+        if(pieceId == "L") lPieces++;
     }
     if(ascendingPieces % 2 != 0) {
         // Odd number of ascending pieces: getting rid of one.
         for(auto it = this->pieces.begin(); it != this->pieces.end(); ++it) {
             if(it->getId() == "N") {
+                // Remove it from the vector.
+                this->pieces.erase(it);
+                return;
+            }
+        }
+    }
+    if((mPieces + lPieces) % 2 != 0) {
+        const std::string removeId = (mPieces > lPieces ? "M" : "L");
+        for(auto it = this->pieces.begin(); it != this->pieces.end(); ++it) {
+            if(it->getId() == removeId) {
                 // Remove it from the vector.
                 this->pieces.erase(it);
                 return;
