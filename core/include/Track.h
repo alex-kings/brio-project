@@ -41,6 +41,8 @@ private:
     // The maximum level this track can go to.
     int maxLevel;
 
+    bool recursiveMode = false;
+
     // The initial piece
     Piece* firstPiece;
     Connector* validationConnector;
