@@ -46,7 +46,7 @@ bool Track::generate() {
         validationConnector = &firstPiece->getConnector(1);
 
         // Make sure the first piece is placed at level zero
-        if(firstPiece->getLowestLevel() > 0) {
+        if(firstPiece->getLowestLevel() != 0) {
             firstPiece->changeLevel(-(firstPiece->getLowestLevel()));
         }
 
