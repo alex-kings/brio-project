@@ -70,7 +70,7 @@ void printHello(int i) {
 //     // }
 // }
 
-std::string generateTrack(const std::string& selection, const int seed) {
+std::string generateTrack(const std::string& selection, const int seed, const int isTwoLevel) {
     // User selection of pieces and their available quantities.
     // std::string input = "{\"E\":\"8\",\"A\":\"6\",\"E1\":\"4\",\"D\":\"2\"}";
 
@@ -93,7 +93,7 @@ std::string generateTrack(const std::string& selection, const int seed) {
     }
 
     // Get track
-    Track t(pieces, seed);
+    Track t(pieces, seed, isTwoLevel);
 
     if(t.generate()) {
         return t.getTrackJson();

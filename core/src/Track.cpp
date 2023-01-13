@@ -6,7 +6,7 @@
 #include <iostream>
 #include <math.h>
 
-Track::Track(const std::vector<Piece> availablePieces, const int seed) {
+Track::Track(const std::vector<Piece> availablePieces, const int seed, const bool isTwoLevel) {
     pieces = availablePieces;
 
     // Generate random engine with seed. If seed is -1, the current time is used for the seed.
@@ -20,7 +20,14 @@ Track::Track(const std::vector<Piece> availablePieces, const int seed) {
     halfMaxDist = getMaxDist() / 2;
 
     this->sanitise(); // Sanitise pieces : remove the odd number of ascending and/or 3-connector piece.
-    this->calculateMaxLevel(); // Find the track's maximum level
+    if(isTwoLevel) {
+        this->maxLevel = 1;
+    }
+    else {
+        this->calculateMaxLevel(); // Find the track's maximum level
+    }
+
+    std::cout << "Max level is " << this->maxLevel << "\n";
 
     // Start with a random arrangement of the original set of pieces.
     shufflePieces();
@@ -120,7 +127,7 @@ bool Track::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connector
         if(testPiece.getId() == "N") {
             int pieceLevel = testPiece.getLowestLevel();
             // Check that the piece is not below 0 or above the max level
-            if(pieceLevel < 0  || pieceLevel > maxLevel) continue;
+            if(pieceLevel < 0  || pieceLevel + 1 >= maxLevel) continue;
         }
 
         // Angle and position difference between the two connectors.            

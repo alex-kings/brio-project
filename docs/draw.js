@@ -116,8 +116,16 @@ function drawRect(ctx, rect, colour, pieceLevel){
     ctx.fill(region, 'evenodd')
 
     // Stoke colour depends on the piece level.
-    ctx.strokeStyle = (pieceLevel === 0 ? "black" : "red")
+    ctx.strokeStyle = getOutlineColour(pieceLevel)
     ctx.stroke(region)
+}
+
+// Level outline colour (max 4 for now)
+function getOutlineColour(level) {
+    if(level === 0) return "black"
+    if(level === 1) return "blue"
+    if(level === 2) return "orange"
+    if(level === 3) return "red"
 }
 
 // Draw curve

@@ -42,8 +42,8 @@ ref('generateBtn').addEventListener('click',()=>{
     createModule().then(({generateTrack}) => {
         // Stop loading
         ref("loadingPane").style.display = "none"
-        // Generate with options = std::default_random_engine();
-        result = JSON.parse(generateTrack(JSON.stringify(selection), seed))
+
+        result = JSON.parse(generateTrack(JSON.stringify(selection), seed, ref("twoLevel").checked))
         // console.log(result)
         if(result.error == null) {
             redraw(result.pieces)

@@ -104,9 +104,10 @@ private:
 public:
     /**
      * Construct from a selection of pieces.
+     * Generate track with a random seed if the specified seed is -1.
+     * Puts maxLevel to be one if the track is specified to be two level only.
     */
-    // Track(const Json::Value& selection);
-    Track(const std::vector<Piece> availablePieces, const int seed);
+    Track(const std::vector<Piece> availablePieces, const int seed, const bool isTwoLevel);
 
 
     /**
