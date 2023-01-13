@@ -19,6 +19,9 @@ Track::Track(const std::vector<Piece> availablePieces, const int seed) {
     minPieceNb = std::floor(pieces.size()*0.6); // 60% of pieces
     halfMaxDist = getMaxDist() / 2;
 
+    // Sanitise pieces : remove the odd number of ascending and/or 3-connector piece.
+    this->sanitise();
+
     // Start with a random arrangement of the original set of pieces.
     shufflePieces();
 }
@@ -262,4 +265,23 @@ std::string Track::getTrackJson() const {
     result += "]}";
 
     return result;
+}
+
+void Track::sanitise() {
+    int ascendingPieces = 0;
+    for(const Piece& piece : this->pieces) {
+        if(piece.getId() == "N") {
+            ascendingPieces++;
+        }
+    }
+    if(ascendingPieces % 2 != 0) {
+        // Odd number of ascending pieces: getting rid of one.
+        for(auto it = this->pieces.begin(); it != this->pieces.end(); ++it) {
+            if(it->getId() == "N") {
+                // Remove it from the vector.
+                this->pieces.erase(it);
+                return;
+            }
+        }
+    }
 }

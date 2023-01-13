@@ -86,6 +86,13 @@ private:
     */
     bool piecesInBetween(const Connector& c1, const Connector& c2) const;
 
+    /**
+     * Sanitises the set of track pieces before starting the generation.
+     * Sanitisation includes keeping only a pair number of ascending pieces, as well as
+     * a pair number of 3-connector pieces.
+    */
+    void sanitise();
+
 public:
     /**
      * Construct from a selection of pieces.

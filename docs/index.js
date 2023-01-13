@@ -47,6 +47,7 @@ ref('generateBtn').addEventListener('click',()=>{
         // console.log(result)
         if(result.error == null) {
             redraw(result.pieces)
+            console.log(result.pieces)
         }
         else {
             ref("errorMsg").innerText="Couldn't generate track: time ran out."

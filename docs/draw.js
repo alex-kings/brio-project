@@ -101,7 +101,6 @@ function drawRect(ctx, rect, colour, pieceLevel){
     ctx.fill(region, 'evenodd')
 
     // Stoke colour depends on the piece level.
-    console.log(pieceLevel)
     ctx.strokeStyle = (pieceLevel === 1 ? "black" : "yellow")
     ctx.stroke(region)
 }
