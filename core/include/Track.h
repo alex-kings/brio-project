@@ -38,6 +38,9 @@ private:
     // Number of pieces placed
     unsigned int nbPiecesPlaced = 0;
 
+    // The maximum level this track can go to.
+    int maxLevel;
+
     // The initial piece
     Piece* firstPiece;
     Connector* validationConnector;
@@ -92,6 +95,11 @@ private:
      * a pair number of 3-connector pieces.
     */
     void sanitise();
+
+    /**
+     * Calculates the maximum level the track can go to by checking the number of ascending pieces in the set.
+    */
+    void calculateMaxLevel();
 
 public:
     /**

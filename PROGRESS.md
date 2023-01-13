@@ -162,3 +162,5 @@ Painter algorithm to avoid weird clippings of pieces: draw first the ground leve
 ![Weird clipping](./progression_images/Strange_Clippings.png "Weird clipping")
 ![No clipping with painter's algorithm](./progression_images/Painter_algorithm.png "No clipping with painter's algorithm")
 (Level 0 is outlined in black, level 1 in red)
+
+Add calculation of a max level the track can go to at the start. Only allow ascending pieces to be placed within the right boundaries.

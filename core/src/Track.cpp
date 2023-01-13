@@ -19,8 +19,8 @@ Track::Track(const std::vector<Piece> availablePieces, const int seed) {
     minPieceNb = std::floor(pieces.size()*0.6); // 60% of pieces
     halfMaxDist = getMaxDist() / 2;
 
-    // Sanitise pieces : remove the odd number of ascending and/or 3-connector piece.
-    this->sanitise();
+    this->sanitise(); // Sanitise pieces : remove the odd number of ascending and/or 3-connector piece.
+    this->calculateMaxLevel(); // Find the track's maximum level
 
     // Start with a random arrangement of the original set of pieces.
     shufflePieces();
@@ -118,9 +118,9 @@ bool Track::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connector
 
         // If the piece is a level piece, test that it does not go below zero before placement.
         if(testPiece.getId() == "N") {
-            if(testPiece.levelBelowZero()) {
-                continue;
-            }
+            int pieceLevel = testPiece.getLowestLevel();
+            // Check that the piece is not below 0 or above the max level
+            if(pieceLevel < 0  || pieceLevel > maxLevel) continue;
         }
 
         // Angle and position difference between the two connectors.            
@@ -284,4 +284,12 @@ void Track::sanitise() {
             }
         }
     }
+}
+
+void Track::calculateMaxLevel() {
+    int numberAscending = 0;
+    for(const Piece& p : this->pieces) {
+        if(p.getId() == "N") numberAscending ++;
+    }
+    this->maxLevel = numberAscending / 2;
 }
