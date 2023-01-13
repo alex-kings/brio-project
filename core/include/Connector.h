@@ -96,6 +96,7 @@ public:
     // Checks whether the given validation conditions are met for the two connectors.
     bool validate(const Connector& con, const float validationAngle, const float validationDist) {
         // Only euclidian distance for now...
+        if(this->level != con.level) return false;
         return ( (position.euclidianDist(con.position) <= validationDist) && std::abs((direction.absoluteAngleDiff(con.direction)) - M_PI ) <= validationAngle );
         // ;
     }

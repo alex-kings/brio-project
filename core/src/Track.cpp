@@ -127,7 +127,7 @@ bool Track::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connector
         if(testPiece.getId() == "N") {
             int pieceLevel = testPiece.getLowestLevel();
             // Check that the piece is not below 0 or above the max level
-            if(pieceLevel < 0  || pieceLevel + 1 >= maxLevel) continue;
+            if(pieceLevel < 0  || pieceLevel >= maxLevel) continue;
         }
 
         // Angle and position difference between the two connectors.            
