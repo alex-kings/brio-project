@@ -114,7 +114,7 @@ Silly idea? Because the generation time is so dependant on initial conditions an
 Could try for a certain amount of time, and if not successful re-try with a different initial set of pieces...
 With multiple threads trying it could be fine..?
 
-_12/12/2022_ **Helper**
+_12/12/2022_ **Helper**  
 Added a heuristic in the core to not allow pieces to be placed further away than half the total distance.
 COULD IMPROVE THAT HEURISTIC TO RATHER NOT GO FURTHER THAN THE TOTAL DISTANCE LEFT IN HAND? (Need a nice way to know how much distance is left in hand)
 
@@ -124,7 +124,7 @@ Added a circle to each figure, encompassing all the OBBS in that figure to make 
 ![Bounding circle](./progression_images/Bounding_circle.png "Bounding circle around E track")
 
 
-_8/01/2023_ **BACKEND CORE**
+_8/01/2023_ **BACKEND CORE**  
 Add a test for rails in between the validation connectors before validating the track.
 Can talk about how to test if there are pieces in between the two validation connectors:
 this is done by virtually drawing a line between the two connectors and testing if there is any placed piece that has an OBB that intersects that line.
@@ -136,7 +136,7 @@ Need to disable the complete randomness.
 
 Also need to modify the "between connectors" algorithm to not take into account the first and last pieces.
 
-_10/01/2023_ **WASM FRONTEND**
+_10/01/2023_ **WASM FRONTEND**  
 
 Put core to interact with frontend via WASM.
 
@@ -144,11 +144,21 @@ IMPORTANT IMPROVEMENT: Made it so that a piece is first randomly flipped to the 
 
 Visual improvement: Modify colour of the piece depending on the piece type.
 
-_11/01/2023_ **FRONTEND**
+_11/01/2023_ **FRONTEND**  
 Add loader and maximum generating time.
 Fix memory issues.
 
-_12/01/2023_ **CORE**
+_12/01/2023_ **CORE**  
 Keep solid on a separate legacy branch.
 Add levelling to placement of pieces. For efficiency, only check that the pieces that CHANGE the level are below zero.
 Subtlety: After the first generation is unsuccessful, need to check that the first piece placed is at level zero.
+
+_13/01/2023_ **CORE AND FRONTEND**  
+Sanitise the set of track pieces before generation starts:
+take away the odd ascending piece (Later need to take away the odd 3-connector piece... Or if 5 or more connector pieces come, need to see).
+
+Painter algorithm to avoid weird clippings of pieces: draw first the ground level pieces, then the going-up pieces, then the 1rst level pieces, etc.
+
+![Weird clipping](./progression_images/Strange_Clippings.png "Weird clipping")
+![No clipping with painter's algorithm](./progression_images/Painter_algorithm.png "No clipping with painter's algorithm")
+(Level 0 is outlined in black, level 1 in red)

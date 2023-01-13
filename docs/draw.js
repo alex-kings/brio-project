@@ -4,6 +4,9 @@ let pieces = []
 
 // Initial drawing on canvas
 function draw(options){       
+    // First sort the pieces by their level.
+    pieces.sort((a,b)=>(getLevel(a) > getLevel(b)));
+
     pieces.forEach(piece => {
         // Only draw used pieces!
         if(piece.used) {
@@ -12,6 +15,18 @@ function draw(options){
         // if(piece.used) drawPiece(options.ctx, piece, "blue")
         // else drawPiece(options.ctx, piece, "gray")
     })
+}
+
+function getLevel(piece) {
+    let lowestLevel = piece.connectors[0].level
+    for(let i = 1; i < piece.connectors.length; i++) {
+        if(piece.connectors[i].level < lowestLevel) lowestLevel = piece.connectors[i].level
+    }
+    if(piece.id == "N") {
+        // Ascending pieces have half-integer level.
+        return lowestLevel + 0.5
+    }
+    return lowestLevel
 }
 
 // Piece-dependant colouring
@@ -101,7 +116,7 @@ function drawRect(ctx, rect, colour, pieceLevel){
     ctx.fill(region, 'evenodd')
 
     // Stoke colour depends on the piece level.
-    ctx.strokeStyle = (pieceLevel === 1 ? "black" : "yellow")
+    ctx.strokeStyle = (pieceLevel === 0 ? "black" : "red")
     ctx.stroke(region)
 }
 
