@@ -59,6 +59,7 @@ void Piece::flip() {
     }
 }
 
+
 void Piece::changeLevel(const int amount) {
     // Modify level
     for(Connector& con : this->connectors) con.changeLevel(amount);
