@@ -15,8 +15,10 @@ Track::Track(const std::vector<Piece> availablePieces, const int seed, const boo
 
     // Validation conditions
     validationAngle = 0.2*M_PI;
-    validationDist = pieces.size() * 5;
-    minPieceNb = std::floor(pieces.size()*0.6); // 60% of pieces
+    // validationDist = pieces.size() * 5;
+    validationDist = 300;
+    // minPieceNb = std::floor(pieces.size()*0.6); // 60% of pieces
+    minPieceNb = 8;
     halfMaxDist = getMaxDist() / 2;
 
     this->sanitise(); // Sanitise pieces : remove the odd number of ascending and/or 3-connector piece.
@@ -138,12 +140,12 @@ bool Track::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connector
         testPiece.rotate(testCon.getPosition(), M_PI - angleDiff);
         testPiece.translate(positionDiff);
 
-        // Check "half-max-linear-distance" heuristic
-        if(firstPiece->getConnector(0).getPosition().euclidianDist(testCon.getPosition()) > halfMaxDist) {
-            // Piece is further away than the half maximum linear distance
-            // std::cout << "Attempted to place a piece too far.\n";
-            continue;
-        }
+        // // Check "half-max-linear-distance" heuristic
+        // if(firstPiece->getConnector(0).getPosition().euclidianDist(testCon.getPosition()) > halfMaxDist) {
+        //     // Piece is further away than the half maximum linear distance
+        //     // std::cout << "Attempted to place a piece too far.\n";
+        //     continue;
+        // }
 
         // Check "not too close to start connector" heuristic
         // if(pieces.size() - nbPiecesPlaced != 1) {
@@ -201,31 +203,21 @@ bool Track::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connector
             }
             // 3 connector piece.
             else if(freeConnectors.size() == 2) {
-                for(int i = 0; i < freeConnectors.size(); i++) {
-                    Connector& openCon = *(freeConnectors.at(0)); // Get the open connector
-                    
-                    // Checks whether the validation conditions are met between the validation connector and the test piece's open connector.
-                    if(openCon.validate(*validationConnector, validationAngle, validationDist)) {
-                        // Tests if there are pieces in between the two validation connectors
-                        // if(!piecesInBetween(openCon, *validationConnector)) {
-                        // }
-                        if(nbPiecesPlaced >= minPieceNb) return true; // Track is closed!
-                    }
+                // NEED TO ADD CASE WHEN THE MULTI-CONNECTOR PIECE VALIDATES ALL OF ITS FREE CONNECTORS ON PLACEMENT
+                // AND VALIDATION IN ANY CASE FOR A MULTI CONNECTOR PIECE.
 
-                    // Place the next piece.
-                    if( generateTrack(testPiece, openCon) ) {
-                        // The track was built! return true.
-                        return true;
-                    }
+                Connector& freeCon1 = *(freeConnectors.at(0));
+                Connector& freeCon2 = *(freeConnectors.at(1));
 
-                    else {
-                        // The track could not be build. Unlink and remove piece.
-                        testPiece.setUsed(false);
-                        nbPiecesPlaced -= 1;
-                        testCon.unlink(openConnector);
-                    }
+                // Attempt placement of pieces for freeCon1.
+                if(generateTrack(testPiece, freeCon1) && generateTrack(testPiece, freeCon2)) {
+                    return true;
                 }
-
+                else {
+                    nbPiecesPlaced -=1;
+                    testPiece.setUsed(false);
+                    testCon.unlink(openConnector);
+                }
             }
         }
     }

@@ -41,12 +41,11 @@ private:
     // The maximum level this track can go to.
     int maxLevel;
 
-    // Determines whether this track is in recursive mode or in simple mode for 3-connector pieces.
-    bool recursiveMode = true;
-
     // The initial piece
     Piece* firstPiece;
     Connector* validationConnector;
+
+    std::vector<Connector*> validationConnectors;
 
 
     // Validation conditions
@@ -54,7 +53,6 @@ private:
     float validationDist;
     unsigned int minPieceNb;
     float halfMaxDist; // Half of the maximum linear distance of this track.
-    // float minDistToStartCon = 
 
     /**
      * Recursively connects pieces together to generate a closed track.
