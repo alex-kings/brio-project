@@ -99,7 +99,9 @@
         "ios": "cpp",
         "locale": "cpp",
         "queue": "cpp",
-        "*.ipp": "cpp"
+        "*.ipp": "cpp",
+        "__hash_table": "cpp",
+        "__tree": "cpp"
     },
     "sonarlint.pathToCompileCommands": "${workspaceFolder}\\backend\\src\\core\\build\\compile_commands.json"
 }
