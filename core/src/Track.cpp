@@ -27,8 +27,6 @@ Track::Track(const std::vector<Piece> availablePieces, const int seed, const boo
         this->calculateMaxLevel(); // Find the track's maximum level
     }
 
-    std::cout << "Max level is " << this->maxLevel << "\n";
-
     // Start with a random arrangement of the original set of pieces.
     shufflePieces();
 }
@@ -58,7 +56,16 @@ bool Track::generate() {
 
         // Generate the track!
         if(generateTrack((*firstPiece), firstPiece->getConnector(0))) {
-            std::cout << "Generated after " << generationCount << " generations\n";
+            
+            // Get unused connectors
+            for(Piece& p : pieces) {
+                if(!p.isUsed()) continue;
+                std::vector<Connector*> pieceOpenConnectors = p.getOpenConnectors();
+                unusedConnectors.insert(unusedConnectors.begin(), pieceOpenConnectors.begin(), pieceOpenConnectors.end());
+            }
+
+            std::cout << unusedConnectors.size() << "Unused connectors\n";
+
             return true;
         }
 
@@ -174,58 +181,30 @@ bool Track::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connector
             std::vector<Connector*> freeConnectors = testPiece.getOpenConnectors();
             if(freeConnectors.size() == 0) return true; // This piece has no more available connectors. The track is built.
 
-            // One single open connector.
-            if(freeConnectors.size() == 1) {
-                Connector& openCon = *(freeConnectors.at(0)); // Get the open connector
+            Connector& openCon = *(freeConnectors.at(0)); // Get the open connector
 
-                // Checks whether the validation conditions are met between the validation connector and the test piece's open connector.
-                if(openCon.validate(*validationConnector, validationAngle, validationDist)) {
-                    // Tests if there are pieces in between the two validation connectors
-                    // if(!piecesInBetween(openCon, *validationConnector)) {
-                    // }
-                    if(nbPiecesPlaced >= minPieceNb) return true; // Track is closed!
-                }
+            // Checks whether the validation conditions are met between the validation connector and the test piece's open connector.
+            if(nbPiecesPlaced >= minPieceNb && openCon.validate(*validationConnector, validationAngle, validationDist)) {
+                // Tests if there are pieces in between the two validation connectors
+                // if(!piecesInBetween(openCon, *validationConnector)) {
+                // }
 
-                // Place the next piece.
-                if( generateTrack(testPiece, openCon) ) {
-                    // The track was built! return true.
-                    return true;
-                }
-
-                else {
-                    // The track could not be build. Unlink and remove piece.
-                    testPiece.setUsed(false);
-                    nbPiecesPlaced -= 1;
-                    testCon.unlink(openConnector);
-                }
+                // Track is closed!
+                openCon.link(*validationConnector);
+                return true; 
             }
-            // 3 connector piece.
-            else if(freeConnectors.size() == 2) {
-                for(int i = 0; i < freeConnectors.size(); i++) {
-                    Connector& openCon = *(freeConnectors.at(0)); // Get the open connector
-                    
-                    // Checks whether the validation conditions are met between the validation connector and the test piece's open connector.
-                    if(openCon.validate(*validationConnector, validationAngle, validationDist)) {
-                        // Tests if there are pieces in between the two validation connectors
-                        // if(!piecesInBetween(openCon, *validationConnector)) {
-                        // }
-                        if(nbPiecesPlaced >= minPieceNb) return true; // Track is closed!
-                    }
 
-                    // Place the next piece.
-                    if( generateTrack(testPiece, openCon) ) {
-                        // The track was built! return true.
-                        return true;
-                    }
+            // Place the next piece.
+            if( generateTrack(testPiece, openCon) ) {
+                // The track was built! return true.
+                return true;
+            }
 
-                    else {
-                        // The track could not be build. Unlink and remove piece.
-                        testPiece.setUsed(false);
-                        nbPiecesPlaced -= 1;
-                        testCon.unlink(openConnector);
-                    }
-                }
-
+            else {
+                // The track could not be build. Unlink and remove piece.
+                testPiece.setUsed(false);
+                nbPiecesPlaced -= 1;
+                testCon.unlink(openConnector);
             }
         }
     }
@@ -274,6 +253,8 @@ void Track::reset() {
     nbPiecesPlaced = 0;
     // Reset number of recursions in this generation
     currentNumberRecursions = 0;
+
+    unusedConnectors.clear();
 }
 
 float Track::getMaxDist() const {

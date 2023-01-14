@@ -63,7 +63,7 @@ public:
         return id;
     }
     bool isUsed() const {
-        return used;
+        return this->used;
     }
     bool isFlippable() const {
         // Any flip type over 0 is flippable by definition.
@@ -72,7 +72,7 @@ public:
 
     // Setter
     void setUsed(bool u) {
-        used  = u;
+        this->used = u;
     }
 
     // Parts

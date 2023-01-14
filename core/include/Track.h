@@ -41,13 +41,12 @@ private:
     // The maximum level this track can go to.
     int maxLevel;
 
-    // Determines whether this track is in recursive mode or in simple mode for 3-connector pieces.
-    bool recursiveMode = true;
-
     // The initial piece
     Piece* firstPiece;
     Connector* validationConnector;
 
+    // The unused connectors
+    std::vector<Connector*> unusedConnectors;
 
     // Validation conditions
     float validationAngle;
