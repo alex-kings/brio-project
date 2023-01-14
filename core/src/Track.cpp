@@ -15,8 +15,10 @@ Track::Track(const std::vector<Piece> availablePieces, const int seed, const boo
 
     // Validation conditions
     validationAngle = 0.2*M_PI;
-    validationDist = pieces.size() * 5;
-    minPieceNb = std::floor(pieces.size()*0.6); // 60% of pieces
+    // validationDist = pieces.size() * 5;
+    validationDist = 200;
+    // minPieceNb = std::floor(pieces.size()*0.6); // 60% of pieces
+    minPieceNb = 8;
     halfMaxDist = getMaxDist() / 2;
 
     this->sanitise(); // Sanitise pieces : remove the odd number of ascending and/or 3-connector piece.
@@ -56,17 +58,28 @@ bool Track::generate() {
 
         // Generate the track!
         if(generateTrack((*firstPiece), firstPiece->getConnector(0))) {
-            
+
             // Get unused connectors
             for(Piece& p : pieces) {
                 if(!p.isUsed()) continue;
-                std::vector<Connector*> pieceOpenConnectors = p.getOpenConnectors();
-                unusedConnectors.insert(unusedConnectors.begin(), pieceOpenConnectors.begin(), pieceOpenConnectors.end());
+                for(Connector* c : p.getOpenConnectors()) {
+                    unusedConnectors.emplace_back(&p, c);
+                }
             }
 
             std::cout << unusedConnectors.size() << "Unused connectors\n";
 
-            return true;
+            if(unusedConnectors.size() != 0) {
+                std::cout << "First loop generated, going for the second\n"; 
+
+                // Continue generation.
+                firstPiece = unusedConnectors.at(0).first;
+                validationConnector = unusedConnectors.at(0).second;
+                if(generateTrack(*unusedConnectors.at(1).first, *unusedConnectors.at(1).second)) return true;
+                // Remove the two unused connectors.                
+                //unusedConnectors.erase(unusedConnectors.begin(), unusedConnectors.begin()+1);
+            }
+            else return true;
         }
 
         std::cout << "Generation " << generationCount << " unsuccessful after " << currentNumberRecursions << " recursions.\n";
@@ -77,6 +90,10 @@ bool Track::generate() {
         // Track could not be generated.
         this->reset();
     }
+}
+
+bool Track::generateCompleteTrack(const Piece& lastPiece, Connector& openConnector) {
+    return true;
 }
 
 bool Track::generateTrack(const Piece& lastPiece, Connector& openConnector) {

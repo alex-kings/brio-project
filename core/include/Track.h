@@ -46,7 +46,7 @@ private:
     Connector* validationConnector;
 
     // The unused connectors
-    std::vector<Connector*> unusedConnectors;
+    std::vector<std::pair<Piece*, Connector*>> unusedConnectors;
 
     // Validation conditions
     float validationAngle;
@@ -102,6 +102,11 @@ private:
      * Calculates the maximum level the track can go to by checking the number of ascending pieces in the set.
     */
     void calculateMaxLevel();
+
+    /**
+     * Generate the entire track including more than 1 loop tracks.
+    */
+    bool generateCompleteTrack(const Piece& lastPiece, Connector& openConnector);
 
 public:
     /**
