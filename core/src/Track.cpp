@@ -16,7 +16,7 @@ Track::Track(const std::vector<Piece> availablePieces, const int seed, const boo
     // Validation conditions
     validationAngle = 0.2*M_PI;
     // validationDist = pieces.size() * 5;
-    validationDist = 200;
+    validationDist = 100;
     // minPieceNb = std::floor(pieces.size()*0.6); // 60% of pieces
     minPieceNb = 8;
     halfMaxDist = getMaxDist() / 2;
