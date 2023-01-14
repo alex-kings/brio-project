@@ -91,12 +91,24 @@ public:
         return connectors.size();
     }
 
-    // Tells whether this piece has open connectors
-    bool hasOpenConnectors() const {
-        for(const Connector& con : connectors) {
-            if(con.isFree()) return true;
+    // Returns the number of open connectors this piece has
+    int openConNumber() const {
+        int n = 0;    
+        for(const Connector& con : this->connectors) {
+            if(con.isFree()) n++;
         }
-        return false;
+        return n;
+    }
+
+    /**
+     * Gives this piece's open connectors.
+    */
+    std::vector<Connector*> getOpenConnectors() {
+        std::vector<Connector*> openConnectors;
+        for(int i = 0; i < this->connectors.size(); i++) {
+            if(this->connectors.at(i).isFree()) openConnectors.push_back(&this->connectors.at(i));
+        }   
+        return openConnectors;
     }
 
     // Gives this piece's open connector
