@@ -47,6 +47,9 @@ bool Track::generate() {
         firstPiece = &pieces.back();
         validationConnector = &firstPiece->getConnector(1);
 
+        // Add the original validation connector.
+        validationConnectors.push_back(&firstPiece->getConnector(1));
+
         // Make sure the first piece is placed at level zero
         if(firstPiece->getLowestLevel() != 0) {
             firstPiece->changeLevel(-(firstPiece->getLowestLevel()));
@@ -181,11 +184,18 @@ bool Track::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connector
                 Connector& openCon = *(freeConnectors.at(0)); // Get the open connector
 
                 // Checks whether the validation conditions are met between the validation connector and the test piece's open connector.
-                if(openCon.validate(*validationConnector, validationAngle, validationDist)) {
-                    // Tests if there are pieces in between the two validation connectors
-                    // if(!piecesInBetween(openCon, *validationConnector)) {
-                    // }
-                    if(nbPiecesPlaced >= minPieceNb) return true; // Track is closed!
+                // if(openCon.validate(*validationConnector, validationAngle, validationDist)) {
+                //     // Tests if there are pieces in between the two validation connectors
+                //     // if(!piecesInBetween(openCon, *validationConnector)) {
+                //     // }
+                //     if(nbPiecesPlaced >= minPieceNb) return true; // Track is closed!
+                // }
+
+                // Check validation conditions against all the validation connectors.
+                if(nbPiecesPlaced >= minPieceNb) {
+                    for(Connector* validationCon : validationConnectors) {
+                        if(openCon.validate(*validationCon, validationAngle, validationDist)) return true;
+                    }
                 }
 
                 // Place the next piece.
@@ -209,7 +219,7 @@ bool Track::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connector
                 Connector& freeCon1 = *(freeConnectors.at(0));
                 Connector& freeCon2 = *(freeConnectors.at(1));
 
-                // Attempt placement of pieces for freeCon1.
+                // Attempt placement of pieces for the two free connectors.
                 if(generateTrack(testPiece, freeCon1) && generateTrack(testPiece, freeCon2)) {
                     return true;
                 }
@@ -266,6 +276,8 @@ void Track::reset() {
     nbPiecesPlaced = 0;
     // Reset number of recursions in this generation
     currentNumberRecursions = 0;
+    // Reset validation connectors
+    validationConnectors.clear();
 }
 
 float Track::getMaxDist() const {
