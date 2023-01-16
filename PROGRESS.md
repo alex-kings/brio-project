@@ -165,3 +165,7 @@ Painter algorithm to avoid weird clippings of pieces: draw first the ground leve
 (Level 0 is outlined in black, level 1 in red)
 
 Add calculation of a max level the track can go to at the start. Only allow ascending pieces to be placed within the right boundaries.
+
+_16/01/2023_ **CORE**  
+First two loop track built. Divide and conquer method: build one loop and then the second on top of the first.
+![First multi loop track](./progression_images/First_multi_loop.png "First multi loop track")

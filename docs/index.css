@@ -18,6 +18,9 @@
     --blue-2:rgb(173, 217, 231);
     --blue-3:rgb(107, 163, 180);
 }
+body {
+    padding:.4rem;
+}
 .rounded{
     border-radius: .5rem;
 }
