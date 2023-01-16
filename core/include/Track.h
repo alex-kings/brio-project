@@ -27,7 +27,7 @@ private:
     unsigned int generationCount = 0;
 
     // Maximum number of generations before stopping
-    const unsigned int maxGenerations = 100;
+    const unsigned int maxGenerations = 100000; // 100
 
     // Max number of iterations before starting the next generation
     const unsigned int maxNumberRecursions = 10000; // 10 000
@@ -107,6 +107,18 @@ private:
      * Generate the entire track including more than 1 loop tracks.
     */
     bool generateCompleteTrack(const Piece& lastPiece, Connector& openConnector);
+
+    /**
+     * Tells whether all the 3 connector pieces are placed.
+    */
+    bool allThreeConPlaced() const {
+        for(const Piece& p : this->pieces) {
+            if(p.getId() == "L" || p.getId() == "M") {
+                if(!p.isUsed()) return false;
+            }
+        }
+        return true;
+    }
 
 public:
     /**

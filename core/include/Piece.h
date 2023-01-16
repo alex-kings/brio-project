@@ -119,6 +119,15 @@ public:
         throw std::invalid_argument("This piece does not have any open connectors.");
     }
 
+    /**
+     * Closes this piece's connectors
+    */
+    void closeConnectors() {
+        for(Connector& con : this->connectors) {
+            con.setConnected(false);
+        }
+    }
+
     // Translate this piece by the given amount
     void translate(const Vec2D& amount) {
         for(Part& part : parts) {

@@ -36,8 +36,15 @@ public:
         jsonRep.append(type ? "true" : "false");
         jsonRep.append(",\"level\":");
         jsonRep.append(std::to_string(level));
+        jsonRep.append(",\"connected\":");
+        jsonRep.append(connected ? "true" : "false");
         jsonRep.append("}");
         return jsonRep;
+    }
+
+    // Change connection status of this connector.
+    void setConnected(bool c) {
+        this->connected = c;
     }
 
     // Link this and another connector together.

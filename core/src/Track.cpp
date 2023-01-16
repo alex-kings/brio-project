@@ -14,9 +14,9 @@ Track::Track(const std::vector<Piece> availablePieces, const int seed, const boo
     else this->randomEngine = std::default_random_engine(seed);
 
     // Validation conditions
-    validationAngle = 0.2*M_PI;
+    validationAngle = 0.4*M_PI;
     // validationDist = pieces.size() * 5;
-    validationDist = 100;
+    validationDist = 200;
     // minPieceNb = std::floor(pieces.size()*0.6); // 60% of pieces
     minPieceNb = 8;
     halfMaxDist = getMaxDist() / 2;
@@ -67,7 +67,7 @@ bool Track::generate() {
                 }
             }
 
-            std::cout << unusedConnectors.size() << "Unused connectors\n";
+            std::cout << unusedConnectors.size() << " unused connectors\n";
 
             if(unusedConnectors.size() != 0) {
                 std::cout << "First loop generated, going for the second\n"; 
@@ -99,7 +99,10 @@ bool Track::generateCompleteTrack(const Piece& lastPiece, Connector& openConnect
 bool Track::generateTrack(const Piece& lastPiece, Connector& openConnector) {
     currentNumberRecursions ++;
 
-    if(currentNumberRecursions >= maxNumberRecursions) return false; // Unsuccessful generation.
+    if(currentNumberRecursions >= maxNumberRecursions) {
+        // Unsuccessful generation.
+        return false;
+    }
 
     // Keep track of previously tested pieces
     std::unordered_set<std::string> previouslyTested;
@@ -127,8 +130,6 @@ bool Track::generateTrack(const Piece& lastPiece, Connector& openConnector) {
         // Re-attempt placement of this piece after flipping.
         if(attemptPlacement(testPiece, lastPiece, openConnector)) return true;
     }
-
-    // No track was found for any placeable piece.
     return false;
 }
 
@@ -196,7 +197,10 @@ bool Track::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connector
 
             // Checks whether this piece has another free connector
             std::vector<Connector*> freeConnectors = testPiece.getOpenConnectors();
-            if(freeConnectors.size() == 0) return true; // This piece has no more available connectors. The track is built.
+            if(freeConnectors.size() == 0) {
+                std::cout << "No more free connectors!\n";
+                return true;
+            }; // This piece has no more available connectors. The track is built.
 
             Connector& openCon = *(freeConnectors.at(0)); // Get the open connector
 
@@ -206,9 +210,23 @@ bool Track::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connector
                 // if(!piecesInBetween(openCon, *validationConnector)) {
                 // }
 
-                // Track is closed!
-                openCon.link(*validationConnector);
-                return true; 
+
+                
+
+                // Check that a pair number of 3 connector pieces are placed.
+                int numberThreeConPlaced = 0;
+                for(Piece& piece : this->pieces) {
+                    if(piece.isUsed() && (piece.getId() == "L" || piece.getId() == "M")) {    
+                        numberThreeConPlaced ++;
+                    }
+                }
+                if(numberThreeConPlaced % 2 == 0 && this->allThreeConPlaced()) {
+                    // Track is closed!
+                    openCon.link(*validationConnector);
+                    return true; 
+                }
+
+                
             }
 
             // Place the next piece.
@@ -265,6 +283,8 @@ void Track::reset() {
     // Mark all pieces as unused
     for(Piece& piece : pieces) {
         piece.setUsed(false);
+        // Mark all connectors as unused
+        piece.closeConnectors();
     }
     // Reset number pieces placed
     nbPiecesPlaced = 0;
