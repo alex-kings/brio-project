@@ -169,3 +169,13 @@ Add calculation of a max level the track can go to at the start. Only allow asce
 _16/01/2023_ **CORE**  
 First two loop track built. Divide and conquer method: build one loop and then the second on top of the first.
 ![First multi loop track](./progression_images/First_multi_loop.png "First multi loop track")
+
+
+_17/01/2023_ **CORE**  
+The number of pieces placed is KEPT IN MIND rather than having a function to recalculate it each time it's needed. This is to shave off the complexity of calculating it which is O(n) rather than having it O(1) by keeping an int for it.  
+Add a Loop class. Tracks have a number of Loops that they generate, depending on the number of 3-connector piece pairs that are in the initial set of pieces specified by the user.  
+A loop is first created, and then the second loop is generated on top of the first loop.  
+The partition of pieces at the very start before generating any loop is a big improvement from the previous version (the one with which we managed to build the first multi loop track):
+Previous version was generating the first loop with any number of pieces, and then attempting to generate the second one on top of the first. This is bad because the first loop can use 80% of the pieces, and second loop is then unlikely to be buildable on top of the first. A good partition of the pieces before the generation should address this issue nicely.  
+Also, previous version was kicking off many generation attempts for the first loop, and then only allowing one generation attempt for the second loop. This is bad, as this generation attempt is highly unlikely to be successful (worse conditions than normal 1-loop tracks, which themselves sometimes require tens of generation attempts before building).
+Instead, in this version, the first loop is generated from a number of generation attempts. Then the second loop is given a number of generation attempts too, to build itself on top of the first loop.

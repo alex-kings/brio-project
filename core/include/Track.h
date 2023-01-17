@@ -119,7 +119,7 @@ private:
         }
         return true;
     }
-
+    
 public:
     /**
      * Construct from a selection of pieces.
