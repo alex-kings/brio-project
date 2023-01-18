@@ -264,9 +264,7 @@ void Circuit::shufflePieces() {
     }
 
     // Shuffle all the available pieces together
-    std::shuffle(pieces.begin() + placedEnd, pieces.end() + availableEnd, this->randomEngine);
-
-    std::cout << "Shuffled\n";
+    std::shuffle(pieces.begin() + placedEnd, pieces.begin() + availableEnd, this->randomEngine);
     // ensureCorrectNumberThreeCon();
 }
 
