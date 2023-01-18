@@ -17,6 +17,9 @@ private:
     int availableEnd; // The index of the end of the section of available pieces.
     std::default_random_engine randomEngine;
 
+    // The start time of the entire generation.
+    std::chrono::steady_clock::time_point startTime;
+
     // The start piece
     Piece* startPiece;
     Connector* startConnector;
@@ -92,10 +95,21 @@ public:
      * Construct from a selection of pieces.
      * Puts maxLevel to be one if the track is specified to be two level only.
     */
-    Loop(std::vector<Piece> allPieces, int placedEnd, int availableEnd, Piece* sPiece, Piece* vPiece, std::default_random_engine engine, const bool isTwoLevel);
+    Loop(std::vector<Piece> allPieces, const int seed, const bool isTwoLevel);
 
     /**
      * Generate the Loop
     */
     bool generate();
+
+    std::string getTrackJson() const {
+        std::string result;
+        result += "{\"pieces\":[";
+        for(unsigned int i = 0; i < pieces.size(); i++) {
+            result += pieces[i].toJson();
+            if(i < pieces.size() - 1) result += ",";
+        }
+        result += "]}";
+        return result;
+    }
 };

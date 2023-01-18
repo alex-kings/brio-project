@@ -1,5 +1,8 @@
 #pragma once
 #include <vector>
+#include "Piece.h"
+#include <random>
+#include <chrono>
 
 /**
  * Class representing a circuit of pieces with one or multiple loops.
@@ -11,7 +14,7 @@ private:
     std::vector<Piece> pieces;
     std::default_random_engine randomEngine;
     std::chrono::steady_clock::time_point startTime;
-
+    bool isTwoLevel;
     
 public:
     /**
@@ -20,6 +23,11 @@ public:
      * isTwoLevel can be specified to build tracks that have max 2 levels (0 and 1).
     */
     Circuit(std::vector<Piece> availablePieces, const int seed, const bool isTwoLevels);
+    
+    /**
+     * Builds a track with the available pieces.
+    */
+    std::string generate();
 
     /**
      * Get the Json representation of this track.

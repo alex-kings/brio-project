@@ -6,15 +6,22 @@
 #include <iostream>
 #include <math.h>
 
-Loop::Loop(std::vector<Piece> allPieces, int placedEnd, int availableEnd, Piece* sPiece, Piece* vPiece, std::default_random_engine engine, const bool isTwoLevel) {
+Loop::Loop(std::vector<Piece> allPieces, const int seed, const bool isTwoLevel) {
+    // Generate random engine with seed. If seed is -1, the current time is used for the seed.
+    if(seed == -1) this->randomEngine = std::default_random_engine(std::chrono::system_clock::now().time_since_epoch().count());
+    else this->randomEngine = std::default_random_engine(seed); 
     this->pieces = allPieces;
-    this->randomEngine = engine;
 
-    // Get start and end Piece and Connector
-    this->startPiece = sPiece;
-    this->validationPiece = vPiece;
-    this->startConnector = &(sPiece -> getOpenConnector());
-    this->validationConnector = &(vPiece -> getOpenConnector());
+    // Initial generation conditions.
+    placedEnd = 0;
+    availableEnd = pieces.size();
+    this->startPiece = &pieces.at(0);
+    this->validationPiece = &pieces.at(0);
+    std::vector<Connector*> cons = startPiece->getOpenConnectors();
+    this->startConnector = cons[0];
+    this->validationConnector = cons[1];
+    startPiece->setUsed(true);
+
 
     // Validation conditions
     this->validationAngle = 0.4*M_PI;
@@ -35,6 +42,9 @@ Loop::Loop(std::vector<Piece> allPieces, int placedEnd, int availableEnd, Piece*
 }
 
 bool Loop::generate() {
+    std::cout << "Generating!\n";
+    this->startTime = std::chrono::steady_clock::now();
+
     while(true) {
         this->generationCount++;
         std::cout<<"Loop generation " << this->generationCount << " starting.\n";
@@ -200,7 +210,12 @@ std::vector<int> Loop::getRandomIterable(int start, int end) {
 }
 
 void Loop::shufflePieces() {
-    std::shuffle(pieces.begin() + placedEnd, pieces.begin() + availableEnd, this->randomEngine);
+    try{
+        std::shuffle(pieces.begin() + placedEnd, pieces.begin() + availableEnd, this->randomEngine);
+    }
+    catch(const std::exception& e){
+        std::cerr << e.what() << '\n';
+    }
 }
 
 void Loop::reset() {
