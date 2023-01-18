@@ -101,11 +101,21 @@ public:
     }
 
     /**
+     * Tells whether this piece has open connectors.
+    */
+    bool hasOpenConnector() const {
+        for(const Connector& con : this->connectors) {
+            if(con.isFree()) return true;
+        }
+        return false;
+    }
+
+    /**
      * Gives this piece's open connectors.
     */
     std::vector<Connector*> getOpenConnectors() {
         std::vector<Connector*> openConnectors;
-        for(int i = 0; i < this->connectors.size(); i++) {
+        for(unsigned int i = 0; i < this->connectors.size(); i++) {
             if(this->connectors.at(i).isFree()) openConnectors.push_back(&this->connectors.at(i));
         }   
         return openConnectors;

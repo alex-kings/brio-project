@@ -1,4 +1,4 @@
-#include <emscripten/bind.h>
+// #include <emscripten/bind.h>
 
 #include "json/json.h"
 #include <iostream>
@@ -23,53 +23,55 @@ void printHello(int i) {
     std::cout << "Hello" << i << "\n";
 }
 
-// int main(int, char* argv[]) {
+int main() {
 
-//     std::cerr << "Start" << "\n";
+    std::cerr << "Start" << "\n";
 
-//     // Get input from node program
-//     std::string input = argv[1];
+    // Get input from node program
+    // std::string input = argv[1];
 
-//     // TEST
-//     // std::string input = "{\"E\":\"8\",\"A\":\"6\",\"E1\":\"4\",\"D\":\"2\"}";
-
-
-//     // User selection of pieces and their available quantities.
-//     Json::Value pieceSelection;
-//     try {
-//         // Example
-//         pieceSelection = readJson(input);
-//     }
-//     catch(const std::domain_error& e) {
-//         std::cerr << e.what() << std::endl;
-//     }
-
-//     Json::Value ressources = getPieceRessources(); // Library of pieces
-//     std::vector<Piece> pieces;
-//     for(const std::string& member : pieceSelection.getMemberNames()) {
-//         for(int i = 0; i < std::stoi(pieceSelection[member].asString()); i++) {
-//             // Add Piece to available pieces.
-//             pieces.emplace_back(ressources[member]);
-//         }
-//     }
-
-//     // Get track
-//     // Piece startPiece = getTrack(pieceSelection);
-
-//     Track t(pieces);
+    // TEST
+    std::string input = "{\"E\":\"8\",\"A\":\"6\",\"E1\":\"4\",\"D\":\"2\"}";
 
 
-//     // TEST MULTITHREADING
+    // User selection of pieces and their available quantities.
+    Json::Value pieceSelection;
+    try {
+        // Example
+        pieceSelection = readJson(input);
+    }
+    catch(const std::domain_error& e) {
+        std::cerr << e.what() << std::endl;
+    }
 
-//     // unsigned int maxThreads = std::thread::hardware_concurrency()*2; // 2 times the number of available cores.
-//     // std::thread threads[maxThreads];
-//     // for (unsigned int i = 0; i < maxThreads; i++) {
-//     //     threads[i] = std::thread(printHello, i);
-//     // }
-//     // for(unsigned int i = 0; i < maxThreads; i++) {
-//     //     threads[i].join();
-//     // }
-// }
+    Json::Value ressources = getPieceRessources(); // Library of pieces
+    std::vector<Piece> pieces;
+    for(const std::string& member : pieceSelection.getMemberNames()) {
+        for(int i = 0; i < std::stoi(pieceSelection[member].asString()); i++) {
+            // Add Piece to available pieces.
+            pieces.emplace_back(ressources[member]);
+        }
+    }
+
+    // Get track
+    // Piece startPiece = getTrack(pieceSelection);
+
+    Circuit t(pieces, 1, false);
+
+    t.generate();
+
+
+    // TEST MULTITHREADING
+
+    // unsigned int maxThreads = std::thread::hardware_concurrency()*2; // 2 times the number of available cores.
+    // std::thread threads[maxThreads];
+    // for (unsigned int i = 0; i < maxThreads; i++) {
+    //     threads[i] = std::thread(printHello, i);
+    // }
+    // for(unsigned int i = 0; i < maxThreads; i++) {
+    //     threads[i].join();
+    // }
+}
 
 std::string generateTrack(const std::string& selection, const int seed, const int isTwoLevel) {
     // User selection of pieces and their available quantities.
@@ -108,10 +110,10 @@ std::string generateTrack(const std::string& selection, const int seed, const in
     else return "{\"error\":1}";
 }
 
-/**
- * Expose generating function
-*/
-EMSCRIPTEN_BINDINGS(my_module) {
-   emscripten::function("generateTrack", &generateTrack);
-}
+// /**
+//  * Expose generating function
+// */
+// EMSCRIPTEN_BINDINGS(my_module) {
+//    emscripten::function("generateTrack", &generateTrack);
+// }
 

@@ -15,11 +15,12 @@ Circuit::Circuit(std::vector<Piece> allPieces, const int seed, const bool isTwoL
     sanitise();
 
     // Initial generation conditions.
-    placedEnd = 1; // The first piece is already placed.
-    availableEnd = pieces.size();
+    placedEnd = 1;
+    availableEnd = pieces.size(); // The first piece is the only available one in the "zeroth" loop.
     this->startPiece = &pieces.at(0);
     this->validationPiece = &pieces.at(0);
     std::vector<Connector*> cons = startPiece->getOpenConnectors();
+    if(cons.size() != 2) std::cerr << "Size of cons is not 2.\n";
     this->startConnector = cons[0];
     this->validationConnector = cons[1];
     startPiece->setUsed(true);
@@ -47,9 +48,38 @@ bool Circuit::generate() {
     // Start timer
     this->startTime = std::chrono::steady_clock::now();
 
-    std::cout << "Maximum number of loops: "<< maxLoops << "\n";
+    std::cout << "Maximum number of loops: "<< remainingLoops << "\n";
 
-    return launchLoopGenerations();
+    int loopCount = 0;
+
+    while(remainingLoops > 0) {
+        loopCount++;
+        std::cout << "Starting generation for loop " << loopCount << "\n";
+
+        if(!launchLoopGenerations()) {
+            // The generation did not work.
+            return false;
+        }
+
+        // Generation of the loop successful.
+        remainingLoops --;
+
+        if(remainingLoops > 0) {
+            std::cout << "Preparing for next loop\n";
+            // Prepare next generation
+            putUsedPiecesInFront();
+            setIndexLocations(remainingLoops);
+
+            // Change the start and validation pieces and connectors
+            setValidationConditions();
+
+            // Reset generation count.
+            this->generationCount = 0;
+        }
+    }
+
+    // return launchLoopGenerations();
+    return true;
 }
 
 bool Circuit::launchLoopGenerations() {
@@ -81,6 +111,8 @@ bool Circuit::generateLoop(const Piece& lastPiece, Connector& openConnector) {
 
     // Look for pieces that can be placed
     for(int i : this->getRandomIterable(this->placedEnd, this->availableEnd)) {
+        if(i < 0 || i > (int)pieces.size()) std::cerr<<"index is out of bounds for pieces.\n";
+
         Piece& testPiece = this->pieces.at(i);
 
         if(testPiece.isUsed()) continue; // Skip pieces already placed
@@ -106,8 +138,10 @@ bool Circuit::generateLoop(const Piece& lastPiece, Connector& openConnector) {
 }
 
 bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connector& openConnector) {
+
     // Finds if the test piece has a connector of the opposite type to the open one.
     for(unsigned int j = 0; j < testPiece.getNumberConnectors(); j++) {
+
         Connector& testCon = testPiece.getConnector(j);
 
         if(!testCon.isFree()) continue; // The connector is not free.
@@ -119,7 +153,7 @@ bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connect
             int levelDiff = openConnector.getLevel() - testCon.getLevel();
             testPiece.changeLevel(levelDiff);
         }
-
+                
         // If the piece is a level piece, test that it does not go below zero or above the max level before placement.
         if(testPiece.getId() == "N") {
             int pieceLevel = testPiece.getLowestLevel();
@@ -138,6 +172,7 @@ bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connect
         // Checks whether the test piece collides with any placed piece.
         bool noCollision = true;
         for(int i = 0; i < availableEnd; i++) {
+            if(i < 0 || i > (int)pieces.size()) std::cerr << "Index out of bounds !!! \n";
             const Piece& testCollisionPiece = this->pieces.at(i);
 
             if(!testCollisionPiece.isUsed()) continue; // Skip unplaced pieces.
@@ -208,6 +243,9 @@ bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connect
 }
 
 std::vector<int> Circuit::getRandomIterable(int start, int end) {
+    if(start > end) {
+        std::cerr << "Start is larger then end.\n";
+    }
     std::vector<int> res;
     for(int i = start; i < end; i ++) {
         res.push_back(i);
@@ -218,11 +256,76 @@ std::vector<int> Circuit::getRandomIterable(int start, int end) {
 }
 
 void Circuit::shufflePieces() {
-    try{
-        std::shuffle(pieces.begin() + placedEnd, pieces.begin() + availableEnd, this->randomEngine);
+    if(placedEnd > availableEnd) {
+        std::cerr << "Position of placedEnd is above availableEnd.\n";
     }
-    catch(const std::exception& e){
-        std::cerr << e.what() << '\n';
+    if(availableEnd > (int)pieces.size()) {
+        std::cerr << "Position of availableEnd is above the size of vector.\n";
+    }
+
+    // Shuffle all the available pieces together
+    std::shuffle(pieces.begin() + placedEnd, pieces.end() + availableEnd, this->randomEngine);
+
+    std::cout << "Shuffled\n";
+    // ensureCorrectNumberThreeCon();
+}
+
+void Circuit::ensureCorrectNumberThreeCon() {
+    std::cout << "Ensuring the correct number of 3 connector pieces in the list of available pieces.\n";
+    if(remainingLoops == 1) return;
+    
+    // Ensure that there are EXACTLY two 3-con pieces in the set of available pieces for the coming generation.
+    int numberThreeCon = 0;
+    for(int i = placedEnd; i < availableEnd; i++) {
+        if(pieces[i].getId() == "M" || pieces[i].getId() == "L") {
+            numberThreeCon ++;
+        }
+    }
+    while(numberThreeCon != 2) {
+        // The indices of the pieces to swap.
+        int index1=-1;
+        int index2=-1;
+
+        if(numberThreeCon < 2) {
+            // Need to get an extra 3con piece.
+            numberThreeCon++;
+
+            // Find 3con piece in the list of unavailable pieces.
+            for(unsigned int i = availableEnd; i < pieces.size(); i++) {
+                if(pieces[i].getId() == "M" || pieces[i].getId() == "L") {
+                    index1 = i;
+                    break;
+                }
+            }
+            // Find the index of a non-3con piece in the list of available pieces
+            for(int j = placedEnd; j < availableEnd; j++) {
+                if(pieces[j].getId() != "M" && pieces[j].getId() != "L") {
+                    index2 = j;
+                }
+                break;
+            }
+        }
+        else{
+            // Need to get rid of a 3con piece.
+            numberThreeCon--;
+
+            // Find a 3con piece in the list of available pieces
+            for(int i = placedEnd; i < availableEnd; i++) {
+                if(pieces[i].getId() == "M" || pieces[i].getId() == "L") {
+                    index1 = i;
+                    break;
+                }
+            }
+            // Find the index of a non-3con piece in the list of unavailable pieces
+            for(unsigned int j = availableEnd; j < pieces.size(); j++) {
+                if(pieces[j].getId() != "M" && pieces[j].getId() != "L") {
+                    index2 = j;
+                }
+                break;
+            }
+        }
+        // Swap the pieces at the indices we got
+        std::iter_swap(pieces.begin() + index1, pieces.begin() + index2);
     }
 }
 
@@ -279,8 +382,50 @@ void Circuit::sanitise() {
     for(const Piece& p : pieces) {
         if(p.getId() == "M" || p.getId() == "L") threeConPieces ++;
     }
-    this->maxLoops = threeConPieces / 2;
+    this->remainingLoops = (threeConPieces / 2) + 1;
 }
+
+void Circuit::setIndexLocations(int remainingLoops) {
+    // Finds the position of the last piece placed.
+    for(unsigned int i = 0; i < pieces.size(); i++) {
+        if(!pieces[i].isUsed()) {
+            // Piece is not used.
+            placedEnd = i;
+            break;
+        }
+    }
+    // Divides the total number of available pieces with the number of remaining loops to find the number of available pieces for the next loop
+    availableEnd = (pieces.size() - placedEnd) / remainingLoops;
+
+    if(placedEnd > availableEnd) std::cerr<<"Placed pieces are higher than available pieces.\n";
+    if(availableEnd > (int)pieces.size()) std::cerr << "Available pieces are higher than size of vector.\n";
+}
+
+void Circuit::putUsedPiecesInFront() {
+    // Sorting condition depends on the use of the pieces.
+    std::sort(pieces.begin(), pieces.end(), [](Piece& a, Piece& b) {
+        if(!a.isUsed() && b.isUsed()) return false;
+        return true;
+    });
+}
+
+void Circuit::setValidationConditions() {
+    std::vector<Piece*> openConPiece;
+    // Finds the two open connectors in the placed pieces.
+    for(int i = 0; i < placedEnd; i++) {
+        std::cout << "Index: " << i << "\n";
+        if(pieces[i].hasOpenConnector()) {
+            openConPiece.push_back(&(pieces[i]));
+        }
+    }
+    
+    // ASSUMES THAT THERE ARE ALWAYS ONLY TWO OPEN CONNECTOR PIECES!
+    this->startPiece = openConPiece[0];
+    this->startConnector = &(startPiece->getOpenConnector());
+    this->validationPiece = openConPiece[1];
+    this->validationConnector = &(validationPiece->getOpenConnector());
+}
+
 
 // // bool Circuit::piecesInBetween(const Connector& c1, const Connector& c2) const {
 // //     for(const Piece& p : this->pieces) {
