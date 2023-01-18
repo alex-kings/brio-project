@@ -119,6 +119,14 @@ public:
         throw std::invalid_argument("This piece does not have any open connectors.");
     }
 
+    // Tells whether this piece has open connectors
+    bool hasOpenConnector() const {
+        for(const Connector& con : connectors) {
+            if(con.isFree()) return true; 
+        }
+        return false;
+    }
+
     /**
      * Closes this piece's connectors
     */

@@ -68,11 +68,11 @@ bool Circuit::generate() {
         if(remainingLoops > 0) {
             std::cout << "Preparing for next loop\n";
             // Prepare next generation
-            // putUsedPiecesInFront();
-            // setIndexLocations(remainingLoops);
+            putUsedPiecesInFront();
+            setIndexLocations(remainingLoops);
 
-            // // Change the start and validation pieces and connectors
-            // setValidationConditions();
+            // Change the start and validation pieces and connectors
+            setValidationConditions();
 
             // Reset generation count.
             this->generationCount = 0;
@@ -312,6 +312,49 @@ void Circuit::sanitise() {
     }
     this->remainingLoops = threeConPieces / 2 + 1;
 }
+
+void Circuit::setIndexLocations(int remainingLoops) {
+    // Finds the position of the last piece placed.
+    for(unsigned int i = 0; i < pieces.size(); i++) {
+        if(!pieces[i].isUsed()) {
+            // Piece is not used.
+            placedEnd = i;
+            break;
+        }
+    }
+    // Divides the total number of available pieces with the number of remaining loops to find the number of available pieces for the next loop
+    availableEnd = (pieces.size() - placedEnd) / remainingLoops;
+
+    if(placedEnd > availableEnd) std::cerr<<"Placed pieces are higher than available pieces.\n";
+    if(availableEnd > (int)pieces.size()) std::cerr << "Available pieces are higher than size of vector.\n";
+}
+
+void Circuit::putUsedPiecesInFront() {
+    // Sorting condition depends on the use of the pieces.
+    std::sort(pieces.begin(), pieces.end(), [](Piece& a, Piece& b) {
+        if(!a.isUsed() && b.isUsed()) return false;
+        return true;
+    });
+}
+
+void Circuit::setValidationConditions() {
+    std::vector<Piece*> openConPiece;
+    // Finds the two open connectors in the placed pieces.
+    for(int i = 0; i < placedEnd; i++) {
+        std::cout << "Index: " << i << "\n";
+        if(pieces[i].hasOpenConnector()) {
+            openConPiece.push_back(&(pieces[i]));
+        }
+    }
+    
+    // ASSUMES THAT THERE ARE ALWAYS ONLY TWO OPEN CONNECTOR PIECES!
+    this->startPiece = openConPiece[0];
+    this->startConnector = &(startPiece->getOpenConnector());
+    this->validationPiece = openConPiece[1];
+    this->validationConnector = &(validationPiece->getOpenConnector());
+}
+
+
 
 // // bool Circuit::piecesInBetween(const Connector& c1, const Connector& c2) const {
 // //     for(const Piece& p : this->pieces) {
