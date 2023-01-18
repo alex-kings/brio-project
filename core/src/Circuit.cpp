@@ -47,9 +47,40 @@ bool Circuit::generate() {
     // Start timer
     this->startTime = std::chrono::steady_clock::now();
 
-    std::cout << "Maximum number of loops: "<< maxLoops << "\n";
+    std::cout << "Maximum number of loops: "<< remainingLoops << "\n";
 
-    return launchLoopGenerations();
+    // return launchLoopGenerations();
+    
+    int loopCount = 0;
+
+    while(remainingLoops > 0) {
+        loopCount++;
+        std::cout << "Starting generation for loop " << loopCount << "\n";
+
+        if(!launchLoopGenerations()) {
+            // The generation did not work.
+            return false;
+        }
+
+        // Generation of the loop successful.
+        remainingLoops --;
+
+        if(remainingLoops > 0) {
+            std::cout << "Preparing for next loop\n";
+            // Prepare next generation
+            // putUsedPiecesInFront();
+            // setIndexLocations(remainingLoops);
+
+            // // Change the start and validation pieces and connectors
+            // setValidationConditions();
+
+            // Reset generation count.
+            this->generationCount = 0;
+        }
+    }
+
+    // return launchLoopGenerations();
+    return true;
 }
 
 bool Circuit::launchLoopGenerations() {
@@ -279,7 +310,7 @@ void Circuit::sanitise() {
     for(const Piece& p : pieces) {
         if(p.getId() == "M" || p.getId() == "L") threeConPieces ++;
     }
-    this->maxLoops = threeConPieces / 2;
+    this->remainingLoops = threeConPieces / 2 + 1;
 }
 
 // // bool Circuit::piecesInBetween(const Connector& c1, const Connector& c2) const {

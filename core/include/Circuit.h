@@ -18,7 +18,7 @@ private:
     std::default_random_engine randomEngine;
 
     // The maximum number of loops this circuit can theoretically have.
-    int maxLoops;
+    int remainingLoops;
 
     // The start time of the entire generation.
     std::chrono::steady_clock::time_point startTime;
