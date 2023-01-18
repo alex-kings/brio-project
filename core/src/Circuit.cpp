@@ -50,6 +50,9 @@ bool Circuit::generate() {
 
     std::cout << "Maximum number of loops: "<< remainingLoops << "\n";
 
+
+    // return launchLoopGenerations();
+    
     int loopCount = 0;
 
     while(remainingLoops > 0) {
@@ -423,6 +426,7 @@ void Circuit::setValidationConditions() {
     this->validationPiece = openConPiece[1];
     this->validationConnector = &(validationPiece->getOpenConnector());
 }
+
 
 
 // // bool Circuit::piecesInBetween(const Connector& c1, const Connector& c2) const {
