@@ -7,7 +7,7 @@
 #include <vector>
 #include "Vec2D.h"
 #include "Track.h"
-#include "Loop.h"
+#include "Circuit.h"
 
 #include <thread>
 
@@ -100,7 +100,7 @@ std::string generateTrack(const std::string& selection, const int seed, const in
     //     return t.getTrackJson();
     // }
     // else return "{\"error\":1}";
-    Loop t(pieces, seed, isTwoLevel);
+    Circuit t(pieces, seed, isTwoLevel);
 
     if(t.generate()) {
         return t.getTrackJson();

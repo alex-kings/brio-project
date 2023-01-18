@@ -1,36 +1,115 @@
 #pragma once
+#include <json/json.h>
 #include <vector>
 #include "Piece.h"
 #include <random>
 #include <chrono>
 
-/**
- * Class representing a circuit of pieces with one or multiple loops.
+/** 
+ * Class for the generation of tracks.
 */
 
 class Circuit {
 
 private:
     std::vector<Piece> pieces;
+    int placedEnd; // The index of the end of the section of placed pieces.
+    int availableEnd; // The index of the end of the section of available pieces.
     std::default_random_engine randomEngine;
+
+    // The start time of the entire generation.
     std::chrono::steady_clock::time_point startTime;
-    bool isTwoLevel;
+
+    // The start piece
+    Piece* startPiece;
+    Connector* startConnector;
+
+    // The validation piece
+    Piece* validationPiece;
+    Connector* validationConnector;
+
+    // Recursion information.
+    unsigned int generationCount = 0;
+    const unsigned int maxGenerations = 100; // 100
+    const unsigned int maxNumberRecursions = 10000; // 10 000
+    unsigned int currentNumberRecursions = 0; 
+
+    unsigned int nbPiecesPlaced = 0;
+
+    // The maximum level this track can go to.
+    int maxLevel;
+
+    // The unused connectors
+    std::vector<std::pair<Piece*, Connector*>> unusedConnectors;
+
+    // Validation conditions
+    float validationAngle;
+    float validationDist;
+    unsigned int minPieceNb;
+    float halfMaxDist; // Half of the maximum linear distance of this track.
+
+    /**
+     * Recursively connects pieces together to generate a closed track.
+     * The validation conditions need to be met for the track to be successfully built.
+    */
+    bool generateLoop(const Piece& lastPiece, Connector& openConnector);
+
+    /**
+     * Attempt placement of the given piece.
+    */
+    bool attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connector& openConnector);
+
+    /**
+     * Provides a vector of ints going from start to end-1 in random order.
+    */
+    std::vector<int> getRandomIterable(int start, int end) ;
+
+    /**
+     * Shuffles the available pieces.
+    */
+    void shufflePieces();
+
+    /**
+     * Re-shuffles the available pieces around and mark all pieces as unused. Restarts the timer.
+     * Keeps the placed pieces intact.
+    */
+    void reset();
+
+    /**
+     * Determines whether there are pieces placed in between c1 and c2
+    */
+    // bool piecesInBetween(const Connector& c1, const Connector& c2) const;
+
+    /**
+     * Calculates the maximum level the track can go to by checking the number of ascending pieces in the set.
+    */
+    void calculateMaxLevel();
+
+    /**
+     * Tells whether all the 3 connector pieces are placed.
+    */
+    bool allThreeConPlaced() const;
     
 public:
     /**
-     * Constructs a Circuit object.
-     * Seed for the random number generator. If seed is -1, random number generator is created using the current time.
-     * isTwoLevel can be specified to build tracks that have max 2 levels (0 and 1).
+     * Construct from a selection of pieces.
+     * Puts maxLevel to be one if the track is specified to be two level only.
     */
-    Circuit(std::vector<Piece> availablePieces, const int seed, const bool isTwoLevels);
-    
-    /**
-     * Builds a track with the available pieces.
-    */
-    std::string generate();
+    Circuit(std::vector<Piece> allPieces, const int seed, const bool isTwoLevel);
 
     /**
-     * Get the Json representation of this track.
+     * Generate the circuit
     */
-    std::string getTrackJson() const;
+    bool generate();
+
+    std::string getTrackJson() const {
+        std::string result;
+        result += "{\"pieces\":[";
+        for(unsigned int i = 0; i < pieces.size(); i++) {
+            result += pieces[i].toJson();
+            if(i < pieces.size() - 1) result += ",";
+        }
+        result += "]}";
+        return result;
+    }
 };
