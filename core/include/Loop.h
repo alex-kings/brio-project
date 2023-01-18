@@ -19,14 +19,11 @@ private:
 
     // The start piece
     Piece* startPiece;
-    const Connector* startConnector;
+    Connector* startConnector;
 
     // The validation piece
     Piece* validationPiece;
-    const Connector* validationConnector;
-
-    // The start date of the entire generation
-    std::chrono::steady_clock::time_point startTime;
+    Connector* validationConnector;
 
     // Recursion information.
     unsigned int generationCount = 0;
@@ -60,12 +57,12 @@ private:
     bool attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connector& openConnector);
 
     /**
-     * Provides a random vector of length l containing all integers from 0 to l-1.
+     * Provides a vector of ints going from start to end-1 in random order.
     */
-    std::vector<int> getRandomIterable(unsigned int l) ;
+    std::vector<int> getRandomIterable(int start, int end) ;
 
     /**
-     * Shuffles pieces in random order.
+     * Shuffles the available pieces.
     */
     void shufflePieces();
 
@@ -95,7 +92,7 @@ public:
      * Construct from a selection of pieces.
      * Puts maxLevel to be one if the track is specified to be two level only.
     */
-    Loop(const std::vector<Piece> allPieces, const int placedEnd, const int availableEnd, Piece* sPiece, Piece* vPiece, const std::default_random_engine engine, const bool isTwoLevel);
+    Loop(std::vector<Piece> allPieces, int placedEnd, int availableEnd, Piece* sPiece, Piece* vPiece, std::default_random_engine engine, const bool isTwoLevel);
 
     /**
      * Generate the Loop

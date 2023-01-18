@@ -112,8 +112,8 @@ public:
     }
 
     // Gives this piece's open connector
-    const Connector& getOpenConnector() const {
-        for(const Connector& con : connectors) {
+    Connector& getOpenConnector() {
+        for(Connector& con : connectors) {
             if(con.isFree()) return con;
         }
         throw std::invalid_argument("This piece does not have any open connectors.");

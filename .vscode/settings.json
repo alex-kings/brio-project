@@ -101,7 +101,8 @@
         "queue": "cpp",
         "*.ipp": "cpp",
         "__hash_table": "cpp",
-        "__tree": "cpp"
+        "__tree": "cpp",
+        "__tuple": "cpp"
     },
     "sonarlint.pathToCompileCommands": "${workspaceFolder}\\backend\\src\\core\\build\\compile_commands.json"
 }
