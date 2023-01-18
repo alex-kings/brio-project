@@ -105,26 +105,6 @@ private:
      * Also determines the number of loops the circuit can have.
     */
     void sanitise();
-
-    /**
-     * Sets the indexes of placedEnd and availableEnd at the right location
-    */
-    void setIndexLocations(int remainingNumberLoops);
-
-    /**
-     * Sorts the pieces so that all the placed pieces are located at the front of the piece array
-    */
-    void putUsedPiecesInFront();
-
-    /**
-     * Sets the startPiece and startConnector, as well as the validationPiece and validationConnector.
-    */
-    void setValidationConditions();
-
-    /**
-     * Ensure that there are exactly 2 three connector pieces in the set of available pieces for the generation of the current loop.
-    */
-    void ensureCorrectNumberThreeCon();
     
     /**
      * Sets the indexes of placedEnd and availableEnd at the right location
