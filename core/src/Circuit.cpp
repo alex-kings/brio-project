@@ -12,8 +12,10 @@ Circuit::Circuit(std::vector<Piece> allPieces, const int seed, const bool isTwoL
     else this->randomEngine = std::default_random_engine(seed); 
     this->pieces = allPieces;
 
+    sanitise();
+
     // Initial generation conditions.
-    placedEnd = 1;
+    placedEnd = 1; // The first piece is already placed.
     availableEnd = pieces.size();
     this->startPiece = &pieces.at(0);
     this->validationPiece = &pieces.at(0);
@@ -42,12 +44,18 @@ Circuit::Circuit(std::vector<Piece> allPieces, const int seed, const bool isTwoL
 }
 
 bool Circuit::generate() {
-    std::cout << "Generating!\n";
+    // Start timer
     this->startTime = std::chrono::steady_clock::now();
 
+    std::cout << "Maximum number of loops: "<< maxLoops << "\n";
+
+    return launchLoopGenerations();
+}
+
+bool Circuit::launchLoopGenerations() {
     while(true) {
         this->generationCount++;
-        std::cout<<"Circuit generation " << this->generationCount << " starting.\n";
+        std::cout<<"Generation " << this->generationCount << " starting.\n";
 
         // Generate the track!
         if(this->generateLoop((*startPiece), (*startConnector))) {
@@ -221,19 +229,10 @@ void Circuit::shufflePieces() {
 void Circuit::reset() {
     // Shuffle pieces around
     shufflePieces();
-    // Mark all pieces as unused
-    // for(int i = placedEnd; i < availableEnd; i++) {
-    //     Piece& piece = pieces[i];
-    //     piece.setUsed(false);
-    //     // Mark all connectors as unused
-    //     piece.closeConnectors();
-    // }
     // Reset number pieces placed
     nbPiecesPlaced = 0;
     // Reset number of recursions in this generation
     currentNumberRecursions = 0;
-
-    // unusedConnectors.clear();
 }
 
 void Circuit::calculateMaxLevel() {
@@ -242,6 +241,45 @@ void Circuit::calculateMaxLevel() {
         if(p.getId() == "N") numberAscending ++;
     }
     this->maxLevel = this->startConnector->getLevel() + (numberAscending / 2);
+}
+
+void Circuit::sanitise() {
+    int ascendingPieces = 0;
+    int mPieces = 0;
+    int lPieces = 0;
+    for(const Piece& piece : this->pieces) {
+        const std::string pieceId = piece.getId();
+        if(pieceId == "N") ascendingPieces++;
+        if(pieceId == "M") mPieces++;
+        if(pieceId == "L") lPieces++;
+    }
+    if(ascendingPieces % 2 != 0) {
+        // Odd number of ascending pieces: getting rid of one.
+        for(auto it = this->pieces.begin(); it != this->pieces.end(); ++it) {
+            if(it->getId() == "N") {
+                // Remove it from the vector.
+                this->pieces.erase(it);
+                break;
+            }
+        }
+    }
+    if((mPieces + lPieces) % 2 != 0) {
+        const std::string removeId = (mPieces > lPieces ? "M" : "L");
+        for(auto it = this->pieces.begin(); it != this->pieces.end(); ++it) {
+            if(it->getId() == removeId) {
+                // Remove it from the vector.
+                this->pieces.erase(it);
+                break;
+            }
+        }
+    }
+
+    // Determine the number of loops this circuit can have
+    int threeConPieces = 0;
+    for(const Piece& p : pieces) {
+        if(p.getId() == "M" || p.getId() == "L") threeConPieces ++;
+    }
+    this->maxLoops = threeConPieces / 2;
 }
 
 // // bool Circuit::piecesInBetween(const Connector& c1, const Connector& c2) const {

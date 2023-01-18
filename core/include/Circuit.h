@@ -17,6 +17,9 @@ private:
     int availableEnd; // The index of the end of the section of available pieces.
     std::default_random_engine randomEngine;
 
+    // The maximum number of loops this circuit can theoretically have.
+    int maxLoops;
+
     // The start time of the entire generation.
     std::chrono::steady_clock::time_point startTime;
 
@@ -89,6 +92,19 @@ private:
      * Tells whether all the 3 connector pieces are placed.
     */
     bool allThreeConPlaced() const;
+
+    /**
+     * Launches generations of the current loop.
+    */
+    bool launchLoopGenerations();
+
+    /**
+     * Sanitises the set of track pieces before starting the generation.
+     * Sanitisation includes keeping only a pair number of ascending pieces, as well as
+     * a pair number of 3-connector pieces.
+     * Also determines the number of loops the circuit can have.
+    */
+    void sanitise();
     
 public:
     /**
