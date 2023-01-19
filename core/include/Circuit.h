@@ -81,9 +81,14 @@ private:
     std::vector<int> getRandomIterable(int start, int end) ;
 
     /**
-     * Shuffles the available pieces.
+     * Shuffles the available and unreachable pieces around.
     */
     void shufflePieces();
+
+    /**
+     * Shuffles the available pieces around.
+    */
+    void shufflePiecesIteration();
 
     /**
      * Re-shuffles the available pieces around and mark all pieces as unused. Restarts the timer.

@@ -252,11 +252,15 @@ std::vector<int> Circuit::getRandomIterable(int start, int end) {
 }
 
 void Circuit::shufflePieces() {
+    std::shuffle(pieces.begin() + placedEnd, pieces.end(), this->randomEngine);
+}
+
+void Circuit::shufflePiecesIteration() {
     std::shuffle(pieces.begin() + placedEnd, pieces.begin() + availableEnd, this->randomEngine);
 }
 
 void Circuit::resetIteration() {
-    shufflePieces();
+    shufflePiecesIteration();
     nbPiecesPlaced = 0;
     currentNumberRecursions = 0;
 }
