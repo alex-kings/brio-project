@@ -110,9 +110,9 @@ bool Obb::segmentIntersect(const Vec2D& a1, const Vec2D& a2, const Vec2D& b1, co
 
 bool Obb::intersects(const Vec2D& p1, const Vec2D& p2) const {
     // Check whether the given segment intersects with any of this OBB's segments
+    if(segmentIntersect(p1, p2, this->points[0], this->points[1])) return true;
     if(segmentIntersect(p1, p2, this->points[1], this->points[2])) return true;
     if(segmentIntersect(p1, p2, this->points[2], this->points[3])) return true;
-    if(segmentIntersect(p1, p2, this->points[3], this->points[4])) return true;
-    if(segmentIntersect(p1, p2, this->points[4], this->points[1])) return true;
+    if(segmentIntersect(p1, p2, this->points[3], this->points[0])) return true;
     return false;
 }
