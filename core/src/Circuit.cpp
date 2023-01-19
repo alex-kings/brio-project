@@ -46,9 +46,9 @@ bool Circuit::generate() {
         std::cout << "Starting!\n";
         currentLoop = i;
         setupLoop();
-        return(launchLoopGenerations());
+        if(!launchLoopGenerations()) return false;
     }
-    return false;
+    return true;
 
     // while(remainingLoops > 0) {
     //     loopCount++;
@@ -87,14 +87,15 @@ bool Circuit::generate() {
 bool Circuit::launchLoopGenerations() {
     while(true) {
         this->generationCount++;
-        std::cout<<"Generation " << this->generationCount << " starting.\n";
+        // std::cout<<"Generation " << this->generationCount << " starting.\n";
 
         // Generate the track!
         if(this->generateLoop((*startPiece), (*startConnector))) {
+            std::cout << "Generation " << generationCount << " successful\n";
             return true;
         }
 
-        std::cout << "Generation " << this->generationCount << " unsuccessful after " << this->currentNumberRecursions << " recursions.\n";
+        // std::cout << "Generation " << this->generationCount << " unsuccessful after " << this->currentNumberRecursions << " recursions.\n";
 
         // Check if the maximum number of generations has been reached.
         if(this->generationCount >= this->maxGenerations) return false;
@@ -510,6 +511,12 @@ void Circuit::sanitiseLoop() {
         }
     }
     if(n3c != 2) std::cerr << "Ensuring there are exactly 2 threecon pieces in available set did not work.\n";
+}
+
+void Circuit::printTrack() {
+    for(int i = 0; i < pieces.size(); i++) {
+        std::cout << i << ": used: " << pieces[i].isUsed() << ", id: " << pieces[i].getId() << "\n";
+    }
 }
 
 

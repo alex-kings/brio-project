@@ -150,6 +150,8 @@ private:
     */
     void sanitiseLoop();
     
+    void printTrack();
+
 public:
     /**
      * Construct from a selection of pieces.
