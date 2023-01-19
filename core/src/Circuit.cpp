@@ -279,6 +279,7 @@ void Circuit::setupGeneration() {
 void Circuit::setupLoop() {
     // Reset the number of generations.
     generationCount = 0;
+    currentNumberRecursions = 0;
 
     // Ensure all the placed pieces are at the start of the vector
     std::cout << "Putting used pieces in front\n";
