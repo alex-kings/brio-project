@@ -74,6 +74,7 @@ bool Circuit::generate() {
             std::cout << "Pieces placed have been put in front.\n";
             setIndexLocations(remainingLoops);
             std::cout << "Index locations have been set up.\n";
+            std::cout << "placedEnd: " << placedEnd << " availableEnd: " << availableEnd << "\n";
             // Change the start and validation pieces and connectors
             setValidationConditions();
             std::cout << "Validation conditions set up.\n";
@@ -360,6 +361,9 @@ void Circuit::setValidationConditions() {
     this->startConnector = &(startPiece->getOpenConnector());
     this->validationPiece = openConPiece[1];
     this->validationConnector = &(validationPiece->getOpenConnector());
+
+    // Set the min number of pieces
+    minPieceNb = 0.6 * (availableEnd - placedEnd);
 }
 
 void Circuit::ensureCorrectNumberThreeCon() {
