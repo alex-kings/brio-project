@@ -14,33 +14,24 @@ Circuit::Circuit(std::vector<Piece> allPieces, const int seed, const bool isTwoL
 
     sanitise();
 
-    // Initial generation conditions.
-    placedEnd = 1; // The first piece is already placed.
-    availableEnd = pieces.size();
-    this->startPiece = &pieces.at(0);
-    this->validationPiece = &pieces.at(0);
-    std::vector<Connector*> cons = startPiece->getOpenConnectors();
-    this->startConnector = cons[0];
-    this->validationConnector = cons[1];
-    startPiece->setUsed(true);
-
-
     // Validation conditions
     this->validationAngle = 0.4*M_PI;
     // validationDist = pieces.size() * 5;
     this->validationDist = 200;
     // minPieceNb = std::floor(pieces.size()*0.6); // 60% of pieces
-    this->minPieceNb = 0.6*(availableEnd - placedEnd); // 60% of the pieces available for generation in the current loop.
 
-    if(isTwoLevel) {
-        this->maxLevel = 1;
-    }
-    else {
-        this->calculateMaxLevel(); // Find the track's maximum level
-    }
+    this->isTwoLevel = isTwoLevel;
 
-    // Start with a random arrangement of the original set of pieces.
-    this->shufflePieces();
+    // Calculate the maximum number of loops
+    int numberThreeCon = 0;
+    for(Piece& p : pieces) {
+        if(p.getId() == "M" || p.getId() == "L") {
+            numberThreeCon ++;
+        }
+    }
+    this->maxLoops = numberThreeCon / 2 + 1;
+
+    setupGeneration();
 }
 
 bool Circuit::generate() {
@@ -51,40 +42,46 @@ bool Circuit::generate() {
 
     // return launchLoopGenerations();
     
-    int loopCount = 0;
-
-    while(remainingLoops > 0) {
-        loopCount++;
-        std::cout << "Starting generation for loop " << loopCount << "\n";
-
-        if(!launchLoopGenerations()) {
-            // The generation did not work.
-            return false;
-        }
-
-        std::cout << "First loop generated successfully! Going for second.\n";
-
-        // Generation of the loop successful.
-        remainingLoops --;
-
-        if(remainingLoops > 0) {
-            std::cout << "Preparing for second loop\n";
-            // Prepare next generation
-            putUsedPiecesInFront();
-            std::cout << "Pieces placed have been put in front.\n";
-            setIndexLocations(remainingLoops);
-            std::cout << "Index locations have been set up.\n";
-            std::cout << "placedEnd: " << placedEnd << " availableEnd: " << availableEnd << "\n";
-            // Change the start and validation pieces and connectors
-            setValidationConditions();
-            std::cout << "Validation conditions set up.\n";
-            // Reset generation count.
-            this->generationCount = 0;
-        }
+    for (int i = 0; i < maxLoops; i++) {
+        std::cout << "Starting!\n";
+        currentLoop = i;
+        setupLoop();
+        return(launchLoopGenerations());
     }
+    return false;
+
+    // while(remainingLoops > 0) {
+    //     loopCount++;
+    //     std::cout << "Starting generation for loop " << loopCount << "\n";
+
+    //     if(!launchLoopGenerations()) {
+    //         // The generation did not work.
+    //         return false;
+    //     }
+
+    //     std::cout << "First loop generated successfully! Going for second.\n";
+
+    //     // Generation of the loop successful.
+    //     remainingLoops --;
+
+    //     if(remainingLoops > 0) {
+    //         std::cout << "Preparing for second loop\n";
+    //         // Prepare next generation
+    //         putUsedPiecesInFront();
+    //         std::cout << "Pieces placed have been put in front.\n";
+    //         setIndexLocations(remainingLoops);
+    //         std::cout << "Index locations have been set up.\n";
+    //         std::cout << "placedEnd: " << placedEnd << " availableEnd: " << availableEnd << "\n";
+    //         // Change the start and validation pieces and connectors
+    //         setValidationConditions();
+    //         std::cout << "Validation conditions set up.\n";
+    //         // Reset generation count.
+    //         this->generationCount = 0;
+    //     }
+    // }
 
     // return launchLoopGenerations();
-    return true;
+    // return true;
 }
 
 bool Circuit::launchLoopGenerations() {
@@ -253,18 +250,11 @@ std::vector<int> Circuit::getRandomIterable(int start, int end) {
 }
 
 void Circuit::shufflePieces() {
-    try{
-        std::shuffle(pieces.begin() + placedEnd, pieces.begin() + availableEnd, this->randomEngine);
-    }
-    catch(const std::exception& e){
-        std::cerr << e.what() << '\n';
-    }
-    // Ensure there are exactly two threecon pieces
-    // ensureCorrectNumberThreeCon();
+    std::shuffle(pieces.begin() + placedEnd, pieces.begin() + availableEnd, this->randomEngine);
 }
 
 void Circuit::reset() {
-    // Shuffle pieces around
+    // Shuffle pieces aroun
     shufflePieces();
     // Reset number pieces placed
     nbPiecesPlaced = 0;
@@ -272,33 +262,42 @@ void Circuit::reset() {
     currentNumberRecursions = 0;
 }
 
+void Circuit::setupGeneration() {
+    // Start piece conditions
+    this->startPiece = &pieces.at(0);
+    this->validationPiece = &pieces.at(0);
+    std::vector<Connector*> cons = startPiece->getOpenConnectors();
+    this->startConnector = cons[0];
+    this->validationConnector = cons[1];
+    pieces.at(0).setUsed(true);
+    nbPiecesPlaced = 1;
+}
+
 void Circuit::setupLoop() {
     // Ensure all the placed pieces are at the start of the vector
+    std::cout << "Putting used pieces in front\n";
     putUsedPiecesInFront();
 
     // Position the placedEnd and availableEnd indices.
+    std::cout << "Setting index locations\n"; 
     setIndexLocations(remainingLoops);
 
     // Shuffles the pieces around.
+    std::cout << "Shuffling pieces\n";
     shufflePieces();
 
     // Ensuring correct number of 3con and ascending pieces in the loop.
+    std::cout << "Sanitising\n";
     sanitiseLoop();
 
     // Setup validation conditions
-    if(currentLoop == 0) {
-        // First loop 
-        this->startPiece = &pieces.at(0);
-        this->validationPiece = &pieces.at(0);
-        std::vector<Connector*> cons = startPiece->getOpenConnectors();
-        this->startConnector = cons[0];
-        this->validationConnector = cons[1];
-        pieces.at(0).setUsed(true);
-        nbPiecesPlaced = 1;
-    }
-    else {
+    std::cout << "Setting up validation conditions\n";
+
+    if(currentLoop != 0) {
         setValidationConditions();
     }
+
+    std::cout << "Calculating the max level for this loop\n";
     // Calculate the max level of this loop.
     int numberAscending = 0;
     for(int i = placedEnd; i < availableEnd; i++) {
@@ -306,6 +305,7 @@ void Circuit::setupLoop() {
     }
     maxLevelLoop = (numberAscending / 2) + startConnector->getLevel();
 
+    std::cout << "Setting up minimum pieces placed condition\n";
     // Setup minimum pieces placed condition
     this->minPieceNb = 0.6*(availableEnd - placedEnd) + nbPiecesPlaced; // 60% of the available pieces for this loop, plus the already placed pieces.
 }
@@ -349,7 +349,7 @@ void Circuit::sanitise() {
             }
         }
     }
-
+    // TO REMOVE!! IT'S NOT SANITISATION THIS!!
     // Determine the number of loops this circuit can have
     int threeConPieces = 0;
     for(const Piece& p : pieces) {
@@ -377,12 +377,18 @@ void Circuit::setIndexLocations(int remainingLoops) {
 }
 
 void Circuit::putUsedPiecesInFront() {
-    std::cout << "Putting used pieces in front.\n";
     // Sorting condition depends on the use of the pieces.
-    std::sort(pieces.begin(), pieces.end(), [](Piece& a, Piece& b) {
-        if(!a.isUsed() && b.isUsed()) return false;
-        return true;
-    });
+    // std::sort(pieces.begin(), pieces.end(), 
+    //     [](const Piece& a, const Piece& b) -> bool {
+    //         return(!((!a.isUsed()) && b.isUsed()));
+    //     }
+    // );
+    std::sort(pieces.begin(), pieces.end(),
+        [](const Piece& a, const Piece& b) {
+            return (a.isUsed()); // Sufficient condition to sort by use.
+        }
+    );
+    std::cout << "sorting successful\n";
 }
 
 void Circuit::setValidationConditions() {
@@ -406,9 +412,8 @@ void Circuit::setValidationConditions() {
 }
 
 void Circuit::sanitiseLoop() {
-    std::cout << "Starting sanitisation for loop " << currentLoop << "\n";
     
-    if(currentLoop - 1 == maxLoops) {
+    if(currentLoop + 1 == maxLoops) {
         // Last loop does not need 3 con sanitisation.
         std::cout << "Last loop does not need sanitisation\n";
         return;

@@ -29,7 +29,7 @@ private:
     float validationAngle;
     float validationDist;
     // float halfMaxDist; // Half of the maximum linear distance of this track.
-
+    bool isTwoLevel;
 
 
     /**
@@ -96,6 +96,11 @@ private:
      * Sets up the conditions for the coming loop.
     */
     void setupLoop();
+
+    /**
+     * Sets up the conditions for the generation.
+    */
+    void setupGeneration();
 
     /**
      * Determines whether there are pieces placed in between c1 and c2
