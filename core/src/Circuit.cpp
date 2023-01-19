@@ -38,7 +38,7 @@ bool Circuit::generate() {
     // Start timer
     this->startTime = std::chrono::steady_clock::now();
 
-    std::cout << "Maximum number of loops: "<< remainingLoops << "\n";
+    std::cout << "Maximum number of loops: "<< maxLoops << "\n";
 
     // return launchLoopGenerations();
     
@@ -92,6 +92,7 @@ bool Circuit::launchLoopGenerations() {
         // Generate the track!
         if(this->generateLoop((*startPiece), (*startConnector))) {
             std::cout << "Generation " << generationCount << " successful\n";
+            printTrack();
             return true;
         }
 
@@ -101,7 +102,7 @@ bool Circuit::launchLoopGenerations() {
         if(this->generationCount >= this->maxGenerations) return false;
 
         // Track could not be generated.
-        this->reset();
+        this->resetIteration();
     }
 }
 
@@ -254,12 +255,9 @@ void Circuit::shufflePieces() {
     std::shuffle(pieces.begin() + placedEnd, pieces.begin() + availableEnd, this->randomEngine);
 }
 
-void Circuit::reset() {
-    // Shuffle pieces aroun
+void Circuit::resetIteration() {
     shufflePieces();
-    // Reset number pieces placed
     nbPiecesPlaced = 0;
-    // Reset number of recursions in this generation
     currentNumberRecursions = 0;
 }
 
@@ -281,7 +279,7 @@ void Circuit::setupLoop() {
 
     // Position the placedEnd and availableEnd indices.
     std::cout << "Setting index locations\n"; 
-    setIndexLocations(remainingLoops);
+    setIndexLocations(maxLoops - currentLoop);
 
     // Shuffles the pieces around.
     std::cout << "Shuffling pieces\n";
@@ -350,18 +348,11 @@ void Circuit::sanitise() {
             }
         }
     }
-    // TO REMOVE!! IT'S NOT SANITISATION THIS!!
-    // Determine the number of loops this circuit can have
-    int threeConPieces = 0;
-    for(const Piece& p : pieces) {
-        if(p.getId() == "M" || p.getId() == "L") threeConPieces ++;
-    }
-    this->remainingLoops = threeConPieces / 2 + 1;
 }
 
 
 
-void Circuit::setIndexLocations(int remainingLoops) {
+void Circuit::setIndexLocations(int remainingNumberLoops) {
     // Finds the position of the last piece placed.
     for(unsigned int i = 0; i < pieces.size(); i++) {
         if(!pieces[i].isUsed()) {
@@ -371,7 +362,7 @@ void Circuit::setIndexLocations(int remainingLoops) {
         }
     }
     // Divides the total number of available pieces with the number of remaining loops to find the number of available pieces for the next loop
-    availableEnd = (pieces.size() - placedEnd) / remainingLoops;
+    availableEnd = (pieces.size() - placedEnd) / remainingNumberLoops;
 
     if(placedEnd > availableEnd) std::cerr<<"Placed pieces are higher than available pieces.\n";
     if(availableEnd > (int)pieces.size()) std::cerr << "Available pieces are higher than size of vector.\n";
@@ -413,6 +404,10 @@ void Circuit::setValidationConditions() {
 }
 
 void Circuit::sanitiseLoop() {
+
+    std::cout << "Sanitisation START\n";
+    printTrack();
+    std::cout << placedEnd << " Placed end; " << availableEnd << " Available end;\n";
     
     if(currentLoop + 1 == maxLoops) {
         // Last loop does not need 3 con sanitisation.
@@ -503,6 +498,8 @@ void Circuit::sanitiseLoop() {
         std::iter_swap(pieces.begin() + index1, pieces.begin() + index2);
     }
 
+    printTrack();
+
     // Check that it is correct
     int n3c = 0;
     for(int i = placedEnd; i < availableEnd; i++) {
@@ -514,8 +511,11 @@ void Circuit::sanitiseLoop() {
 }
 
 void Circuit::printTrack() {
+    std::cout << "N, ID, USED, 3CON, ASCENDING\n";
     for(int i = 0; i < pieces.size(); i++) {
-        std::cout << i << ": used: " << pieces[i].isUsed() << ", id: " << pieces[i].getId() << "\n";
+        bool ascending = pieces[i].getId() == "N";
+        bool threeCon = pieces[i].getId() == "L" || pieces[i].getId() == "M";
+        std::cout << i << ", " << pieces[i].getId() << ", " << pieces[i].isUsed() << ", " << threeCon << ", " << ascending <<"\n";
     }
 }
 

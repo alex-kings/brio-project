@@ -19,7 +19,6 @@ private:
     std::vector<Piece> pieces;
     std::default_random_engine randomEngine;
     // The maximum number of loops this circuit can theoretically have.
-    int remainingLoops;
     int maxLoops;
     // The start time of the entire generation.
     std::chrono::steady_clock::time_point startTime;
@@ -90,7 +89,7 @@ private:
      * Re-shuffles the available pieces around and mark all pieces as unused. Restarts the timer.
      * Keeps the placed pieces intact.
     */
-    void reset();
+    void resetIteration();
 
     /**
      * Sets up the conditions for the coming loop.
