@@ -273,16 +273,17 @@ void Circuit::reset() {
 }
 
 void Circuit::setupLoop() {
+    // Ensure all the placed pieces are at the start of the vector
+    putUsedPiecesInFront();
+
     // Position the placedEnd and availableEnd indices.
     setIndexLocations(remainingLoops);
 
     // Shuffles the pieces around.
     shufflePieces();
 
-    if(currentLoop + 1 != maxLoops) {
-        // Not the last loop: there must be exactly 2 three connector pieces in the set.
-        ensureCorrectNumberThreeCon();
-    }
+    // Ensuring correct number of 3con and ascending pieces in the loop.
+    sanitiseLoop();
 
     // Setup validation conditions
     if(currentLoop == 0) {
@@ -298,15 +299,19 @@ void Circuit::setupLoop() {
     else {
         setValidationConditions();
     }
-    
-    // Max level of this loop
-    // for(int i = placedEnd; i < availableEnd; i++) {
-    //     if(pieces[i].getId() == "N") numberAscending++;
-    // }
+    // Calculate the max level of this loop.
+    int numberAscending = 0;
+    for(int i = placedEnd; i < availableEnd; i++) {
+        if(pieces[i].getId() == "N") numberAscending++;
+    }
+    maxLevelLoop = (numberAscending / 2) + startConnector->getLevel();
 
+    // Setup minimum pieces placed condition
+    this->minPieceNb = 0.6*(availableEnd - placedEnd) + nbPiecesPlaced; // 60% of the available pieces for this loop, plus the already placed pieces.
 }
 
 void Circuit::calculateMaxLevel() {
+    // BUGGY
     int numberAscending = 0;
     for(const Piece& p : this->pieces) {
         if(p.getId() == "N") numberAscending ++;
@@ -353,6 +358,8 @@ void Circuit::sanitise() {
     this->remainingLoops = threeConPieces / 2 + 1;
 }
 
+
+
 void Circuit::setIndexLocations(int remainingLoops) {
     // Finds the position of the last piece placed.
     for(unsigned int i = 0; i < pieces.size(); i++) {
@@ -370,6 +377,7 @@ void Circuit::setIndexLocations(int remainingLoops) {
 }
 
 void Circuit::putUsedPiecesInFront() {
+    std::cout << "Putting used pieces in front.\n";
     // Sorting condition depends on the use of the pieces.
     std::sort(pieces.begin(), pieces.end(), [](Piece& a, Piece& b) {
         if(!a.isUsed() && b.isUsed()) return false;
@@ -397,10 +405,44 @@ void Circuit::setValidationConditions() {
     this->validationConnector = &(validationPiece->getOpenConnector());
 }
 
-void Circuit::ensureCorrectNumberThreeCon() {
-    std::cout << "Ensuring the correct number of 3 connector pieces in the list of available pieces.\n";
-    // if(remainingLoops == 1) return;
+void Circuit::sanitiseLoop() {
+    std::cout << "Starting sanitisation for loop " << currentLoop << "\n";
     
+    if(currentLoop - 1 == maxLoops) {
+        // Last loop does not need 3 con sanitisation.
+        std::cout << "Last loop does not need sanitisation\n";
+        return;
+    }
+
+    // Ascending pieces sanitisation.
+    int ascendingNumber = 0;
+    for(int i = placedEnd; i < availableEnd; i++) {
+        if(pieces[i].getId() == "N") ascendingNumber++;
+    }
+    if(ascendingNumber % 2 != 0) {
+        // Need to change the number of ascending pieces. Remove one from the set.
+        int index1 = 0;
+        int index2 = 0;
+        
+        // Find index of the ascending piece to remove
+        for(int i = placedEnd; i < availableEnd; i++) {
+            if (pieces[i].getId() == "N") {
+                index1 = i;
+                break;
+            }
+        }
+        // Find index of a non ascending piece in the available pieces.
+        for(int i = availableEnd; i < (int)pieces.size(); i++) {
+            if(pieces[i].getId() != "N") {
+                index2 = i;
+                break;
+            }
+        }
+
+        // Swap the two
+        std::iter_swap(pieces.begin() + index1, pieces.begin() + index2);
+    }
+
     // Ensure that there are EXACTLY two 3-con pieces in the set of available pieces for the coming generation.
     int numberThreeCon = 0;
     for(int i = placedEnd; i < availableEnd; i++) {

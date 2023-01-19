@@ -49,6 +49,7 @@ private:
     const unsigned int maxGenerations = 100; // 100
     // The maximum level this track can go to.
     int maxLevel;
+    int maxLevelLoop; // The max level this loop can go to.
     unsigned int minPieceNb;
 
 
@@ -140,9 +141,9 @@ private:
     void setValidationConditions();
 
     /**
-     * Ensure that there are exactly 2 three connector pieces in the set of available pieces for the generation of the current loop.
+     * Sanitise the current loop: must contain the correct number of 3con pieces, as well as a pair number of going up/down pieces.
     */
-    void ensureCorrectNumberThreeCon();
+    void sanitiseLoop();
     
 public:
     /**
