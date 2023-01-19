@@ -62,18 +62,21 @@ bool Circuit::generate() {
             return false;
         }
 
+        std::cout << "First loop generated successfully! Going for second.\n";
+
         // Generation of the loop successful.
         remainingLoops --;
 
         if(remainingLoops > 0) {
-            std::cout << "Preparing for next loop\n";
+            std::cout << "Preparing for second loop\n";
             // Prepare next generation
             putUsedPiecesInFront();
+            std::cout << "Pieces placed have been put in front.\n";
             setIndexLocations(remainingLoops);
-
+            std::cout << "Index locations have been set up.\n";
             // Change the start and validation pieces and connectors
             setValidationConditions();
-
+            std::cout << "Validation conditions set up.\n";
             // Reset generation count.
             this->generationCount = 0;
         }
@@ -255,6 +258,8 @@ void Circuit::shufflePieces() {
     catch(const std::exception& e){
         std::cerr << e.what() << '\n';
     }
+    // Ensure there are exactly two threecon pieces
+    ensureCorrectNumberThreeCon();
 }
 
 void Circuit::reset() {
@@ -341,11 +346,14 @@ void Circuit::setValidationConditions() {
     std::vector<Piece*> openConPiece;
     // Finds the two open connectors in the placed pieces.
     for(int i = 0; i < placedEnd; i++) {
-        std::cout << "Index: " << i << "\n";
         if(pieces[i].hasOpenConnector()) {
             openConPiece.push_back(&(pieces[i]));
         }
     }
+
+    // Check that openConPiece has exactly two pieces
+    if(openConPiece.size() != 2) std::cerr << "There aren't exactly two open connectors available!\n";
+    else std::cout << "Validation conditions could be set for the second loop! :)\n";
     
     // ASSUMES THAT THERE ARE ALWAYS ONLY TWO OPEN CONNECTOR PIECES!
     this->startPiece = openConPiece[0];
@@ -354,6 +362,73 @@ void Circuit::setValidationConditions() {
     this->validationConnector = &(validationPiece->getOpenConnector());
 }
 
+void Circuit::ensureCorrectNumberThreeCon() {
+    std::cout << "Ensuring the correct number of 3 connector pieces in the list of available pieces.\n";
+    if(remainingLoops == 1) return;
+    
+    // Ensure that there are EXACTLY two 3-con pieces in the set of available pieces for the coming generation.
+    int numberThreeCon = 0;
+    for(int i = placedEnd; i < availableEnd; i++) {
+        if(pieces[i].getId() == "M" || pieces[i].getId() == "L") {
+            numberThreeCon ++;
+        }
+    }
+    while(numberThreeCon != 2) {
+        // The indices of the pieces to swap.
+        int index1=-1;
+        int index2=-1;
+
+        if(numberThreeCon < 2) {
+            // Need to get an extra 3con piece.
+            numberThreeCon++;
+
+            // Find 3con piece in the list of unavailable pieces.
+            for(unsigned int i = availableEnd; i < pieces.size(); i++) {
+                if(pieces[i].getId() == "M" || pieces[i].getId() == "L") {
+                    index1 = i;
+                    break;
+                }
+            }
+            // Find the index of a non-3con piece in the list of available pieces
+            for(int j = placedEnd; j < availableEnd; j++) {
+                if(pieces[j].getId() != "M" && pieces[j].getId() != "L") {
+                    index2 = j;
+                }
+                break;
+            }
+        }
+        else{
+            // Need to get rid of a 3con piece.
+            numberThreeCon--;
+
+            // Find a 3con piece in the list of available pieces
+            for(int i = placedEnd; i < availableEnd; i++) {
+                if(pieces[i].getId() == "M" || pieces[i].getId() == "L") {
+                    index1 = i;
+                    break;
+                }
+            }
+            // Find the index of a non-3con piece in the list of unavailable pieces
+            for(unsigned int j = availableEnd; j < pieces.size(); j++) {
+                if(pieces[j].getId() != "M" && pieces[j].getId() != "L") {
+                    index2 = j;
+                }
+                break;
+            }
+        }
+        // Swap the pieces at the indices we got
+        std::iter_swap(pieces.begin() + index1, pieces.begin() + index2);
+    }
+
+    // Check that it is correct
+    int n3c = 0;
+    for(int i = placedEnd; i < availableEnd; i++) {
+        if(pieces[i].getId() == "M" || pieces[i].getId() == "L") {
+            n3c ++;
+        }
+    }
+    if(n3c != 2) std::cerr << "Ensuring there are exactly 2 threecon pieces in available set did not work.\n";
+}
 
 
 // // bool Circuit::piecesInBetween(const Connector& c1, const Connector& c2) const {
