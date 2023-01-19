@@ -30,7 +30,7 @@ Circuit::Circuit(std::vector<Piece> allPieces, const int seed, const bool isTwoL
     // validationDist = pieces.size() * 5;
     this->validationDist = 200;
     // minPieceNb = std::floor(pieces.size()*0.6); // 60% of pieces
-    this->minPieceNb = 8;
+    this->minPieceNb = 0.6*(availableEnd - placedEnd); // 60% of the pieces available for generation in the current loop.
 
     if(isTwoLevel) {
         this->maxLevel = 1;
