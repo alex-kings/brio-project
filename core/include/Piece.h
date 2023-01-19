@@ -62,7 +62,7 @@ public:
     const std::string& getId() const {
         return id;
     }
-    bool isUsed() const {
+    const bool isUsed() const {
         return this->used;
     }
     bool isFlippable() const {

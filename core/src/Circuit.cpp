@@ -277,6 +277,9 @@ void Circuit::setupGeneration() {
 }
 
 void Circuit::setupLoop() {
+    // Reset the number of generations.
+    generationCount = 0;
+
     // Ensure all the placed pieces are at the start of the vector
     std::cout << "Putting used pieces in front\n";
     putUsedPiecesInFront();
@@ -379,12 +382,15 @@ void Circuit::putUsedPiecesInFront() {
     //         return(!((!a.isUsed()) && b.isUsed()));
     //     }
     // );
-    std::sort(pieces.begin(), pieces.end(),
-        [](const Piece& a, const Piece& b) {
-            return (a.isUsed()); // Sufficient condition to sort by use.
+    printTrack();
+    for(int i = placedEnd; i < availableEnd; i++) {
+        if(!pieces[i].isUsed()) {
+            auto it = pieces.begin() + i;
+            std::rotate(it, it+1, pieces.begin() + availableEnd);
         }
-    );
+    }
     std::cout << "sorting successful\n";
+    printTrack();
 }
 
 void Circuit::setValidationConditions() {
@@ -510,11 +516,12 @@ void Circuit::sanitiseLoop() {
 }
 
 void Circuit::printTrack() {
+    std::cout << "PlacedEnd: " << placedEnd << "; AvailableEnd: " << availableEnd << "\n";
     std::cout << "N, ID, USED, 3CON, ASCENDING\n";
     for(int i = 0; i < pieces.size(); i++) {
         bool ascending = pieces[i].getId() == "N";
         bool threeCon = pieces[i].getId() == "L" || pieces[i].getId() == "M";
-        std::cout << i << ", " << pieces[i].getId() << ", " << pieces[i].isUsed() << ", " << threeCon << ", " << ascending <<"\n";
+        std::cout << i << ",  " << pieces[i].getId() << ",  " << pieces[i].isUsed() << ",  " << threeCon << ",  " << ascending <<"\n";
     }
 }
 
