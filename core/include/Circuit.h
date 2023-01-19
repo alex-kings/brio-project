@@ -12,44 +12,55 @@
 class Circuit {
 
 private:
-    std::vector<Piece> pieces;
-    int placedEnd; // The index of the end of the section of placed pieces.
-    int availableEnd; // The index of the end of the section of available pieces.
-    std::default_random_engine randomEngine;
 
+    /**
+     * Global members
+    */
+    std::vector<Piece> pieces;
+    std::default_random_engine randomEngine;
     // The maximum number of loops this circuit can theoretically have.
     int remainingLoops;
-
     // The start time of the entire generation.
     std::chrono::steady_clock::time_point startTime;
-
-    // The start piece
-    Piece* startPiece;
-    Connector* startConnector;
-
-    // The validation piece
-    Piece* validationPiece;
-    Connector* validationConnector;
-
-    // Recursion information.
-    unsigned int generationCount = 0;
-    const unsigned int maxGenerations = 100; // 100
-    const unsigned int maxNumberRecursions = 10000; // 10 000
-    unsigned int currentNumberRecursions = 0; 
-
     unsigned int nbPiecesPlaced = 0;
-
-    // The maximum level this track can go to.
-    int maxLevel;
-
-    // The unused connectors
-    std::vector<std::pair<Piece*, Connector*>> unusedConnectors;
 
     // Validation conditions
     float validationAngle;
     float validationDist;
     unsigned int minPieceNb;
     float halfMaxDist; // Half of the maximum linear distance of this track.
+
+
+
+    /**
+     * Current Loop members
+    */
+    int placedEnd; // The index of the end of the section of placed pieces.
+    int availableEnd; // The index of the end of the section of available pieces.
+    // The start piece
+    Piece* startPiece;
+    Connector* startConnector;
+    // The validation piece
+    Piece* validationPiece;
+    Connector* validationConnector;
+    // Recursion information.
+    unsigned int generationCount = 0;
+    const unsigned int maxGenerations = 100; // 100
+    // The maximum level this track can go to.
+    int maxLevel;
+
+
+
+    /**
+     * Current Loop iteration members
+    */
+    const unsigned int maxNumberRecursions = 10000; // 10 000
+    unsigned int currentNumberRecursions = 0; 
+
+
+
+    // The unused connectors
+    // std::vector<std::pair<Piece*, Connector*>> unusedConnectors;
 
     /**
      * Recursively connects pieces together to generate a closed track.
@@ -77,6 +88,11 @@ private:
      * Keeps the placed pieces intact.
     */
     void reset();
+
+    /**
+     * Sets up the conditions for the coming loop.
+    */
+    void setupLoop();
 
     /**
      * Determines whether there are pieces placed in between c1 and c2

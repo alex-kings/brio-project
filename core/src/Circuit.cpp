@@ -260,7 +260,7 @@ void Circuit::shufflePieces() {
         std::cerr << e.what() << '\n';
     }
     // Ensure there are exactly two threecon pieces
-    ensureCorrectNumberThreeCon();
+    // ensureCorrectNumberThreeCon();
 }
 
 void Circuit::reset() {
@@ -270,6 +270,14 @@ void Circuit::reset() {
     nbPiecesPlaced = 0;
     // Reset number of recursions in this generation
     currentNumberRecursions = 0;
+}
+
+void Circuit::setupLoop() {
+    // Position the placedEnd and availableEnd indices.
+    setIndexLocations(remainingLoops);
+
+    // Shuffle all the unplaced pieces around
+    shufflePieces();
 }
 
 void Circuit::calculateMaxLevel() {
