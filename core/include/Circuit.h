@@ -20,6 +20,7 @@ private:
     std::default_random_engine randomEngine;
     // The maximum number of loops this circuit can theoretically have.
     int remainingLoops;
+    int maxLoops;
     // The start time of the entire generation.
     std::chrono::steady_clock::time_point startTime;
     unsigned int nbPiecesPlaced = 0;
@@ -27,14 +28,14 @@ private:
     // Validation conditions
     float validationAngle;
     float validationDist;
-    unsigned int minPieceNb;
-    float halfMaxDist; // Half of the maximum linear distance of this track.
+    // float halfMaxDist; // Half of the maximum linear distance of this track.
 
 
 
     /**
      * Current Loop members
     */
+    int currentLoop;
     int placedEnd; // The index of the end of the section of placed pieces.
     int availableEnd; // The index of the end of the section of available pieces.
     // The start piece
@@ -48,6 +49,7 @@ private:
     const unsigned int maxGenerations = 100; // 100
     // The maximum level this track can go to.
     int maxLevel;
+    unsigned int minPieceNb;
 
 
 

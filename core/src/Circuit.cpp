@@ -276,8 +276,34 @@ void Circuit::setupLoop() {
     // Position the placedEnd and availableEnd indices.
     setIndexLocations(remainingLoops);
 
-    // Shuffle all the unplaced pieces around
+    // Shuffles the pieces around.
     shufflePieces();
+
+    if(currentLoop + 1 != maxLoops) {
+        // Not the last loop: there must be exactly 2 three connector pieces in the set.
+        ensureCorrectNumberThreeCon();
+    }
+
+    // Setup validation conditions
+    if(currentLoop == 0) {
+        // First loop 
+        this->startPiece = &pieces.at(0);
+        this->validationPiece = &pieces.at(0);
+        std::vector<Connector*> cons = startPiece->getOpenConnectors();
+        this->startConnector = cons[0];
+        this->validationConnector = cons[1];
+        pieces.at(0).setUsed(true);
+        nbPiecesPlaced = 1;
+    }
+    else {
+        setValidationConditions();
+    }
+    
+    // Max level of this loop
+    // for(int i = placedEnd; i < availableEnd; i++) {
+    //     if(pieces[i].getId() == "N") numberAscending++;
+    // }
+
 }
 
 void Circuit::calculateMaxLevel() {
@@ -362,21 +388,18 @@ void Circuit::setValidationConditions() {
 
     // Check that openConPiece has exactly two pieces
     if(openConPiece.size() != 2) std::cerr << "There aren't exactly two open connectors available!\n";
-    else std::cout << "Validation conditions could be set for the second loop! :)\n";
+    else std::cout << "Validation conditions could be set for this loop! :)\n";
     
     // ASSUMES THAT THERE ARE ALWAYS ONLY TWO OPEN CONNECTOR PIECES!
     this->startPiece = openConPiece[0];
     this->startConnector = &(startPiece->getOpenConnector());
     this->validationPiece = openConPiece[1];
     this->validationConnector = &(validationPiece->getOpenConnector());
-
-    // Set the min number of pieces
-    minPieceNb = 0.6 * (availableEnd - placedEnd);
 }
 
 void Circuit::ensureCorrectNumberThreeCon() {
     std::cout << "Ensuring the correct number of 3 connector pieces in the list of available pieces.\n";
-    if(remainingLoops == 1) return;
+    // if(remainingLoops == 1) return;
     
     // Ensure that there are EXACTLY two 3-con pieces in the set of available pieces for the coming generation.
     int numberThreeCon = 0;
