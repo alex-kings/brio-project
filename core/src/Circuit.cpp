@@ -92,7 +92,7 @@ bool Circuit::launchLoopGenerations() {
         // Generate the track!
         if(this->generateLoop((*startPiece), (*startConnector))) {
             std::cout << "Generation " << generationCount << " successful\n";
-            printTrack();
+            // printTrack();
             return true;
         }
 
@@ -404,11 +404,6 @@ void Circuit::setValidationConditions() {
 }
 
 void Circuit::sanitiseLoop() {
-
-    std::cout << "Sanitisation START\n";
-    printTrack();
-    std::cout << placedEnd << " Placed end; " << availableEnd << " Available end;\n";
-    
     if(currentLoop + 1 == maxLoops) {
         // Last loop does not need 3 con sanitisation.
         std::cout << "Last loop does not need sanitisation\n";
@@ -471,8 +466,8 @@ void Circuit::sanitiseLoop() {
             for(int j = placedEnd; j < availableEnd; j++) {
                 if(pieces[j].getId() != "M" && pieces[j].getId() != "L") {
                     index2 = j;
+                    break;
                 }
-                break;
             }
         }
         else{
@@ -490,15 +485,15 @@ void Circuit::sanitiseLoop() {
             for(unsigned int j = availableEnd; j < pieces.size(); j++) {
                 if(pieces[j].getId() != "M" && pieces[j].getId() != "L") {
                     index2 = j;
+                    break;
                 }
-                break;
             }
         }
         // Swap the pieces at the indices we got
         std::iter_swap(pieces.begin() + index1, pieces.begin() + index2);
     }
 
-    printTrack();
+    // printTrack();
 
     // Check that it is correct
     int n3c = 0;
