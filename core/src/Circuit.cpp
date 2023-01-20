@@ -107,6 +107,7 @@ bool Circuit::launchLoopGenerations() {
 }
 
 bool Circuit::generateLoop(const Piece& lastPiece, Connector& openConnector) {
+    // std::cout << "Starting iteration " << currentNumberRecursions << " for generation of loop " << currentLoop <<"\n";
     this->currentNumberRecursions ++;
     if(this->currentNumberRecursions >= this->maxNumberRecursions) return false;
 
@@ -219,9 +220,27 @@ bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connect
                 //     openCon.link(*validationConnector);
                 //     return true; 
                 // }
-                // Track is closed!
-                openCon.link(*validationConnector);
-                return true; 
+                std::cout << "Valid conditions!\n";
+
+                // Ensure that is this isn't the last loop, there are EXACTLY two 3con pieces placed.
+                if(currentLoop + 1 != maxLoops) {
+                    int numberThreeConPlaced = 0;
+                    for(Piece& piece : pieces) {
+                        if(piece.isUsed() && (piece.getId() == "L" || piece.getId() == "M")) {
+                            numberThreeConPlaced++;
+                        }
+                    }
+                    if(numberThreeConPlaced == 2) {
+                        // Track is closed!
+                        openCon.link(*validationConnector);
+                        return true; 
+                    }
+                }
+                else {
+                    // Track is closed!
+                    openCon.link(*validationConnector);
+                    return true; 
+                }
             }
 
             // Place the next piece.
@@ -383,7 +402,7 @@ void Circuit::putUsedPiecesInFront() {
     //         return(!((!a.isUsed()) && b.isUsed()));
     //     }
     // );
-    printTrack();
+    // printTrack();
     for(int i = placedEnd; i < availableEnd; i++) {
         if(!pieces[i].isUsed()) {
             auto it = pieces.begin() + i;
@@ -391,7 +410,7 @@ void Circuit::putUsedPiecesInFront() {
         }
     }
     std::cout << "sorting successful\n";
-    printTrack();
+    // printTrack();
 }
 
 void Circuit::setValidationConditions() {
@@ -402,6 +421,8 @@ void Circuit::setValidationConditions() {
             openConPiece.push_back(&(pieces[i]));
         }
     }
+
+    printTrack();
 
     // Check that openConPiece has exactly two pieces
     if(openConPiece.size() != 2) std::cerr << "There aren't exactly two open connectors available!\n";
@@ -420,6 +441,9 @@ void Circuit::sanitiseLoop() {
         std::cout << "Last loop does not need sanitisation\n";
         return;
     }
+
+    std::cout << "Before sanitising\n";
+    printTrack();
 
     // Ascending pieces sanitisation.
     int ascendingNumber = 0;
@@ -504,7 +528,8 @@ void Circuit::sanitiseLoop() {
         std::iter_swap(pieces.begin() + index1, pieces.begin() + index2);
     }
 
-    // printTrack();
+    std::cout << "After sanitising.\n";
+    printTrack();
 
     // Check that it is correct
     int n3c = 0;
