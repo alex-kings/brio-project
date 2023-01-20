@@ -12,3 +12,7 @@ Compile with meson and emscripten:
 ```
 meson setup build --cross-file=wasm.ini
 ```
+
+
+_20/01/2023_ **CORE**  
+Make SURE that for non-last loops, there are always 2 3con pieces in the set of placeable pieces, and that these pieces ARE ALWAYS placed before starting generating the next loop.
