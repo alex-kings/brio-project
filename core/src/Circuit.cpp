@@ -42,11 +42,13 @@ bool Circuit::generate() {
 
     // return launchLoopGenerations();
     
-    for (int i = 0; i < maxLoops; i++) {
+    for (currentLoop = 0; currentLoop < maxLoops; currentLoop++) {
         std::cout << "Starting!\n";
-        currentLoop = i;
         setupLoop();
-        if(!launchLoopGenerations()) return false;
+        if(!launchLoopGenerations()) {
+            // Generation of the current loop unsuccessful. Resetting to the previous loop generation.
+            return false;
+        }
     }
     return true;
 }
@@ -67,8 +69,8 @@ bool Circuit::launchLoopGenerations() {
         // Check if the maximum number of generations has been reached.
         if(this->generationCount >= this->maxGenerations) {
             std::cout << "Maximum number of generations has been reached. Couldn't generate the track.\n";
-            return true;
-            // return false;
+            return false;
+            // return true;
         }
 
         // Track could not be generated.
@@ -294,6 +296,20 @@ void Circuit::setupLoop() {
     // printTrack();
 }
 
+
+void Circuit::resetPreviousLoop() {
+    // Get the previous placedEnd
+    if(pEnds.size() > 1) {
+        pEnds.pop();
+    }
+    int previousPlacedEnd = pEnds.top();
+
+    // Empty pieces placed during the last loop generation
+    for(int i = previousPlacedEnd; i < pieces.size(); i++) {
+        pieces[i].setUsed(false);
+    }
+}
+
 void Circuit::sanitise() {
     int ascendingPieces = 0;
     int mPieces = 0;
@@ -327,7 +343,6 @@ void Circuit::sanitise() {
 }
 
 
-
 void Circuit::setIndexLocations() {
     // Finds the position of the last piece placed.
     for(unsigned int i = 0; i < pieces.size(); i++) {
@@ -337,6 +352,9 @@ void Circuit::setIndexLocations() {
             break;
         }
     }
+    // Keep current placedEnd on the stack.
+    pEnds.push(placedEnd);
+
     // Divides the total number of available pieces with the number of remaining loops to find the number of available pieces for the next loop
     availableEnd = pieces.size() / (maxLoops - currentLoop);
 

@@ -4,6 +4,7 @@
 #include "Piece.h"
 #include <random>
 #include <chrono>
+#include <stack>
 
 /** 
  * Class for the generation of tracks.
@@ -35,9 +36,9 @@ private:
      * Current Loop members
     */
     int currentLoop;
-    int placedEnd; // The index of the end of the section of placed pieces.
+    int placedEnd = 1; // The index of the end of the section of placed pieces.
     int availableEnd; // The index of the end of the section of available pieces.
-    int previousPlacedEnd; // The placedEnd index from the previous loop. This can be used to reset the generation to a previous loop.
+    std::stack<int> pEnds; // The previously used placedEnd's.
     // The start piece
     Piece* startPiece;
     Connector* startConnector;
@@ -98,6 +99,11 @@ private:
      * Sets up the conditions for the coming loop.
     */
     void setupLoop();
+
+    /**
+     * Resets the pieces to the state they were during previous loop genration.
+    */
+    void resetPreviousLoop();
 
     /**
      * Sets up the conditions for the generation.
