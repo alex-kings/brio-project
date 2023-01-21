@@ -96,6 +96,8 @@ bool Circuit::launchLoopGenerations() {
             return true;
         }
 
+        std::cout << "Generation " << generationCount << " unsuccessful (loop " << currentLoop << ")\n";
+
         // std::cout << "Generation " << this->generationCount << " unsuccessful after " << this->currentNumberRecursions << " recursions.\n";
 
         // Check if the maximum number of generations has been reached.
@@ -397,20 +399,12 @@ void Circuit::setIndexLocations(int remainingNumberLoops) {
 
 void Circuit::putUsedPiecesInFront() {
     // Sorting condition depends on the use of the pieces.
-    // std::sort(pieces.begin(), pieces.end(), 
-    //     [](const Piece& a, const Piece& b) -> bool {
-    //         return(!((!a.isUsed()) && b.isUsed()));
-    //     }
-    // );
-    // printTrack();
-    for(int i = placedEnd; i < availableEnd; i++) {
-        if(!pieces[i].isUsed()) {
-            auto it = pieces.begin() + i;
-            std::rotate(it, it+1, pieces.begin() + availableEnd);
+    std::sort(pieces.begin(), pieces.end(), 
+        [](Piece& a, Piece& b) -> bool {
+            if(a.isUsed() == b.isUsed()) return false; // Behaviour like "less than" comparison
+            return(a.isUsed());
         }
-    }
-    std::cout << "sorting successful\n";
-    // printTrack();
+    );
 }
 
 void Circuit::setValidationConditions() {
