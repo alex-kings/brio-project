@@ -181,3 +181,11 @@ Also, previous version was kicking off many generation attempts for the first lo
 Instead, in this version, the first loop is generated from a number of generation attempts. Then the second loop is given a number of generation attempts too, to build itself on top of the first loop.  
 
 Very nice thought: No need for mulitple vectors of pieces. The same vector of pieces initially made can be used throughout the generation. A LoopGenerator is given the set of pieces as well as the range of indices it's allowed to work on!
+
+_20/01/2023_ **CORE**  
+Make SURE that for non-last loops, there are always 2 3con pieces in the set of placeable pieces, and that these pieces ARE ALWAYS placed before starting generating the next loop.
+
+_21/01/2023_ **CORE**
+Managed to get generations for multi-loops using the technique described above. The multiple loops are generated within the SAME VECTOR to avoid separation and re-gluing of vectors of pieces. 
+Problems: 1) Often the first loop is generated with impossible conditions for the second loop to terminate (occulted connectors for example). Need to take this into consideration. For example, reset the previous loop if the generation was not possible for loop n.  
+2) For more than 1 loop, the first loop often uses 3con pieces of the same type, making the second loop impossible to complete.
