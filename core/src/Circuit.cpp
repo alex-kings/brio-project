@@ -285,7 +285,8 @@ void Circuit::shufflePiecesIteration() {
 
 void Circuit::resetIteration() {
     shufflePiecesIteration();
-    nbPiecesPlaced = 0;
+    // Reset number of pieces placed to be the placedEnd index
+    nbPiecesPlaced = placedEnd;
     currentNumberRecursions = 0;
 }
 
