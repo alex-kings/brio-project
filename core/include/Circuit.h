@@ -52,14 +52,11 @@ private:
     int maxLevelLoop; // The max level this loop can go to.
     unsigned int minPieceNb;
 
-
-
     /**
      * Current Loop iteration members
     */
     const unsigned int maxNumberRecursions = 10000; // 10 000
     unsigned int currentNumberRecursions = 0; 
-
 
 
     // The unused connectors
@@ -111,16 +108,6 @@ private:
      * Determines whether there are pieces placed in between c1 and c2
     */
     // bool piecesInBetween(const Connector& c1, const Connector& c2) const;
-
-    /**
-     * Calculates the maximum level the track can go to by checking the number of ascending pieces in the set.
-    */
-    void calculateMaxLevel();
-
-    /**
-     * Tells whether all the 3 connector pieces are placed.
-    */
-    bool allThreeConPlaced() const;
 
     /**
      * Launches generations of the current loop.

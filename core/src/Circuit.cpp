@@ -294,15 +294,6 @@ void Circuit::setupLoop() {
     // printTrack();
 }
 
-void Circuit::calculateMaxLevel() {
-    // BUGGY
-    int numberAscending = 0;
-    for(const Piece& p : this->pieces) {
-        if(p.getId() == "N") numberAscending ++;
-    }
-    this->maxLevel = this->startConnector->getLevel() + (numberAscending / 2);
-}
-
 void Circuit::sanitise() {
     int ascendingPieces = 0;
     int mPieces = 0;
