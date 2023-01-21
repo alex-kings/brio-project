@@ -47,7 +47,16 @@ bool Circuit::generate() {
         setupLoop();
         if(!launchLoopGenerations()) {
             // Generation of the current loop unsuccessful. Resetting to the previous loop generation.
-            return false;
+            if(currentLoop == 0) {
+                // Loop 0 failed.
+                std::cout << "Failed to build loop 0.\n";
+                return false;
+            }
+            else {
+                // Resetting to the previous loop.
+                currentLoop -= 2;
+                resetPreviousLoop();
+            }
         }
     }
     return true;
@@ -64,7 +73,7 @@ bool Circuit::launchLoopGenerations() {
             return true;
         }
 
-        std::cout << "Generation " << generationCount << " unsuccessful (loop " << currentLoop << ", it " << currentNumberRecursions << ")\n";
+        // std::cout << "Generation " << generationCount << " unsuccessful (loop " << currentLoop << ", it " << currentNumberRecursions << ")\n";
 
         // Check if the maximum number of generations has been reached.
         if(this->generationCount >= this->maxGenerations) {
@@ -261,7 +270,7 @@ void Circuit::setupLoop() {
 
     // Ensure all the placed pieces are at the start of the vector
     putUsedPiecesInFront();
-    std::cout << "Used pieces put in front.\n";
+    // std::cout << "Used pieces put in front.\n";
 
     // Position the placedEnd and availableEnd indices.
     setIndexLocations();
@@ -269,16 +278,16 @@ void Circuit::setupLoop() {
 
     // Shuffles the pieces around.
     shufflePieces();
-    std::cout << "Pieces shuffled\n";
+    // std::cout << "Pieces shuffled\n";
 
     // Ensuring correct number of 3con and ascending pieces in the loop.
     sanitiseLoop();
-    std::cout << "Pieces sanitised\n";
+    // std::cout << "Pieces sanitised\n";
 
     // Setup validation conditions
     if(currentLoop != 0) {
         setValidationConditions();
-        std::cout << "Validation conditions setup.\n";
+        // std::cout << "Validation conditions setup.\n";
     }
 
     // Calculate the max level of this loop.
@@ -287,11 +296,11 @@ void Circuit::setupLoop() {
         if(pieces[i].getId() == "N") numberAscending++;
     }
     maxLevelLoop = (numberAscending / 2) + startConnector->getLevel();
-    std::cout << "Max level: "<<maxLevelLoop <<"\n";
+    // std::cout << "Max level: "<<maxLevelLoop <<"\n";
 
     // Setup minimum pieces placed condition
     this->minPieceNb = 0.6*(availableEnd - placedEnd) + nbPiecesPlaced; // 60% of the available pieces for this loop, plus the already placed pieces.
-    std::cout << "Minimum piece condition: " << minPieceNb <<"\n";
+    // std::cout << "Minimum piece condition: " << minPieceNb <<"\n";
 
     // printTrack();
 }
@@ -383,7 +392,6 @@ void Circuit::setValidationConditions() {
 
     // Check that openConPiece has exactly two pieces
     if(openConPiece.size() != 2) std::cerr << "There aren't exactly two open connectors available!\n";
-    else std::cout << "Validation conditions could be set for this loop! :)\n";
     
     // ASSUMES THAT THERE ARE ALWAYS ONLY TWO OPEN CONNECTOR PIECES!
     this->startPiece = openConPiece[0];

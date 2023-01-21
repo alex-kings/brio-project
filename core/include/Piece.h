@@ -73,6 +73,12 @@ public:
     // Setter
     void setUsed(bool u) {
         this->used = u;
+        if(!u) {
+            // Mark this piece's connectors as free
+            for(Connector& con : connectors) {
+                con.setConnected(false);
+            }
+        }
     }
 
     // Parts
