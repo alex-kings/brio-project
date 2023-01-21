@@ -49,39 +49,6 @@ bool Circuit::generate() {
         if(!launchLoopGenerations()) return false;
     }
     return true;
-
-    // while(remainingLoops > 0) {
-    //     loopCount++;
-    //     std::cout << "Starting generation for loop " << loopCount << "\n";
-
-    //     if(!launchLoopGenerations()) {
-    //         // The generation did not work.
-    //         return false;
-    //     }
-
-    //     std::cout << "First loop generated successfully! Going for second.\n";
-
-    //     // Generation of the loop successful.
-    //     remainingLoops --;
-
-    //     if(remainingLoops > 0) {
-    //         std::cout << "Preparing for second loop\n";
-    //         // Prepare next generation
-    //         putUsedPiecesInFront();
-    //         std::cout << "Pieces placed have been put in front.\n";
-    //         setIndexLocations(remainingLoops);
-    //         std::cout << "Index locations have been set up.\n";
-    //         std::cout << "placedEnd: " << placedEnd << " availableEnd: " << availableEnd << "\n";
-    //         // Change the start and validation pieces and connectors
-    //         setValidationConditions();
-    //         std::cout << "Validation conditions set up.\n";
-    //         // Reset generation count.
-    //         this->generationCount = 0;
-    //     }
-    // }
-
-    // return launchLoopGenerations();
-    // return true;
 }
 
 bool Circuit::launchLoopGenerations() {
@@ -97,15 +64,12 @@ bool Circuit::launchLoopGenerations() {
 
         std::cout << "Generation " << generationCount << " unsuccessful (loop " << currentLoop << ", it " << currentNumberRecursions << ")\n";
 
-        // std::cout << "Generation " << this->generationCount << " unsuccessful after " << this->currentNumberRecursions << " recursions.\n";
-
         // Check if the maximum number of generations has been reached.
         if(this->generationCount >= this->maxGenerations) {
             std::cout << "Maximum number of generations has been reached. Couldn't generate the track.\n";
             return true;
             // return false;
         }
-
 
         // Track could not be generated.
         this->resetIteration();
@@ -214,19 +178,6 @@ bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connect
                 // if(!piecesInBetween(openCon, *validationConnector)) {
                 // }
 
-                // Check that a pair number of 3 connector pieces is placed.
-                // int numberThreeConPlaced = 0;
-                // for(Piece& piece : this->pieces) {
-                //     if(piece.isUsed() && (piece.getId() == "L" || piece.getId() == "M")) {    
-                //         numberThreeConPlaced ++;
-                //     }
-                // }
-                // if(numberThreeConPlaced % 2 == 0 && this->allThreeConPlaced()) {
-                //     // Track is closed!
-                //     openCon.link(*validationConnector);
-                //     return true; 
-                // }
-
                 // Ensure that is this isn't the last loop, there are EXACTLY two 3con pieces placed.
                 if(currentLoop + 1 != maxLoops) {
                     int numberThreeConPlaced = 0;
@@ -285,7 +236,6 @@ void Circuit::shufflePiecesIteration() {
 
 void Circuit::resetIteration() {
     shufflePiecesIteration();
-    // Reset number of pieces placed to be the placedEnd index
     nbPiecesPlaced = placedEnd;
     currentNumberRecursions = 0;
 }
@@ -324,7 +274,6 @@ void Circuit::setupLoop() {
     std::cout << "Pieces sanitised\n";
 
     // Setup validation conditions
-
     if(currentLoop != 0) {
         setValidationConditions();
         std::cout << "Validation conditions setup.\n";
@@ -342,7 +291,7 @@ void Circuit::setupLoop() {
     this->minPieceNb = 0.6*(availableEnd - placedEnd) + nbPiecesPlaced; // 60% of the available pieces for this loop, plus the already placed pieces.
     std::cout << "Minimum piece condition: " << minPieceNb <<"\n";
 
-    printTrack();
+    // printTrack();
 }
 
 void Circuit::calculateMaxLevel() {

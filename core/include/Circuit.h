@@ -37,6 +37,7 @@ private:
     int currentLoop;
     int placedEnd; // The index of the end of the section of placed pieces.
     int availableEnd; // The index of the end of the section of available pieces.
+    int previousPlacedEnd; // The placedEnd index from the previous loop. This can be used to reset the generation to a previous loop.
     // The start piece
     Piece* startPiece;
     Connector* startConnector;
