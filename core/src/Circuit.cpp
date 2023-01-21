@@ -92,16 +92,20 @@ bool Circuit::launchLoopGenerations() {
         // Generate the track!
         if(this->generateLoop((*startPiece), (*startConnector))) {
             std::cout << "Generation " << generationCount << " successful\n";
-            // printTrack();
             return true;
         }
 
-        std::cout << "Generation " << generationCount << " unsuccessful (loop " << currentLoop << ")\n";
+        std::cout << "Generation " << generationCount << " unsuccessful (loop " << currentLoop << ", it " << currentNumberRecursions << ")\n";
 
         // std::cout << "Generation " << this->generationCount << " unsuccessful after " << this->currentNumberRecursions << " recursions.\n";
 
         // Check if the maximum number of generations has been reached.
-        if(this->generationCount >= this->maxGenerations) return false;
+        if(this->generationCount >= this->maxGenerations) {
+            std::cout << "Maximum number of generations has been reached. Couldn't generate the track.\n";
+            return true;
+            // return false;
+        }
+
 
         // Track could not be generated.
         this->resetIteration();
@@ -416,8 +420,6 @@ void Circuit::setValidationConditions() {
         }
     }
 
-    printTrack();
-
     // Check that openConPiece has exactly two pieces
     if(openConPiece.size() != 2) std::cerr << "There aren't exactly two open connectors available!\n";
     else std::cout << "Validation conditions could be set for this loop! :)\n";
@@ -435,9 +437,6 @@ void Circuit::sanitiseLoop() {
         std::cout << "Last loop does not need sanitisation\n";
         return;
     }
-
-    std::cout << "Before sanitising\n";
-    printTrack();
 
     // Ascending pieces sanitisation.
     int ascendingNumber = 0;
@@ -521,9 +520,6 @@ void Circuit::sanitiseLoop() {
         // Swap the pieces at the indices we got
         std::iter_swap(pieces.begin() + index1, pieces.begin() + index2);
     }
-
-    std::cout << "After sanitising.\n";
-    printTrack();
 
     // Check that it is correct
     int n3c = 0;
