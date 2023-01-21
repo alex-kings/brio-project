@@ -137,7 +137,7 @@ private:
     /**
      * Sets the indexes of placedEnd and availableEnd at the right location
     */
-    void setIndexLocations(int remainingNumberLoops);
+    void setIndexLocations();
 
     /**
      * Sorts the pieces so that all the placed pieces are located at the front of the piece array

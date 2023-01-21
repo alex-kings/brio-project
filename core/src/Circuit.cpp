@@ -226,7 +226,6 @@ bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connect
                 //     openCon.link(*validationConnector);
                 //     return true; 
                 // }
-                std::cout << "Valid conditions!\n";
 
                 // Ensure that is this isn't the last loop, there are EXACTLY two 3con pieces placed.
                 if(currentLoop + 1 != maxLoops) {
@@ -302,44 +301,47 @@ void Circuit::setupGeneration() {
 }
 
 void Circuit::setupLoop() {
+    std::cout << "Setting up for loop "<< currentLoop << "\n";
     // Reset the number of generations.
     generationCount = 0;
     currentNumberRecursions = 0;
 
     // Ensure all the placed pieces are at the start of the vector
-    std::cout << "Putting used pieces in front\n";
     putUsedPiecesInFront();
+    std::cout << "Used pieces put in front.\n";
 
     // Position the placedEnd and availableEnd indices.
-    std::cout << "Setting index locations\n"; 
-    setIndexLocations(maxLoops - currentLoop);
+    setIndexLocations();
+    std::cout << "Indices setup: "<< placedEnd << " and "<< availableEnd<<"\n"; 
 
     // Shuffles the pieces around.
-    std::cout << "Shuffling pieces\n";
     shufflePieces();
+    std::cout << "Pieces shuffled\n";
 
     // Ensuring correct number of 3con and ascending pieces in the loop.
-    std::cout << "Sanitising\n";
     sanitiseLoop();
+    std::cout << "Pieces sanitised\n";
 
     // Setup validation conditions
-    std::cout << "Setting up validation conditions\n";
 
     if(currentLoop != 0) {
         setValidationConditions();
+        std::cout << "Validation conditions setup.\n";
     }
 
-    std::cout << "Calculating the max level for this loop\n";
     // Calculate the max level of this loop.
     int numberAscending = 0;
     for(int i = placedEnd; i < availableEnd; i++) {
         if(pieces[i].getId() == "N") numberAscending++;
     }
     maxLevelLoop = (numberAscending / 2) + startConnector->getLevel();
+    std::cout << "Max level: "<<maxLevelLoop <<"\n";
 
-    std::cout << "Setting up minimum pieces placed condition\n";
     // Setup minimum pieces placed condition
     this->minPieceNb = 0.6*(availableEnd - placedEnd) + nbPiecesPlaced; // 60% of the available pieces for this loop, plus the already placed pieces.
+    std::cout << "Minimum piece condition: " << minPieceNb <<"\n";
+
+    printTrack();
 }
 
 void Circuit::calculateMaxLevel() {
@@ -385,7 +387,7 @@ void Circuit::sanitise() {
 
 
 
-void Circuit::setIndexLocations(int remainingNumberLoops) {
+void Circuit::setIndexLocations() {
     // Finds the position of the last piece placed.
     for(unsigned int i = 0; i < pieces.size(); i++) {
         if(!pieces[i].isUsed()) {
@@ -395,7 +397,7 @@ void Circuit::setIndexLocations(int remainingNumberLoops) {
         }
     }
     // Divides the total number of available pieces with the number of remaining loops to find the number of available pieces for the next loop
-    availableEnd = (pieces.size() - placedEnd) / remainingNumberLoops;
+    availableEnd = pieces.size() / (maxLoops - currentLoop);
 
     if(placedEnd > availableEnd) std::cerr<<"Placed pieces are higher than available pieces.\n";
     if(availableEnd > (int)pieces.size()) std::cerr << "Available pieces are higher than size of vector.\n";
