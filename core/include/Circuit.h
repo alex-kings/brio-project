@@ -40,11 +40,11 @@ private:
     int availableEnd; // The index of the end of the section of available pieces.
     std::stack<int> pEnds; // The previously used placedEnd's.
     // The start piece
-    Piece* startPiece;
-    Connector* startConnector;
-    // The validation piece
-    Piece* validationPiece;
-    Connector* validationConnector;
+    // Piece* startPiece;
+    // Connector* startConnector;
+    // // The validation piece
+    // Piece* validationPiece;
+    // Connector* validationConnector;
 
     // The previously used validation conditions
     struct validationCondition {

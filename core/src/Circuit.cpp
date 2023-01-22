@@ -73,7 +73,7 @@ bool Circuit::launchLoopGenerations() {
         // std::cout<<"Generation " << this->generationCount << " starting.\n";
 
         // Generate the track!
-        if(this->generateLoop((*startPiece), (*startConnector))) {
+        if(this->generateLoop(*(validationConditions.top().startPiece), *(validationConditions.top().startConnector))) {
             std::cout << "Generation " << generationCount << " successful\n";
             return true;
         }
@@ -189,7 +189,7 @@ bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connect
             Connector& openCon = *(freeConnectors.at(0)); // Get the open connector
 
             // Checks whether the validation conditions are met between the validation connector and the test piece's open connector.
-            if(nbPiecesPlaced >= minPieceNb && openCon.validate(*validationConnector, validationAngle, validationDist)) {
+            if(nbPiecesPlaced >= minPieceNb && openCon.validate(*validationConditions.top().validationConnector, validationAngle, validationDist)) {
                 // Tests if there are pieces in between the two validation connectors
                 // if(!piecesInBetween(openCon, *validationConnector)) {
                 // }
@@ -204,13 +204,13 @@ bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connect
                     }
                     if(numberThreeConPlaced == 2) {
                         // Track is closed!
-                        openCon.link(*validationConnector);
+                        openCon.link(*validationConditions.top().validationConnector);
                         return true; 
                     }
                 }
                 else {
                     // Track is closed!
-                    openCon.link(*validationConnector);
+                    openCon.link(*validationConditions.top().validationConnector);
                     return true; 
                 }
             }
@@ -258,13 +258,13 @@ void Circuit::resetIteration() {
 
 void Circuit::setupInitialValidationConditions() {
     // Start piece conditions
-    this->startPiece = &pieces.at(0);
-    this->validationPiece = &pieces.at(0);
-    std::vector<Connector*> cons = startPiece->getOpenConnectors();
-    this->startConnector = cons[0];
-    this->validationConnector = cons[1];
+    // this->startPiece = &pieces.at(0);
+    // this->validationPiece = &pieces.at(0);
+    std::vector<Connector*> cons = pieces[0].getOpenConnectors();
+    // this->startConnector = cons[0];
+    // this->validationConnector = cons[1];
 
-    validationConditions.emplace(&pieces.at(0), &pieces.at(0), cons[0], cons[1]);
+    validationConditions.emplace(&pieces.at(0), cons[0], &pieces.at(0), cons[1]);
 
     pieces.at(0).setUsed(true);
     nbPiecesPlaced = 1;
@@ -305,9 +305,9 @@ bool Circuit::setupLoop() {
         if(pieces[i].getId() == "N") numberAscending++;
     }
     std::cout << "Now setting up maxLevel\n";
-    std::cout << (*startConnector).getLevel() << "\n";
-    std::cout << startConnector->getLevel();
-    maxLevelLoop = (numberAscending / 2) + startConnector->getLevel();
+    std::cout << (*validationConditions.top().startConnector).getLevel() << "\n";
+    std::cout << validationConditions.top().startConnector->getLevel();
+    maxLevelLoop = (numberAscending / 2) + validationConditions.top().startConnector->getLevel();
     std::cout << "Max level setup: "<<maxLevelLoop <<"\n";
 
     // Setup minimum pieces placed condition
@@ -332,9 +332,11 @@ void Circuit::resetPreviousLoop() {
     }
 
     // Close the validation connectors of the previous loop
-    std::cout << "Start connector is connected already? " << (startConnector->isFree() ? "no" : "yes") << "\n";
-    validationConnector->setConnected(false);
-    startConnector->setConnected(false);
+    std::cout << "Start connector is connected already? " << (validationConditions.top().startConnector->isFree() ? "no" : "yes") << "\n";
+    // validationConnector->setConnected(false);
+    // startConnector->setConnected(false);
+    validationConditions.top().validationConnector->setConnected(false);
+    validationConditions.top().startConnector->setConnected(false);
 
     // If resetting for loop 0, make sure the first piece's connectors are open
     if(currentLoop == 0) {
@@ -421,12 +423,12 @@ bool Circuit::setValidationConditions() {
     }
     
     // ASSUMES THAT THERE ARE ALWAYS ONLY TWO OPEN CONNECTOR PIECES AT THIS POINT.
-    this->startPiece = openConPiece[0];
-    this->startConnector = &(startPiece->getOpenConnector());
-    this->validationPiece = openConPiece[1];
-    this->validationConnector = &(validationPiece->getOpenConnector());
+    // this->startPiece = openConPiece[0];
+    // this->startConnector = &(startPiece->getOpenConnector());
+    // this->validationPiece = openConPiece[1];
+    // this->validationConnector = &(validationPiece->getOpenConnector());
 
-    validationConditions.emplace(openConPiece[0], &(startPiece->getOpenConnector()), openConPiece[1], &(validationPiece->getOpenConnector()));
+    validationConditions.emplace(openConPiece[0], &(openConPiece[0]->getOpenConnector()), openConPiece[1], &(openConPiece[1]->getOpenConnector()));
 
     return true;
 }
