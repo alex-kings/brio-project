@@ -48,7 +48,6 @@ bool Circuit::generate() {
             // Setup was unsuccessful
             return true; // Should return false here.
         }
-        std::cout << "Loop number: " << currentLoop << "\n";
         if(!launchLoopGenerations()) {
             // Generation of the current loop unsuccessful. Resetting to the previous loop generation.
             if(currentLoop == 0) {
@@ -268,6 +267,7 @@ void Circuit::setupInitialValidationConditions() {
 
     pieces.at(0).setUsed(true);
     pEnds.push(1); // TEST
+    std::cout << "Pushed 1 onto pEnds\n";
     nbPiecesPlaced = 1;
 }
 
@@ -300,7 +300,7 @@ bool Circuit::setupLoop() {
     }
 
     // Calculate the max level of this loop.
-    printTrack();
+    // printTrack();
     int numberAscending = 0;
     for(int i = pEnds.top(); i < availableEnd; i++) {
         if(pieces[i].getId() == "N") numberAscending++;
@@ -319,20 +319,21 @@ bool Circuit::setupLoop() {
 
 void Circuit::resetPreviousLoop() {
     // Get the previous placed end
-    // if(pEnds.size() > 1) {
-    //     pEnds.pop();
-    // }
+    std::cout << "Going from generation " << currentLoop+1 << " to generation " << currentLoop <<"\n";
+    std::cout << "Previous placed end: " << pEnds.top() << "\n";
     pEnds.pop();
+    std::cout << "POPPED PENDS\n";
+    std::cout << "Now placed end: " << pEnds.top() << "\n";
     // int previousplaced end = pEnds.top();
-    std::cout << "Resetting for generation " << currentLoop << " with placed end: " << pEnds.top() <<"\n";
 
     // Empty pieces placed during the last loop generation
     for(int i = pEnds.top(); i < pieces.size(); i++) {
         pieces[i].setUsed(false);
     }
+    pEnds.pop(); // Need to pop a second time to avoid duplication of pEnds.
+    std::cout << "POPPED PENDS AGAIN \n";
 
     // Close the validation connectors of the previous loop
-    std::cout << "Start connector is connected already? " << (validationConditions.top().startConnector->isFree() ? "no" : "yes") << "\n";
     // validationConnector->setConnected(false);
     // startConnector->setConnected(false);
     validationConditions.top().validationConnector->setConnected(false);
@@ -340,9 +341,11 @@ void Circuit::resetPreviousLoop() {
     validationConditions.pop();
     validationConditions.top().validationConnector->setConnected(false);
     validationConditions.top().startConnector->setConnected(false);
+    validationConditions.pop(); // Pop a second time.
 
     // If resetting for loop 0, make sure the first piece's connectors are open
     if(currentLoop == 0) {
+        std::cout << "Setting up the initial validation conditions for the initial generation." << "\n";
         setupInitialValidationConditions();
     }
 }
@@ -386,11 +389,10 @@ void Circuit::setIndexLocations() {
         if(!pieces[i].isUsed()) {
             // Piece is not used.
             pEnds.push(i);
+            std::cout << "Pushed " << i << " onto pEnds\n";
             break;
         }
     }
-    // Keep current placed end on the stack.
-    // pEnds.push(pEnds.top());
 
     // Divides the total number of available pieces with the number of remaining loops to find the number of available pieces for the next loop
     availableEnd = ((pieces.size() - pEnds.top()) / (maxLoops - currentLoop) ) + pEnds.top();
@@ -411,7 +413,6 @@ void Circuit::putUsedPiecesInFront() {
 
 bool Circuit::setValidationConditions() {
     std::vector<Piece*> openConPiece;
-    std::cout << "Placed end index: " << pEnds.top() << "\n";
     // Finds the two open connectors in the placed pieces.
     for(int i = 0; i < pEnds.top(); i++) {
         if(pieces[i].hasOpenConnector()) {
