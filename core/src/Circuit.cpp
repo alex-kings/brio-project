@@ -101,7 +101,7 @@ bool Circuit::generateLoop(const Piece& lastPiece, Connector& openConnector) {
     std::unordered_set<std::string> previouslyTested;
 
     // Look for pieces that can be placed
-    for(int i : this->getRandomIterable(this->placedEnd, this->availableEnd)) {
+    for(int i : this->getRandomIterable(pEnds.top(), this->availableEnd)) {
         Piece& testPiece = this->pieces.at(i);
 
         if(testPiece.isUsed()) continue; // Skip pieces already placed
@@ -197,7 +197,7 @@ bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connect
                 // Ensure that if this isn't the last loop, there are EXACTLY two 3con pieces placed in the current loop.
                 if(currentLoop + 1 != maxLoops) {
                     int numberThreeConPlaced = 0;
-                    for(int i = placedEnd; i < availableEnd; i++) {
+                    for(int i = pEnds.top(); i < availableEnd; i++) {
                         if(pieces[i].isUsed() && (pieces[i].getId() == "L" || pieces[i].getId() == "M")) {
                             numberThreeConPlaced++;
                         }
@@ -243,16 +243,16 @@ std::vector<int> Circuit::getRandomIterable(int start, int end) {
 }
 
 void Circuit::shufflePieces() {
-    std::shuffle(pieces.begin() + placedEnd, pieces.end(), this->randomEngine);
+    std::shuffle(pieces.begin() + pEnds.top(), pieces.end(), this->randomEngine);
 }
 
 void Circuit::shufflePiecesIteration() {
-    std::shuffle(pieces.begin() + placedEnd, pieces.begin() + availableEnd, this->randomEngine);
+    std::shuffle(pieces.begin() + pEnds.top(), pieces.begin() + availableEnd, this->randomEngine);
 }
 
 void Circuit::resetIteration() {
     shufflePiecesIteration();
-    nbPiecesPlaced = placedEnd;
+    nbPiecesPlaced = pEnds.top();
     currentNumberRecursions = 0;
 }
 
@@ -267,6 +267,7 @@ void Circuit::setupInitialValidationConditions() {
     validationConditions.emplace(&pieces.at(0), cons[0], &pieces.at(0), cons[1]);
 
     pieces.at(0).setUsed(true);
+    pEnds.push(1); // TEST
     nbPiecesPlaced = 1;
 }
 
@@ -281,9 +282,9 @@ bool Circuit::setupLoop() {
     putUsedPiecesInFront();
     // std::cout << "Used pieces put in front.\n";
 
-    // Position the placedEnd and availableEnd indices.
+    // Position the placed end and availableEnd indices.
     setIndexLocations();
-    std::cout << "Indices setup: "<< placedEnd << " and "<< availableEnd<<"\n"; 
+    std::cout << "Indices setup: "<< pEnds.top() << " and "<< availableEnd<<"\n"; 
 
     // Shuffles the pieces around.
     shufflePieces();
@@ -301,7 +302,7 @@ bool Circuit::setupLoop() {
     // Calculate the max level of this loop.
     printTrack();
     int numberAscending = 0;
-    for(int i = placedEnd; i < availableEnd; i++) {
+    for(int i = pEnds.top(); i < availableEnd; i++) {
         if(pieces[i].getId() == "N") numberAscending++;
     }
     std::cout << "Now setting up maxLevel\n";
@@ -310,7 +311,7 @@ bool Circuit::setupLoop() {
     std::cout << "Max level setup: "<<maxLevelLoop <<"\n";
 
     // Setup minimum pieces placed condition
-    this->minPieceNb = 0.6*(availableEnd - placedEnd) + nbPiecesPlaced; // 60% of the available pieces for this loop, plus the already placed pieces.
+    this->minPieceNb = 0.6*(availableEnd - pEnds.top()) + nbPiecesPlaced; // 60% of the available pieces for this loop, plus the already placed pieces.
 
     std::cout << "Pieces ready for loop " << currentLoop << "\n";
     return true;
@@ -318,15 +319,16 @@ bool Circuit::setupLoop() {
 
 
 void Circuit::resetPreviousLoop() {
-    // Get the previous placedEnd
-    if(pEnds.size() > 1) {
-        pEnds.pop();
-    }
-    int previousPlacedEnd = pEnds.top();
-    std::cout << "Resetting for generation " << currentLoop << " with placedEnd: " << previousPlacedEnd <<"\n";
+    // Get the previous placed end
+    // if(pEnds.size() > 1) {
+    //     pEnds.pop();
+    // }
+    pEnds.pop();
+    // int previousplaced end = pEnds.top();
+    std::cout << "Resetting for generation " << currentLoop << " with placed end: " << pEnds.top() <<"\n";
 
     // Empty pieces placed during the last loop generation
-    for(int i = previousPlacedEnd; i < pieces.size(); i++) {
+    for(int i = pEnds.top(); i < pieces.size(); i++) {
         pieces[i].setUsed(false);
     }
 
@@ -384,17 +386,17 @@ void Circuit::setIndexLocations() {
     for(unsigned int i = 0; i < pieces.size(); i++) {
         if(!pieces[i].isUsed()) {
             // Piece is not used.
-            placedEnd = i;
+            pEnds.push(i);
             break;
         }
     }
-    // Keep current placedEnd on the stack.
-    pEnds.push(placedEnd);
+    // Keep current placed end on the stack.
+    // pEnds.push(pEnds.top());
 
     // Divides the total number of available pieces with the number of remaining loops to find the number of available pieces for the next loop
     availableEnd = pieces.size() / (maxLoops - currentLoop);
 
-    if(placedEnd > availableEnd) std::cerr<<"Placed pieces are higher than available pieces.\n";
+    if(pEnds.top() > availableEnd) std::cerr<<"Placed pieces are higher than available pieces.\n";
     if(availableEnd > (int)pieces.size()) std::cerr << "Available pieces are higher than size of vector.\n";
 }
 
@@ -410,9 +412,9 @@ void Circuit::putUsedPiecesInFront() {
 
 bool Circuit::setValidationConditions() {
     std::vector<Piece*> openConPiece;
-    std::cout << "PlacedEnd: " << placedEnd << "\n";
+    std::cout << "Placed end index: " << pEnds.top() << "\n";
     // Finds the two open connectors in the placed pieces.
-    for(int i = 0; i < placedEnd; i++) {
+    for(int i = 0; i < pEnds.top(); i++) {
         if(pieces[i].hasOpenConnector()) {
             openConPiece.push_back(&(pieces[i]));
         }
@@ -444,7 +446,7 @@ void Circuit::sanitiseLoop() {
 
     // Ascending pieces sanitisation.
     int ascendingNumber = 0;
-    for(int i = placedEnd; i < availableEnd; i++) {
+    for(int i = pEnds.top(); i < availableEnd; i++) {
         if(pieces[i].getId() == "N") ascendingNumber++;
     }
     if(ascendingNumber % 2 != 0) {
@@ -453,7 +455,7 @@ void Circuit::sanitiseLoop() {
         int index2 = 0;
         
         // Find index of the ascending piece to remove
-        for(int i = placedEnd; i < availableEnd; i++) {
+        for(int i = pEnds.top(); i < availableEnd; i++) {
             if (pieces[i].getId() == "N") {
                 index1 = i;
                 break;
@@ -473,7 +475,7 @@ void Circuit::sanitiseLoop() {
 
     // Ensure that there are EXACTLY two 3-con pieces in the set of available pieces for the coming generation.
     int numberThreeCon = 0;
-    for(int i = placedEnd; i < availableEnd; i++) {
+    for(int i = pEnds.top(); i < availableEnd; i++) {
         if(pieces[i].getId() == "M" || pieces[i].getId() == "L") {
             numberThreeCon ++;
         }
@@ -495,7 +497,7 @@ void Circuit::sanitiseLoop() {
                 }
             }
             // Find the index of a non-3con piece in the list of available pieces
-            for(int j = placedEnd; j < availableEnd; j++) {
+            for(int j = pEnds.top(); j < availableEnd; j++) {
                 if(pieces[j].getId() != "M" && pieces[j].getId() != "L") {
                     index2 = j;
                     break;
@@ -507,7 +509,7 @@ void Circuit::sanitiseLoop() {
             numberThreeCon--;
 
             // Find a 3con piece in the list of available pieces
-            for(int i = placedEnd; i < availableEnd; i++) {
+            for(int i = pEnds.top(); i < availableEnd; i++) {
                 if(pieces[i].getId() == "M" || pieces[i].getId() == "L") {
                     index1 = i;
                     break;
@@ -527,7 +529,7 @@ void Circuit::sanitiseLoop() {
 
     // Check that it is correct
     int n3c = 0;
-    for(int i = placedEnd; i < availableEnd; i++) {
+    for(int i = pEnds.top(); i < availableEnd; i++) {
         if(pieces[i].getId() == "M" || pieces[i].getId() == "L") {
             n3c ++;
         }
@@ -536,7 +538,7 @@ void Circuit::sanitiseLoop() {
 }
 
 void Circuit::printTrack() {
-    std::cout << "PlacedEnd: " << placedEnd << "; AvailableEnd: " << availableEnd << "\n";
+    std::cout << "placed end: " << pEnds.top() << "; AvailableEnd: " << availableEnd << "\n";
     std::cout << "N, ID, USED, 3CON, ASCENDING, AVAIL.CONS.\n";
     for(int i = 0; i < pieces.size(); i++) {
         int n = pieces[i].getOpenConnectors().size();
