@@ -263,6 +263,9 @@ void Circuit::setupInitialValidationConditions() {
     std::vector<Connector*> cons = startPiece->getOpenConnectors();
     this->startConnector = cons[0];
     this->validationConnector = cons[1];
+
+    validationConditions.emplace(&pieces.at(0), &pieces.at(0), cons[0], cons[1]);
+
     pieces.at(0).setUsed(true);
     nbPiecesPlaced = 1;
 }
@@ -422,6 +425,9 @@ bool Circuit::setValidationConditions() {
     this->startConnector = &(startPiece->getOpenConnector());
     this->validationPiece = openConPiece[1];
     this->validationConnector = &(validationPiece->getOpenConnector());
+
+    validationConditions.emplace(openConPiece[0], &(startPiece->getOpenConnector()), openConPiece[1], &(validationPiece->getOpenConnector()));
+
     return true;
 }
 

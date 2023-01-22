@@ -61,7 +61,8 @@ private:
             validationConnector = vCon;
         }
     };
-    std::stack<validationCondition> pValidationConditions;
+    std::stack<validationCondition> validationConditions;
+
 
     // Recursion information.
     unsigned int generationCount = 0;
