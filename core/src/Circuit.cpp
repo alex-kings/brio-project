@@ -194,11 +194,11 @@ bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connect
                 // if(!piecesInBetween(openCon, *validationConnector)) {
                 // }
 
-                // Ensure that is this isn't the last loop, there are EXACTLY two 3con pieces placed.
+                // Ensure that if this isn't the last loop, there are EXACTLY two 3con pieces placed in the current loop.
                 if(currentLoop + 1 != maxLoops) {
                     int numberThreeConPlaced = 0;
-                    for(Piece& piece : pieces) {
-                        if(piece.isUsed() && (piece.getId() == "L" || piece.getId() == "M")) {
+                    for(int i = placedEnd; i < availableEnd; i++) {
+                        if(pieces[i].isUsed() && (pieces[i].getId() == "L" || pieces[i].getId() == "M")) {
                             numberThreeConPlaced++;
                         }
                     }
@@ -305,6 +305,9 @@ bool Circuit::setupLoop() {
 
     // Setup minimum pieces placed condition
     this->minPieceNb = 0.6*(availableEnd - placedEnd) + nbPiecesPlaced; // 60% of the available pieces for this loop, plus the already placed pieces.
+
+    std::cout << "Pieces ready for loop " << currentLoop << "\n";
+    printTrack();
     return true;
 }
 
@@ -404,12 +407,6 @@ bool Circuit::setValidationConditions() {
     // Check that openConPiece has exactly two pieces
     if(openConPiece.size() != 2) {
         std::cerr << "There aren't exactly two open connectors available!\n";
-        for(Piece& p : pieces) {
-            if(p.getId() == "L" || p.getId() == "M") {
-                int n = p.getOpenConnectors() . size();
-                std::cout<<"ThreeCon piece has " << n << " open connectors.\n";
-            }
-        }
         return false;
     }
     
