@@ -98,7 +98,7 @@ private:
     /**
      * Sets up the conditions for the coming loop.
     */
-    void setupLoop();
+    bool setupLoop();
 
     /**
      * Resets the pieces to the state they were during previous loop genration.
@@ -141,7 +141,7 @@ private:
     /**
      * Sets the startPiece and startConnector, as well as the validationPiece and validationConnector.
     */
-    void setValidationConditions();
+    bool setValidationConditions();
 
     /**
      * Sanitise the current loop: must contain the correct number of 3con pieces, as well as a pair number of going up/down pieces.

@@ -44,7 +44,10 @@ bool Circuit::generate() {
     
     for (currentLoop = 0; currentLoop < maxLoops; currentLoop++) {
         std::cout << "Starting!\n";
-        setupLoop();
+        if(!setupLoop()) {
+            // Setup was unsuccessful
+            return true; // Should return false here.
+        }
         if(!launchLoopGenerations()) {
             // Generation of the current loop unsuccessful. Resetting to the previous loop generation.
             if(currentLoop == 0) {
@@ -262,7 +265,7 @@ void Circuit::setupGeneration() {
     nbPiecesPlaced = 1;
 }
 
-void Circuit::setupLoop() {
+bool Circuit::setupLoop() {
     std::cout << "Setting up for loop "<< currentLoop << "\n";
     // Reset the number of generations.
     generationCount = 0;
@@ -286,8 +289,7 @@ void Circuit::setupLoop() {
 
     // Setup validation conditions
     if(currentLoop != 0) {
-        setValidationConditions();
-        // std::cout << "Validation conditions setup.\n";
+        if(!setValidationConditions()) return false;
     }
 
     // Calculate the max level of this loop.
@@ -303,6 +305,7 @@ void Circuit::setupLoop() {
     // std::cout << "Minimum piece condition: " << minPieceNb <<"\n";
 
     // printTrack();
+    return true;
 }
 
 
@@ -381,8 +384,9 @@ void Circuit::putUsedPiecesInFront() {
     );
 }
 
-void Circuit::setValidationConditions() {
+bool Circuit::setValidationConditions() {
     std::vector<Piece*> openConPiece;
+    std::cout << "PlacedEnd: " << placedEnd << "\n";
     // Finds the two open connectors in the placed pieces.
     for(int i = 0; i < placedEnd; i++) {
         if(pieces[i].hasOpenConnector()) {
@@ -391,13 +395,23 @@ void Circuit::setValidationConditions() {
     }
 
     // Check that openConPiece has exactly two pieces
-    if(openConPiece.size() != 2) std::cerr << "There aren't exactly two open connectors available!\n";
+    if(openConPiece.size() != 2) {
+        std::cerr << "There aren't exactly two open connectors available!\n";
+        for(Piece& p : pieces) {
+            if(p.getId() == "L" || p.getId() == "M") {
+                int n = p.getOpenConnectors() . size();
+                std::cout<<"ThreeCon piece has " << n << " open connectors.\n";
+            }
+        }
+        return false;
+    }
     
-    // ASSUMES THAT THERE ARE ALWAYS ONLY TWO OPEN CONNECTOR PIECES!
+    // ASSUMES THAT THERE ARE ALWAYS ONLY TWO OPEN CONNECTOR PIECES AT THIS POINT.
     this->startPiece = openConPiece[0];
     this->startConnector = &(startPiece->getOpenConnector());
     this->validationPiece = openConPiece[1];
     this->validationConnector = &(validationPiece->getOpenConnector());
+    return true;
 }
 
 void Circuit::sanitiseLoop() {
