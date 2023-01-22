@@ -305,8 +305,7 @@ bool Circuit::setupLoop() {
         if(pieces[i].getId() == "N") numberAscending++;
     }
     std::cout << "Now setting up maxLevel\n";
-    std::cout << (*validationConditions.top().startConnector).getLevel() << "\n";
-    std::cout << validationConditions.top().startConnector->getLevel();
+    std::cout << validationConditions.top().startConnector->getLevel() << "\n";
     maxLevelLoop = (numberAscending / 2) + validationConditions.top().startConnector->getLevel();
     std::cout << "Max level setup: "<<maxLevelLoop <<"\n";
 
@@ -335,6 +334,9 @@ void Circuit::resetPreviousLoop() {
     std::cout << "Start connector is connected already? " << (validationConditions.top().startConnector->isFree() ? "no" : "yes") << "\n";
     // validationConnector->setConnected(false);
     // startConnector->setConnected(false);
+    validationConditions.top().validationConnector->setConnected(false);
+    validationConditions.top().startConnector->setConnected(false);
+    validationConditions.pop();
     validationConditions.top().validationConnector->setConnected(false);
     validationConditions.top().startConnector->setConnected(false);
 
