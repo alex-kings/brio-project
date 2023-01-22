@@ -45,6 +45,24 @@ private:
     // The validation piece
     Piece* validationPiece;
     Connector* validationConnector;
+
+    // The previously used validation conditions
+    struct validationCondition {
+        Piece* startPiece;
+        Connector* startConnector;
+        Piece* validationPiece;
+        Connector* validationConnector;
+
+        // Construct a validationCondition.
+        validationCondition(Piece* sPiece, Connector* sCon, Piece* vPiece, Connector* vCon) {
+            startPiece = sPiece;
+            startConnector = sCon;
+            validationPiece = vPiece;
+            validationConnector = vCon;
+        }
+    };
+    std::stack<validationCondition> pValidationConditions;
+
     // Recursion information.
     unsigned int generationCount = 0;
     const unsigned int maxGenerations = 100; // 100

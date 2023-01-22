@@ -284,11 +284,11 @@ bool Circuit::setupLoop() {
 
     // Shuffles the pieces around.
     shufflePieces();
-    // std::cout << "Pieces shuffled\n";
+    std::cout << "Pieces shuffled\n";
 
     // Ensuring correct number of 3con and ascending pieces in the loop.
     sanitiseLoop();
-    // std::cout << "Pieces sanitised\n";
+    std::cout << "Pieces sanitised\n";
 
     // Setup validation conditions
     if(currentLoop != 0) {
@@ -296,18 +296,21 @@ bool Circuit::setupLoop() {
     }
 
     // Calculate the max level of this loop.
+    printTrack();
     int numberAscending = 0;
     for(int i = placedEnd; i < availableEnd; i++) {
         if(pieces[i].getId() == "N") numberAscending++;
     }
+    std::cout << "Now setting up maxLevel\n";
+    std::cout << (*startConnector).getLevel() << "\n";
+    std::cout << startConnector->getLevel();
     maxLevelLoop = (numberAscending / 2) + startConnector->getLevel();
-    // std::cout << "Max level: "<<maxLevelLoop <<"\n";
+    std::cout << "Max level setup: "<<maxLevelLoop <<"\n";
 
     // Setup minimum pieces placed condition
     this->minPieceNb = 0.6*(availableEnd - placedEnd) + nbPiecesPlaced; // 60% of the available pieces for this loop, plus the already placed pieces.
 
     std::cout << "Pieces ready for loop " << currentLoop << "\n";
-    printTrack();
     return true;
 }
 
@@ -325,9 +328,13 @@ void Circuit::resetPreviousLoop() {
         pieces[i].setUsed(false);
     }
 
+    // Close the validation connectors of the previous loop
+    std::cout << "Start connector is connected already? " << (startConnector->isFree() ? "no" : "yes") << "\n";
+    validationConnector->setConnected(false);
+    startConnector->setConnected(false);
+
     // If resetting for loop 0, make sure the first piece's connectors are open
     if(currentLoop == 0) {
-        pieces[0].closeConnectors();
         setupInitialValidationConditions();
     }
 }
