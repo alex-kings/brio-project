@@ -68,7 +68,6 @@ private:
     unsigned int generationCount = 0;
     const unsigned int maxGenerations = 100; // 100
     // The maximum level this track can go to.
-    int maxLevel;
     int maxLevelLoop; // The max level this loop can go to.
     unsigned int minPieceNb;
 

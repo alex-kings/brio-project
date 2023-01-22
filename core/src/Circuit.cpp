@@ -144,7 +144,7 @@ bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connect
         if(testPiece.getId() == "N") {
             int pieceLevel = testPiece.getLowestLevel();
             // Check that the piece is not below 0 or above the max level
-            if(pieceLevel < 0  || pieceLevel >= maxLevel) continue;
+            if(pieceLevel < 0  || pieceLevel >= maxLevelLoop) continue;
         }
 
         // Angle and position difference between the two connectors.            
@@ -313,6 +313,7 @@ bool Circuit::setupLoop() {
     this->minPieceNb = 0.6*(availableEnd - pEnds.top()) + nbPiecesPlaced; // 60% of the available pieces for this loop, plus the already placed pieces.
 
     std::cout << "Pieces ready for loop " << currentLoop << "\n";
+    printTrack();
     return true;
 }
 
