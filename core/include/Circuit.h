@@ -108,7 +108,7 @@ private:
     /**
      * Sets up the conditions for the generation.
     */
-    void setupGeneration();
+    void setupInitialValidationConditions();
 
     /**
      * Determines whether there are pieces placed in between c1 and c2

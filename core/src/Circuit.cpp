@@ -31,7 +31,7 @@ Circuit::Circuit(std::vector<Piece> allPieces, const int seed, const bool isTwoL
     }
     this->maxLoops = numberThreeCon / 2 + 1;
 
-    setupGeneration();
+    setupInitialValidationConditions();
 }
 
 bool Circuit::generate() {
@@ -48,6 +48,7 @@ bool Circuit::generate() {
             // Setup was unsuccessful
             return true; // Should return false here.
         }
+        std::cout << "Loop number: " << currentLoop << "\n";
         if(!launchLoopGenerations()) {
             // Generation of the current loop unsuccessful. Resetting to the previous loop generation.
             if(currentLoop == 0) {
@@ -57,8 +58,9 @@ bool Circuit::generate() {
             }
             else {
                 // Resetting to the previous loop.
-                currentLoop -= 2;
+                currentLoop --;
                 resetPreviousLoop();
+                currentLoop --;
             }
         }
     }
@@ -254,7 +256,7 @@ void Circuit::resetIteration() {
     currentNumberRecursions = 0;
 }
 
-void Circuit::setupGeneration() {
+void Circuit::setupInitialValidationConditions() {
     // Start piece conditions
     this->startPiece = &pieces.at(0);
     this->validationPiece = &pieces.at(0);
@@ -267,6 +269,7 @@ void Circuit::setupGeneration() {
 
 bool Circuit::setupLoop() {
     std::cout << "Setting up for loop "<< currentLoop << "\n";
+
     // Reset the number of generations.
     generationCount = 0;
     currentNumberRecursions = 0;
@@ -302,9 +305,6 @@ bool Circuit::setupLoop() {
 
     // Setup minimum pieces placed condition
     this->minPieceNb = 0.6*(availableEnd - placedEnd) + nbPiecesPlaced; // 60% of the available pieces for this loop, plus the already placed pieces.
-    // std::cout << "Minimum piece condition: " << minPieceNb <<"\n";
-
-    // printTrack();
     return true;
 }
 
@@ -315,10 +315,17 @@ void Circuit::resetPreviousLoop() {
         pEnds.pop();
     }
     int previousPlacedEnd = pEnds.top();
+    std::cout << "Resetting for generation " << currentLoop << " with placedEnd: " << previousPlacedEnd <<"\n";
 
     // Empty pieces placed during the last loop generation
     for(int i = previousPlacedEnd; i < pieces.size(); i++) {
         pieces[i].setUsed(false);
+    }
+
+    // If resetting for loop 0, make sure the first piece's connectors are open
+    if(currentLoop == 0) {
+        pieces[0].closeConnectors();
+        setupInitialValidationConditions();
     }
 }
 
@@ -516,11 +523,12 @@ void Circuit::sanitiseLoop() {
 
 void Circuit::printTrack() {
     std::cout << "PlacedEnd: " << placedEnd << "; AvailableEnd: " << availableEnd << "\n";
-    std::cout << "N, ID, USED, 3CON, ASCENDING\n";
+    std::cout << "N, ID, USED, 3CON, ASCENDING, AVAIL.CONS.\n";
     for(int i = 0; i < pieces.size(); i++) {
+        int n = pieces[i].getOpenConnectors().size();
         bool ascending = pieces[i].getId() == "N";
         bool threeCon = pieces[i].getId() == "L" || pieces[i].getId() == "M";
-        std::cout << i << ",  " << pieces[i].getId() << ",  " << pieces[i].isUsed() << ",  " << threeCon << ",  " << ascending <<"\n";
+        std::cout << i << ",  " << pieces[i].getId() << ",  " << pieces[i].isUsed() << ",  " << threeCon << ",  " << ascending << ", " << n<<"\n";
     }
 }
 
