@@ -306,7 +306,6 @@ bool Circuit::setupLoop() {
         if(pieces[i].getId() == "N") numberAscending++;
     }
     std::cout << "Now setting up maxLevel\n";
-    std::cout << validationConditions.top().startConnector->getLevel() << "\n";
     maxLevelLoop = (numberAscending / 2) + validationConditions.top().startConnector->getLevel();
     std::cout << "Max level setup: "<<maxLevelLoop <<"\n";
 
@@ -394,7 +393,7 @@ void Circuit::setIndexLocations() {
     // pEnds.push(pEnds.top());
 
     // Divides the total number of available pieces with the number of remaining loops to find the number of available pieces for the next loop
-    availableEnd = pieces.size() / (maxLoops - currentLoop);
+    availableEnd = ((pieces.size() - pEnds.top()) / (maxLoops - currentLoop) ) + pEnds.top();
 
     if(pEnds.top() > availableEnd) std::cerr<<"Placed pieces are higher than available pieces.\n";
     if(availableEnd > (int)pieces.size()) std::cerr << "Available pieces are higher than size of vector.\n";

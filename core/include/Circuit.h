@@ -36,7 +36,7 @@ private:
      * Current Loop members
     */
     int currentLoop;
-    int placedEnd = 1; // The index of the end of the section of placed pieces.
+    // int placedEnd = 1; // The index of the end of the section of placed pieces.
     int availableEnd; // The index of the end of the section of available pieces.
     std::stack<int> pEnds; // The previously used placedEnd's.
     // The start piece
