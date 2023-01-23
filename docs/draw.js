@@ -1,4 +1,5 @@
 import { CanvasDragZoom } from "./scroll.js"
+import { Vec2d } from "./Vec2d.js";
 
 let pieces = []
 
@@ -65,6 +66,41 @@ function getPieceColour(pieceType) {
 }
 
 
+// Level outline colour (max 4 for now)
+function getLevelColour(level) {
+    if(level === 0) return "black"
+    if(level === 1) return "blue"
+    if(level === 2) return "orange"
+    if(level === 3) return "red"
+    else return "green"
+}
+
+
+// Take a line and returns a rectangle of given width around that line
+function getRect(v1, v2){
+    // Calculate unit perpendicular
+    let up = v1.subtract(v2)
+    up = new Vec2d(up.y, -up.x)
+    up = up.scale((2)/up.modulus())
+
+    return [v1.add(up),
+            v1.subtract(up),
+            v2.subtract(up),
+            v2.add(up)]
+}
+
+function drawConnector(ctx,connector) {
+    // Draw rectangle
+    let length = 10
+    let end = new Vec2d(connector.position.x + length*connector.direction.x,connector.position.y + length*connector.direction.y)
+    let conRect = getRect(new Vec2d(connector.position.x, connector.position.y), end)
+    drawRect(ctx,conRect,getLevelColour(connector.level),connector.level)
+
+    // Draw circle at the end
+    drawPoint(ctx,end.x, end.y, getLevelColour(connector.level), 5)
+    
+}
+
 // Draw a piece at position given on the canvas
 function drawPiece(ctx, piece, colour) {
     // Draw each part
@@ -80,29 +116,26 @@ function drawPiece(ctx, piece, colour) {
 
     // Draw connectors
     piece.connectors.forEach(con => {
-        drawPoint(ctx, con.position.x, con.position.y, con.type? "red" : "green");
+        // drawPoint(ctx, con.position.x, con.position.y, con.type? "red" : "green");
+
+        // Only draw connectors of male (true) type.
+        if(con.type) {
+            drawConnector(ctx,con)
+        }
     })
 }
 
+
 // Draw point at given position on canvas
-function drawPoint(ctx, x, y, colour) {
+function drawPoint(ctx, x, y, colour, size) {
     ctx.fillStyle = colour
     ctx.beginPath()
-    ctx.arc(x, y, 3, 0, 2 * Math.PI)
+    ctx.arc(x, y, size, 0, 2 * Math.PI)
     ctx.fill()
 }
 
 // Draw rectangle
 function drawRect(ctx, rect, colour, pieceLevel){
-    // ctx.strokeStyle = colour
-    // ctx.beginPath()
-    // ctx.moveTo(rect[0].x, rect[0].y)
-    // ctx.lineTo(rect[1].x, rect[1].y)
-    // ctx.lineTo(rect[2].x, rect[2].y)
-    // ctx.lineTo(rect[3].x, rect[3].y)
-    // ctx.lineTo(rect[0].x, rect[0].y)
-    // ctx.stroke()
-
     let region = new Path2D()
     region.moveTo(rect[0].x, rect[0].y)
     region.lineTo(rect[1].x, rect[1].y)
@@ -116,17 +149,10 @@ function drawRect(ctx, rect, colour, pieceLevel){
     ctx.fill(region, 'evenodd')
 
     // Stoke colour depends on the piece level.
-    ctx.strokeStyle = getOutlineColour(pieceLevel)
+    ctx.strokeStyle = getLevelColour(pieceLevel)
     ctx.stroke(region)
 }
 
-// Level outline colour (max 4 for now)
-function getOutlineColour(level) {
-    if(level === 0) return "black"
-    if(level === 1) return "blue"
-    if(level === 2) return "orange"
-    if(level === 3) return "red"
-}
 
 // Draw curve
 function drawCurve(ctx, vertices, colour) {
