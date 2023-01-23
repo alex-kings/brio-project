@@ -11,6 +11,9 @@ Piece::Piece(const Json::Value& pieceRep) {
         connectors.emplace_back(connectorRep);
     }
 
+    // Create maxLength attribute
+    maxLength = pieceRep["maxLength"].asFloat();
+
     // Create bounding circle
     circleX = pieceRep["boundingCircle"]["x"].asFloat();
     circleY = pieceRep["boundingCircle"]["y"].asFloat();

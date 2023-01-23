@@ -18,6 +18,7 @@ private:
     std::vector<Connector> connectors;
     bool used = false;  // Tells whether the piece is in use.
     int flipType = 0; // This tells how to best flip this piece.
+    float maxLength; // The maximum length between this piece's connectors.
 
     // Bounding circle
     float circleX;
