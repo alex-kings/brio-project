@@ -189,3 +189,8 @@ _21/01/2023_ **CORE**
 Managed to get generations for multi-loops using the technique described above. The multiple loops are generated within the SAME VECTOR to avoid separation and re-gluing of vectors of pieces. 
 Problems: 1) Often the first loop is generated with impossible conditions for the second loop to terminate (occulted connectors for example). Need to take this into consideration. For example, reset the previous loop if the generation was not possible for loop n.  
 2) For more than 1 loop, the first loop often uses 3con pieces of the same type, making the second loop impossible to complete.
+
+_23/01/2023_ **FRONTEND**  
+Add drawing of the connectors. For this, only the male connectors are drawn outwards. The connectors are drawn in the same colour as the outline of the pieces, to make the level of the piece more obivious. The drawing of the pieces and connectors, as well as the outline colour of the pieces and the colour of the pieces themselves, should provide the users with all the information they need to reproduce the track.
+
+Painter algorithm expanded to include the connectors. Now a list is made containing all the parts and all the connectors. The list is sorted by level (adding 0.5 to the level of connectors so that connectors are always draw on top of pieces). Each element is then drawn in order.
