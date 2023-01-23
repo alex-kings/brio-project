@@ -25,7 +25,7 @@ function draw(options){
     })
 
     // Get all male connectors in a list
-    let connectors = usedPieces.map(p => (p.connectors)).flat().filter(c=>!c.type)
+    let connectors = usedPieces.map(p => (p.connectors)).flat().filter(c=>c.type)
 
     // Add drawLevel to the connectors
     connectors.forEach(con => {

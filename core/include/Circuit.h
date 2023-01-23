@@ -166,6 +166,9 @@ private:
     */
     void sanitiseLoop();
     
+    /**
+     * Print the current track state to console. Used for debug.
+    */
     void printTrack();
 
 public:

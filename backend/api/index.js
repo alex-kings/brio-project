@@ -188,5 +188,32 @@ async function executeCore(selection) {
     return msg
 }
 
-app.listen(port, () => console.log(`API listening on port ${port}.`))
+// Add a maxLength property to each piece
+function addLengthToPieces() {
+    let pieceFile = "../../docs/assets/pieces.json"
+    // Get current file contents
+    const data = JSON.parse(fs.readFileSync(pieceFile))
+    // Append circle
+    for(const id in data) {
+        console.log("piece id: " + id);
+        let p = data[id]
+        let length = getDist(p.connectors[0].pos.x, p.connectors[0].pos.y, p.connectors[1].pos.x, p.connectors[1].pos.y)
+        console.log("length: " + length)
+        p.maxLength = length
+    }
+    // Save new pieces to file
+    const newData = JSON.stringify(data)
+    fs.writeFile(pieceFile, newData, err=>{
+        if(err) console.log(err)
+    })
+
+    // res.end()
+    
+}
+
+function getDist(x1,y1,x2,y2) {
+    return Math.sqrt((x2-x1)**2 + (y2-y1)**2)
+}
+addLengthToPieces();
+// app.listen(port, () => console.log(`API listening on port ${port}.`))
   
