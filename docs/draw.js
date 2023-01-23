@@ -4,19 +4,67 @@ import { Vec2d } from "./Vec2d.js";
 let pieces = []
 
 // Initial drawing on canvas
-function draw(options){       
-    // First sort the pieces by their level.
-    pieces.sort((a,b)=>(getLevel(a) > getLevel(b)));
+function draw(options){    
+    // Filter our unused pieces
+    let usedPieces = pieces.filter(p=>p.used)   
 
-    pieces.forEach(piece => {
-        // Only draw used pieces!
-        if(piece.used) {
-            drawPiece(options.ctx, piece, getPieceColour(piece.id))
-        }            
-        // if(piece.used) drawPiece(options.ctx, piece, "blue")
-        // else drawPiece(options.ctx, piece, "gray")
+    // Give colour to each part
+    usedPieces.forEach(piece => {
+        piece.parts.forEach(part => {
+            part.colour = getPieceColour(piece.id)
+        })
     })
+
+    // Get all parts in a list
+    let parts = usedPieces.map(p => (p.parts)).flat()
+    
+    // Add drawLevel to the parts
+    parts.forEach(part => {
+        part.drawLevel = part.level;
+        part.isConnector = false;
+    })
+
+    // Get all male connectors in a list
+    let connectors = usedPieces.map(p => (p.connectors)).flat().filter(c=>!c.type)
+
+    // Add drawLevel to the connectors
+    connectors.forEach(con => {
+        con.drawLevel = con.level + 0.5
+        con.isConnector = true
+    })
+
+    // Put connectors and parts together
+    let drawParts = parts.concat(connectors)
+
+    // Sort the pieces by drawLevel
+    drawParts.sort((a,b)=>(a.drawLevel > b.drawLevel))
+    
+    drawParts.forEach(p => {
+        if(p.isConnector) {
+            // Draw connector
+            drawConnector(options.ctx,p)
+        }
+        else {
+            // Draw the rectangles for this part
+            p.rectangles.forEach(r=>{
+                drawRect(options.ctx,r,p.colour, p.level)
+            })
+        }
+    })
+
+    // // First sort the pieces by their level.
+    // pieces.sort((a,b)=>(getLevel(a) > getLevel(b)));
+
+    // pieces.forEach(piece => {
+    //     // Only draw used pieces!
+    //     if(piece.used) {
+    //         drawPiece(options.ctx, piece, getPieceColour(piece.id))
+    //     }            
+    //     // if(piece.used) drawPiece(options.ctx, piece, "blue")
+    //     // else drawPiece(options.ctx, piece, "gray")
+    // })
 }
+
 
 function getLevel(piece) {
     let lowestLevel = piece.connectors[0].level
