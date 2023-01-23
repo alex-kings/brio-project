@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="./index.css">
     <link rel="icon" href="./assets/favicon.png">
     <link rel="stylesheet" href="./loader.css">
+    <link rel="stylesheet" href="./tooltip.css">
 </head>
 <body>
     <noscript>Javascript is needed to run the app.</noscript>
@@ -39,9 +40,34 @@
                             <label for="seedInput">Optional seed:</label>
                             <input type="text" id="seedInput" class="input" placeholder="seed">
                         </div>
+                        <br/>
                         <div>
-                            <label for="twoLevel">Two-level track only:</label>
+                            <div class="tooltip">
+                                Two level track only:
+                                <span class="tooltiptext">Determines if the track should go no higher than one level above the ground.</span>
+                            </div>
                             <input type="checkbox" id="twoLevel">
+                        </div>
+                        <br/>
+                        <div>
+                            <div class="tooltip">
+                                Validation conditions:
+                                <span class="tooltiptext">
+                                    Determines how close the end pieces connect to each other. Looser validation conditions lead to faster generation.
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <input type="radio" id="r1" name="validation-conditions" value="1">
+                            <label for="r1">Loose</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="r2" name="validation-conditions" value="1">
+                            <label for="r2">Medium</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="r3" name="validation-conditions" value="1">
+                            <label for="r3">Close</label>
                         </div>
                     </div>
                 </div>
