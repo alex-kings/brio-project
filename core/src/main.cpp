@@ -71,7 +71,7 @@ void printHello(int i) {
 //     // }
 // }
 
-std::string generateTrack(const std::string& selection, const int seed, const int isTwoLevel) {
+std::string generateTrack(const std::string& selection, const int seed, const int isTwoLevel, const std::string vCondition) {
     // User selection of pieces and their available quantities.
     // std::string input = "{\"E\":\"8\",\"A\":\"6\",\"E1\":\"4\",\"D\":\"2\"}";
 
@@ -94,13 +94,7 @@ std::string generateTrack(const std::string& selection, const int seed, const in
     }
 
     // Get track
-    // Track t(pieces, seed, isTwoLevel);
-
-    // if(t.generate()) {
-    //     return t.getTrackJson();
-    // }
-    // else return "{\"error\":1}";
-    Circuit t(pieces, seed, isTwoLevel);
+    Circuit t(pieces, seed, isTwoLevel, vCondition);
 
     if(t.generate()) {
         return t.getTrackJson();

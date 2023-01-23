@@ -173,7 +173,7 @@ public:
      * Construct from a selection of pieces.
      * Puts maxLevel to be one if the track is specified to be two level only.
     */
-    Circuit(std::vector<Piece> allPieces, const int seed, const bool isTwoLevel);
+    Circuit(std::vector<Piece> allPieces, const int seed, const bool isTwoLevel, const std::string vCondition);
 
     /**
      * Generate the circuit

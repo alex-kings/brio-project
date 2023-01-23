@@ -39,11 +39,19 @@ ref('generateBtn').addEventListener('click',()=>{
         console.log("Not a correct seed, using -1 instead.")
     }
 
+    // Get validation condition category
+    let vCondition;
+    document.getElementsByName("validation-conditions").forEach(e=>{
+        if(e.checked) vCondition = e.value;
+    })
     createModule().then(({generateTrack}) => {
         // Stop loading
         ref("loadingPane").style.display = "none"
 
-        result = JSON.parse(generateTrack(JSON.stringify(selection), seed, ref("twoLevel").checked))
+        // Generate!
+        const res = generateTrack(JSON.stringify(selection), seed, ref("twoLevel").checked, vCondition)
+
+        result = JSON.parse(res)
         // console.log(result)
         if(result.error == null) {
             redraw(result.pieces)
@@ -57,8 +65,5 @@ ref('generateBtn').addEventListener('click',()=>{
         }
     })
 })
-
-
-
 
 

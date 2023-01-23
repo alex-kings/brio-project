@@ -6,7 +6,7 @@
 #include <iostream>
 #include <math.h>
 
-Circuit::Circuit(std::vector<Piece> allPieces, const int seed, const bool isTwoLevel) {
+Circuit::Circuit(std::vector<Piece> allPieces, const int seed, const bool isTwoLevel, const std::string vCondition) {
     // Generate random engine with seed. If seed is -1, the current time is used for the seed.
     if(seed == -1) this->randomEngine = std::default_random_engine(std::chrono::system_clock::now().time_since_epoch().count());
     else this->randomEngine = std::default_random_engine(seed); 
@@ -15,11 +15,27 @@ Circuit::Circuit(std::vector<Piece> allPieces, const int seed, const bool isTwoL
     sanitise();
 
     // Validation conditions
-    this->validationAngle = 0.4*M_PI;
-    // validationDist = pieces.size() * 5;
-    this->validationDist = 200;
-    // minPieceNb = std::floor(pieces.size()*0.6); // 60% of pieces
-
+    if(vCondition == "loose") {
+        // Loose validation conditions.
+        validationAngle = 0.4*M_PI;
+        validationDist = 500;
+    }
+    else if(vCondition == "medium") {
+        // Loose validation conditions.
+        validationAngle = 0.3*M_PI;
+        validationDist = 300;
+    }
+    else if(vCondition == "close") {
+        // Loose validation conditions.
+        validationAngle = 0.2*M_PI;
+        validationDist = 100;
+    }
+    else {
+        // Validation condition is something else
+        validationAngle = 0.3*M_PI;
+        validationDist = 300;
+    }
+    
     this->isTwoLevel = isTwoLevel;
 
     // Calculate the maximum number of loops
@@ -310,7 +326,7 @@ bool Circuit::setupLoop() {
     std::cout << "Max level setup: "<<maxLevelLoop <<"\n";
 
     // Setup minimum pieces placed condition
-    this->minPieceNb = 0.6*(availableEnd - pEnds.top()) + nbPiecesPlaced; // 60% of the available pieces for this loop, plus the already placed pieces.
+    this->minPieceNb = std::floor(0.6*(availableEnd - pEnds.top())) + nbPiecesPlaced; // 60% of the available pieces for this loop, plus the already placed pieces.
 
     std::cout << "Pieces ready for loop " << currentLoop << "\n";
     printTrack();
