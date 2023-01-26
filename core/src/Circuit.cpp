@@ -18,12 +18,12 @@ Circuit::Circuit(std::vector<Piece> allPieces, const int seed, const bool isTwoL
     if(vCondition == "loose") {
         // Loose validation conditions.
         validationAngle = 0.4*M_PI;
-        validationDist = 500;
+        validationDist = 300;
     }
     else if(vCondition == "medium") {
         // Loose validation conditions.
         validationAngle = 0.3*M_PI;
-        validationDist = 300;
+        validationDist = 200;
     }
     else if(vCondition == "close") {
         // Loose validation conditions.
@@ -121,8 +121,8 @@ bool Circuit::generateLoop(const Piece& lastPiece, Connector& openConnector) {
     std::unordered_set<std::string> previouslyTested;
 
     // Look for pieces that can be placed
-    for(int i : this->getRandomIterable(pEnds.top(), this->availableEnd)) {
-    // for(int i = pEnds.top(); i < availableEnd; i++) {
+    // for(int i : this->getRandomIterable(pEnds.top(), this->availableEnd)) {
+    for(int i = pEnds.top(); i < availableEnd; i++) {
         Piece& testPiece = this->pieces.at(i);
 
         if(testPiece.isUsed()) continue; // Skip pieces already placed
@@ -238,7 +238,7 @@ bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connect
             }
 
             // Track is not validated. Check the max dist heuristic
-            float distToSuccess = openCon.getPosition().euclidianDist(validationConditions.top().validationConnector -> getPosition());
+            float distToSuccess = openCon.getPosition().euclidianDist(validationConditions.top().validationConnector -> getPosition()) - validationDist;
             if(distToSuccess < availableDist) {
                 // Place the next piece.
                 if(generateLoop(testPiece, openCon) ) {
@@ -246,7 +246,6 @@ bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connect
                     return true;
                 }
             }
-            
             
             // The track could not be build. Unlink and remove piece.
             testPiece.setUsed(false);

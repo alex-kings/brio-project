@@ -61,7 +61,7 @@ private:
 
     // Recursion information.
     unsigned int generationCount = 0;
-    const unsigned int maxGenerations = 1; // 100
+    const unsigned int maxGenerations = 100; // 100
     // The maximum level this track can go to.
     int maxLevelLoop; // The max level this loop can go to.
     unsigned int minPieceNb;
@@ -69,7 +69,7 @@ private:
     /**
      * Current Loop iteration members
     */
-    const unsigned int maxNumberRecursions = 1000000; // 10 000
+    const unsigned int maxNumberRecursions = 10000; // 10 000
     unsigned int currentNumberRecursions = 0; 
 
 
