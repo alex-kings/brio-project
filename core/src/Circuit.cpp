@@ -194,6 +194,7 @@ bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connect
             // Place this piece!
             testPiece.setUsed(true);
             nbPiecesPlaced += 1;
+            availableDist -= testPiece.getDist(); // Remove this piece's distance to the available distance.
 
             // Link the two connectors together
             testCon.link(openConnector);
@@ -245,6 +246,7 @@ bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connect
                 // The track could not be build. Unlink and remove piece.
                 testPiece.setUsed(false);
                 nbPiecesPlaced -= 1;
+                availableDist += testPiece.getDist(); // Add this piece's dist to the total dist.
                 testCon.unlink(openConnector);
             }
         }
@@ -288,7 +290,6 @@ void Circuit::setupInitialValidationConditions() {
 
     pieces.at(0).setUsed(true);
     pEnds.push(1); // TEST
-    std::cout << "Pushed 1 onto pEnds\n";
     nbPiecesPlaced = 1;
 }
 
