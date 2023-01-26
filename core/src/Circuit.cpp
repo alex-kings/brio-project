@@ -82,7 +82,7 @@ bool Circuit::generate() {
     }
     // Print elapsed time.
     std::chrono::steady_clock::time_point endTime = std::chrono::steady_clock::now();
-    std::cout << "Generated in " << std::chrono::duration_cast<std::chrono::seconds>(endTime - startTime).count() << "s\n";
+    std::cout << "Generated in " << std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count() << "ms\n";
 
     return true;
 }
@@ -122,6 +122,7 @@ bool Circuit::generateLoop(const Piece& lastPiece, Connector& openConnector) {
 
     // Look for pieces that can be placed
     for(int i : this->getRandomIterable(pEnds.top(), this->availableEnd)) {
+    // for(int i = pEnds.top(); i < availableEnd; i++) {
         Piece& testPiece = this->pieces.at(i);
 
         if(testPiece.isUsed()) continue; // Skip pieces already placed
@@ -228,7 +229,7 @@ bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connect
                         openCon.link(*validationConditions.top().validationConnector);
                         return true; 
                     }
-                }
+                }                
                 else {
                     // Track is closed!
                     openCon.link(*validationConditions.top().validationConnector);
@@ -236,19 +237,21 @@ bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connect
                 }
             }
 
-            // Place the next piece.
-            if( generateLoop(testPiece, openCon) ) {
-                // The track got built! return true.
-                return true;
+            // // Track is not validated. Check the max dist heuristic
+            float distToSuccess = openCon.getPosition().euclidianDist(validationConditions.top().validationConnector -> getPosition());
+            if(distToSuccess < availableDist) {
+                // Place the next piece.
+                if(generateLoop(testPiece, openCon) ) {
+                    // The track got built! return true.
+                    return true;
+                }
             }
-
-            else {
-                // The track could not be build. Unlink and remove piece.
-                testPiece.setUsed(false);
-                nbPiecesPlaced -= 1;
-                availableDist += testPiece.getDist(); // Add this piece's dist to the total dist.
-                testCon.unlink(openConnector);
-            }
+            
+            // The track could not be build. Unlink and remove piece.
+            testPiece.setUsed(false);
+            nbPiecesPlaced -= 1;
+            availableDist += testPiece.getDist(); // Add this piece's dist to the total dist.
+            testCon.unlink(openConnector);
         }
     }
     return false; // Piece placement was unsuccessful.
