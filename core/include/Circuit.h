@@ -62,6 +62,8 @@ private:
         }
     };
     std::stack<validationCondition> validationConditions;
+    // The distance available in the current set of track pieces.
+    float availableDist;
 
 
     // Recursion information.

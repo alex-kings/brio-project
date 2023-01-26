@@ -70,6 +70,9 @@ public:
         // Any flip type over 0 is flippable by definition.
         return (flipType > 0);
     }
+    float getMaxLength() const {
+        return maxLength;
+    }
 
     // Setter
     void setUsed(bool u) {

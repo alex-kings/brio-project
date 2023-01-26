@@ -62,6 +62,7 @@ bool Circuit::generate() {
         std::cout << "Starting!\n";
         if(!setupLoop()) {
             // Setup was unsuccessful
+            std::cerr << "Setup was not successful!\n";
             return true; // Should return false here.
         }
         if(!launchLoopGenerations()) {
@@ -79,6 +80,10 @@ bool Circuit::generate() {
             }
         }
     }
+    // Print elapsed time.
+    std::chrono::steady_clock::time_point endTime = std::chrono::steady_clock::now();
+    std::cout << "Generated in " << std::chrono::duration_cast<std::chrono::seconds>(endTime - startTime).count() << "s\n";
+
     return true;
 }
 
@@ -328,8 +333,16 @@ bool Circuit::setupLoop() {
     // Setup minimum pieces placed condition
     this->minPieceNb = std::floor(0.6*(availableEnd - pEnds.top())) + nbPiecesPlaced; // 60% of the available pieces for this loop, plus the already placed pieces.
 
+    // Get maximum distance for this loop
+    float totalDist = 0;
+    for(int i = pEnds.top(); i < availableEnd; i++) {
+        totalDist += pieces[i].getDist();        
+    }
+    availableDist = totalDist;
+    std::cout << "Available distance for this track: " << availableDist << "\n";
+
     std::cout << "Pieces ready for loop " << currentLoop << "\n";
-    printTrack();
+    // printTrack();
     return true;
 }
 
