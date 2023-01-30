@@ -1,7 +1,7 @@
 import CanvasDrawer from "./CanvasDrawer.js"
 
 // CURRENT IMAGE
-const IMAGE = './track-images/example-tracks.jpg'
+const IMAGE = '../../docs/assets/pieces/A1_resized.png'
 
 // DOM elements
 const addRectBtn = document.getElementById('plot-btn')

@@ -60,7 +60,7 @@ export default class CanvasDrawer{
         })
         // Draw rectangle
         this.ctx.lineWidth=C
-        this.ctx.fillStyle='black'
+        this.ctx.strokeStyle='red'
         this.ctx.beginPath()
         this.ctx.lineTo(vertices[1].x, vertices[1].y)
         this.ctx.lineTo(vertices[2].x, vertices[2].y)
