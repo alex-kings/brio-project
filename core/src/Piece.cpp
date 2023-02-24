@@ -19,6 +19,9 @@ Piece::Piece(const Json::Value& pieceRep) {
     circleY = pieceRep["boundingCircle"]["y"].asFloat();
     circleR = pieceRep["boundingCircle"]["radius"].asFloat();
 
+    // Create circle centre
+    circleCentre = Vec2D(pieceRep["boundingCircle"]["x"].asFloat(), pieceRep["boundingCircle"]["y"].asFloat());
+
     // Create ID
     id = pieceRep["id"].asString();
 
@@ -54,6 +57,7 @@ void Piece::flip() {
         // Assumes that the connectors have to be of different types for this to work.
         connectors.at(0).switchType();
         connectors.at(1).switchType();
+        // No need to move the bounding circle, OBBs or connector positions.
         return;
     }
     if(flipType == 2) { // Have to perform a full flip of the piece
@@ -61,7 +65,6 @@ void Piece::flip() {
         
     }
 }
-
 
 void Piece::changeLevel(const int amount) {
     // Modify level

@@ -5,8 +5,18 @@ let pieces = []
 
 // Initial drawing on canvas
 function draw(options){    
-    // Filter our unused pieces
+    
+    
+    
+    // Filter out unused pieces
     let usedPieces = pieces.filter(p=>p.used)   
+
+    // Draw all bounding circles
+    usedPieces.forEach(p => {
+        options.ctx.beginPath();
+        options.ctx.arc(p.circleX, p.circleY, p.radius, 0, 2*Math.PI)
+        options.ctx.stroke();
+    })
 
     // Give colour to each part
     usedPieces.forEach(piece => {

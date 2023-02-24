@@ -197,3 +197,6 @@ Painter algorithm expanded to include the connectors. Now a list is made contain
 _26/01/2023_ **CORE**  
 Improve efficiency by adding a heuristic to calculate the total distance available in hand.
 Also remove the function to give a random iterable that slowed down quite a bit the execution it looks like!
+
+_24/02/2023_ **CORE**  
+Change bounding circle so it actually moves with the piece. Explaine in report why the bounding circle was determined to NOT have a level like the rest of the piece!

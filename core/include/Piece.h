@@ -24,6 +24,7 @@ private:
     float circleX;
     float circleY;
     float circleR;
+    Vec2D circleCentre;
 
 public:
     // Default constructor
@@ -46,9 +47,12 @@ public:
             if(i != parts.size() - 1) jsonRep.append(",");
         }
 
-        jsonRep.append("],\"connectors\":[");
+        // Bounding circle
+        jsonRep.append("],\"circleX\":" + std::to_string(circleCentre.getX()) + ",\"circleY\":" + std::to_string(circleCentre.getY()));
+        jsonRep.append(",\"radius\":" + std::to_string(circleR));
 
         // print connectors
+        jsonRep.append(",\"connectors\":[");
         for(unsigned int i = 0; i < connectors.size(); i++) {
             jsonRep.append(connectors[i].toJson());
             if(i != connectors.size() - 1) jsonRep.append(",");
@@ -154,6 +158,8 @@ public:
         for(Connector& con : connectors) {
             con.translate(amount);
         }
+        // Translate the bounding circle
+        circleCentre.add(amount);
     }
 
     // Rotate piece around the given point. This is done by rotating all the obbs and the connectors of this piece around the given rotation point.
@@ -167,6 +173,9 @@ public:
         for(Connector& con : connectors) {
             con.rotate(rotationPoint, angle);
         }
+
+        // Rotate the bounding circle centre.
+        circleCentre.rotate(rotationPoint, angle);
     }
 
     // Check whether this piece collides with the specified piece.
