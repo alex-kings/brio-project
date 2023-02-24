@@ -31,7 +31,8 @@ Piece::Piece(const Json::Value& pieceRep) {
 
 bool Piece::collides(const Piece& piece) const {
     // No collision if the pieces' circles don't collide
-    float distSquared = (circleX - piece.circleX) * (circleX - piece.circleX) + (circleY - piece.circleY) * (circleY - piece.circleY);
+    // float distSquared = (circleX - piece.circleX) * (circleX - piece.circleX) + (circleY - piece.circleY) * (circleY - piece.circleY);
+    float distSquared = circleCentre.euclidianDistSquared(piece.circleCentre);
     float distRadSquared = (circleR + piece.circleR) * (circleR + piece.circleR);
     if(distRadSquared < distSquared) return false;
 

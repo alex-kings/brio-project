@@ -96,6 +96,13 @@ public:
         return std::sqrt(dx*dx + dy*dy);
     }
 
+    // Returns the square of the euclidian distance between this and the given point.
+    float euclidianDistSquared(const Vec2D& v) const {
+        float dx = x - v.x;
+        float dy = y - v.y;
+        return dx*dx + dy*dy;
+    }
+
     // Returns the absolute angle difference between two vectors
     float absoluteAngleDiff(const Vec2D& v) const {
         float val = dot(v)/(getModulus() * v.getModulus());
