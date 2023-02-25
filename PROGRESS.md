@@ -200,3 +200,6 @@ Also remove the function to give a random iterable that slowed down quite a bit 
 
 _24/02/2023_ **CORE**  
 Change bounding circle so it actually moves with the piece. Explaine in report why the bounding circle was determined to NOT have a level like the rest of the piece!
+
+_25/02/2023_ **CORE**  
+Add option to show bounding circles on screen.
