@@ -203,3 +203,5 @@ Change bounding circle so it actually moves with the piece. Explaine in report w
 
 _25/02/2023_ **CORE**  
 Add option to show bounding circles on screen.
+Explain that the max length attribute is literally the length between the two farthest away connectors, which could be recalculated each time
+but is instead stored in the pieces file for efficiency and avoiding repeating computations.
