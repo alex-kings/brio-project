@@ -186,7 +186,9 @@ public:
 
     // Returns the euclidian distance between the two first connectors of this piece
     float getDist() const {
-        return connectors[0].getPosition().euclidianDist(connectors[1].getPosition());
+        // Old way
+        // return connectors[0].getPosition().euclidianDist(connectors[1].getPosition());
+        return maxLength;
     }
 
     // Place piece at origin
