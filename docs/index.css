@@ -18,6 +18,13 @@
     --blue-2:rgb(173, 217, 231);
     --blue-3:rgb(107, 163, 180);
 }
+.app{
+    height:100vh;
+    width:100vw;
+}
+.top {
+    position:absolute
+}
 .rounded{
     border-radius: .5rem;
 }
@@ -42,11 +49,14 @@
 }
 .main{
     display: flex;
+    height:100%;
+    padding-top: 3rem;
 }
 .scrollable{
-    height:50rem;
+    height:90%;
     /* overflow: hidden; */
     overflow-y: scroll;
+    margin-bottom: .5rem;
 }
 .col {
     display: flex;
@@ -95,11 +105,12 @@
     width:5rem
 }
 .canvas-container {
-    margin:0 12rem;
+    margin:0;
+    width:100%
 }
 .track-canvas {
-    min-height:90%;
-    max-width:60rem;
+    height:100%;
+    width:100%;
     border: 1px solid black;
 }
 .inputs {
