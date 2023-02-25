@@ -5,7 +5,7 @@ jsondep = dependency('jsoncpp')
 
 subdir('include')
 
-cppFiles = ['./src/Circuit.cpp','./src/Track.cpp','./src/main.cpp','./src/ParseJson.cpp','./src/Vec2D.cpp','./src/Piece.cpp','./src/Part.cpp','./src/Connector.cpp','./src/Obb.cpp']
+cppFiles = ['./src/Circuit.cpp','./src/main.cpp','./src/ParseJson.cpp','./src/Vec2D.cpp','./src/Piece.cpp','./src/Part.cpp','./src/Connector.cpp','./src/Obb.cpp']
 
 # Unused 'WASM=1'
 
