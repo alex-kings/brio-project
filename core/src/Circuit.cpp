@@ -239,6 +239,9 @@ bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connect
 
             // Track is not validated. Check the max dist heuristic
             float distToSuccess = openCon.getPosition().euclidianDist(validationConditions.top().validationConnector -> getPosition()) - validationDist;
+
+
+            // WITH THE HEURISTIC
             if(distToSuccess < availableDist) {
                 // Place the next piece.
                 if(generateLoop(testPiece, openCon) ) {
@@ -246,6 +249,12 @@ bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connect
                     return true;
                 }
             }
+
+            // // WITHOUT THE HEURISTIC
+            // if(generateLoop(testPiece, openCon) ) {
+            //     // The track got built! return true.
+            //     return true;
+            // }
             
             // The track could not be build. Unlink and remove piece.
             testPiece.setUsed(false);
