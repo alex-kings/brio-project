@@ -2,6 +2,7 @@ import { CanvasDragZoom } from "./scroll.js"
 import { Vec2d } from "./Vec2d.js";
 
 let pieces = []
+let circlesShowing = false;
 
 // Initial drawing on canvas
 function draw(options){    
@@ -11,12 +12,18 @@ function draw(options){
     // Filter out unused pieces
     let usedPieces = pieces.filter(p=>p.used)   
 
-    // Draw all bounding circles
-    usedPieces.forEach(p => {
-        options.ctx.beginPath();
-        options.ctx.arc(p.circleX, p.circleY, p.radius, 0, 2*Math.PI)
-        options.ctx.stroke();
-    })
+    if(circlesShowing) {
+        // Draw all bounding circles
+        options.ctx.strokeStyle = 'black'
+        options.ctx.setLineDash([15,5]);
+        usedPieces.forEach(p => {
+            options.ctx.beginPath();
+            options.ctx.arc(p.circleX, p.circleY, p.radius, 0, 2*Math.PI)
+            options.ctx.stroke();
+        })
+        options.ctx.setLineDash([]);
+    }
+    
 
     // Give colour to each part
     usedPieces.forEach(piece => {
@@ -233,7 +240,8 @@ canvas.height = canvas.offsetHeight;
 let cdz = new CanvasDragZoom(canvas, draw)
 
 
-export function redraw(newPieces) {
+export function redraw(newPieces, showBoundingCircles) {
     pieces = newPieces
+    circlesShowing = showBoundingCircles
     cdz.redraw()
 }

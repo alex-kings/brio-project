@@ -4,6 +4,23 @@ function ref(id) {
     return document.getElementById(id);
 }
 
+let resultPieces = null;
+
+// Show bounding circles
+let boundingCircleInput = ref("showBoundingCircles")
+let showBoundingCircles = boundingCircleInput.checked
+boundingCircleInput.addEventListener("change", ()=>{
+    if(boundingCircleInput.checked) {
+        showBoundingCircles = true
+    }
+    else {
+        showBoundingCircles = false        
+    }
+    if(resultPieces!=null){
+        redraw(resultPieces,showBoundingCircles)
+    }
+})
+
 // Load images
 const response = await fetch('./assets/pieces.json')
 const result = await response.json()
@@ -54,8 +71,9 @@ ref('generateBtn').addEventListener('click',()=>{
         result = JSON.parse(res)
         // console.log(result)
         if(result.error == null) {
-            redraw(result.pieces)
+            redraw(result.pieces, showBoundingCircles)
             console.log(result.pieces)
+            resultPieces = result.pieces
         }
         else {
             ref("errorMsg").innerText="Couldn't generate track: time ran out."
