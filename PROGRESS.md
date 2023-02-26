@@ -214,4 +214,8 @@ Sanitisation is a key part of the generation of multiple loop tracks. It is the 
 - etc.
 
 Explain why we REQUIRE the circuit to be built in a try and retry way! MUCH more efficient than trying one single track until it builds!!!!
-- Explain the need for different kinds of piece flips! Why we even bother with those? Some pieces do not even need a piece flip, and some (most) can get away with a rotation of their connectors. Only the three connector pieces need an actual flip. 
+- Explain the need for different kinds of piece flips! Why we even bother with those? Some pieces do not even need a piece flip, and some (most) can get away with a rotation of their connectors. Only the three connector pieces need an actual flip.
+
+IMPORTANT
+Found a bug where even unflippable pieces were tried flipped!!
+This is massive because it almost doubles the time taken to generate. 
