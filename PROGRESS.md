@@ -205,3 +205,13 @@ _25/02/2023_ **CORE**
 Add option to show bounding circles on screen.
 Explain that the max length attribute is literally the length between the two farthest away connectors, which could be recalculated each time
 but is instead stored in the pieces file for efficiency and avoiding repeating computations.
+
+_26/02/2023_ **CORE**  
+Sanitisation is a key part of the generation of multiple loop tracks. It is the process to prepare the pieces for that loop. Requirements include:
+- A pair number of ascending pieces
+- 2 three-connector pieces APART FROM THE LAST LOOP
+- It's a divide and conquer approach
+- etc.
+
+Explain why we REQUIRE the circuit to be built in a try and retry way! MUCH more efficient than trying one single track until it builds!!!!
+- Explain the need for different kinds of piece flips! Why we even bother with those? Some pieces do not even need a piece flip, and some (most) can get away with a rotation of their connectors. Only the three connector pieces need an actual flip. 
