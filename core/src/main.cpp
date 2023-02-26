@@ -8,9 +8,9 @@
 #include "Vec2D.h"
 #include "Circuit.h"
 
-#include <thread>
-
 #include <fstream>
+#include <thread>
+#include <ctime>
 
 // using namespace emscripten;
 
@@ -22,53 +22,55 @@ void printHello(int i) {
     std::cout << "Hello" << i << "\n";
 }
 
-// int main(int, char* argv[]) {
+int main() {
+    // Test pieces.
+    std::string input = "{ \"E\": \"12\" }";
 
-//     std::cerr << "Start" << "\n";
+    // User selection of pieces and their available quantities.
+    Json::Value pieceSelection;
+    try {
+        // Example
+        pieceSelection = readJson(input);
+    }
+    catch(const std::domain_error& e) {
+        std::cerr << e.what() << std::endl;
+    }
 
-//     // Get input from node program
-//     std::string input = argv[1];
+    Json::Value ressources = getPieceRessources(); // Library of pieces
+    std::vector<Piece> pieces;
+    for(const std::string& member : pieceSelection.getMemberNames()) {
+        for(int i = 0; i < std::stoi(pieceSelection[member].asString()); i++) {
+            // Add Piece to available pieces.
+            pieces.emplace_back(ressources[member]);
+        }
+    }
 
-//     // TEST
-//     // std::string input = "{\"E\":\"8\",\"A\":\"6\",\"E1\":\"4\",\"D\":\"2\"}";
+    // Create output file
+    std::ofstream f;
+    std::time_t now = std::time(0);
+    std::string dt = std::ctime(&now);
+    f.open("timing_" + dt + ".csv");
 
+    // Test building the track for seeds 1 to 100
+    for(int i = 1; i < 101; i++) {
+        std::chrono::steady_clock::time_point startTime = std::chrono::steady_clock::now();
 
-//     // User selection of pieces and their available quantities.
-//     Json::Value pieceSelection;
-//     try {
-//         // Example
-//         pieceSelection = readJson(input);
-//     }
-//     catch(const std::domain_error& e) {
-//         std::cerr << e.what() << std::endl;
-//     }
+        // Create circuit ...
+        Circuit track(pieces, i, false, "close");
+        if(!track.generate()) {
+            // Couldn't generate track
+            f << "-1,";
+            continue;
+        }
 
-//     Json::Value ressources = getPieceRessources(); // Library of pieces
-//     std::vector<Piece> pieces;
-//     for(const std::string& member : pieceSelection.getMemberNames()) {
-//         for(int i = 0; i < std::stoi(pieceSelection[member].asString()); i++) {
-//             // Add Piece to available pieces.
-//             pieces.emplace_back(ressources[member]);
-//         }
-//     }
+        // Time of execution
+        std::chrono::steady_clock::time_point endTime = std::chrono::steady_clock::now();
+        int elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
+        // Add execution time to the list.
+        f << elapsed << ",";
+    }
 
-//     // Get track
-//     // Piece startPiece = getTrack(pieceSelection);
-
-//     Track t(pieces);
-
-
-//     // TEST MULTITHREADING
-
-//     // unsigned int maxThreads = std::thread::hardware_concurrency()*2; // 2 times the number of available cores.
-//     // std::thread threads[maxThreads];
-//     // for (unsigned int i = 0; i < maxThreads; i++) {
-//     //     threads[i] = std::thread(printHello, i);
-//     // }
-//     // for(unsigned int i = 0; i < maxThreads; i++) {
-//     //     threads[i].join();
-//     // }
-// }
+}
 
 std::string generateTrack(const std::string& selection, const int seed, const int isTwoLevel, const std::string vCondition) {
     // User selection of pieces and their available quantities.

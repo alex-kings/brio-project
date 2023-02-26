@@ -250,7 +250,7 @@ bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connect
                 }
             }
 
-            // // WITHOUT THE HEURISTIC
+            // WITHOUT THE HEURISTIC
             // if(generateLoop(testPiece, openCon) ) {
             //     // The track got built! return true.
             //     return true;

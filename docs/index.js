@@ -49,6 +49,8 @@ ref('generateBtn').addEventListener('click',()=>{
     })
     let result
 
+    console.log(selection)
+
     // Get seed
     let seed = parseInt(ref("seedInput").value)
     if(isNaN(seed) || seed < 0) {

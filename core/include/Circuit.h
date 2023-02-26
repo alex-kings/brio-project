@@ -61,7 +61,7 @@ private:
 
     // Recursion information.
     unsigned int generationCount = 0;
-    const unsigned int maxGenerations = 100; // 100
+    const unsigned int maxGenerations = 1000; // 100
     // The maximum level this track can go to.
     int maxLevelLoop; // The max level this loop can go to.
     unsigned int minPieceNb;
@@ -170,6 +170,7 @@ public:
     /**
      * Construct from a selection of pieces.
      * Puts maxLevel to be one if the track is specified to be two level only.
+     * vCondition is either loose, medium or close.
     */
     Circuit(std::vector<Piece> allPieces, const int seed, const bool isTwoLevel, const std::string vCondition);
 
