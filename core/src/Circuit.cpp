@@ -55,8 +55,6 @@ bool Circuit::generate() {
     this->startTime = std::chrono::steady_clock::now();
 
     std::cout << "Maximum number of loops: "<< maxLoops << "\n";
-
-    // return launchLoopGenerations();
     
     for (currentLoop = 0; currentLoop < maxLoops; currentLoop++) {
         // std::cout << "Starting!\n";
@@ -238,7 +236,6 @@ bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connect
 
             // Track is not validated. Check the max dist heuristic
             float distToSuccess = openCon.getPosition().euclidianDist(validationConditions.top().validationConnector -> getPosition()) - validationDist;
-
 
             // WITH THE HEURISTIC
             if(distToSuccess < availableDist) {
