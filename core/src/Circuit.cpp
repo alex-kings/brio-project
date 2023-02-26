@@ -242,19 +242,19 @@ bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connect
 
 
             // WITH THE HEURISTIC
-            if(distToSuccess < availableDist) {
-                // Place the next piece.
-                if(generateLoop(testPiece, openCon) ) {
-                    // The track got built! return true.
-                    return true;
-                }
-            }
+            // if(distToSuccess < availableDist) {
+            //     // Place the next piece.
+            //     if(generateLoop(testPiece, openCon) ) {
+            //         // The track got built! return true.
+            //         return true;
+            //     }
+            // }
 
             // WITHOUT THE HEURISTIC
-            // if(generateLoop(testPiece, openCon) ) {
-            //     // The track got built! return true.
-            //     return true;
-            // }
+            if(generateLoop(testPiece, openCon) ) {
+                // The track got built! return true.
+                return true;
+            }
             
             // The track could not be build. Unlink and remove piece.
             testPiece.setUsed(false);
