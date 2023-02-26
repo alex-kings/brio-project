@@ -139,10 +139,9 @@ bool Circuit::generateLoop(const Piece& lastPiece, Connector& openConnector) {
 
         if(testPiece.isFlippable()) {
             testPiece.flip();
+            // Re-attempt placement of this piece after flipping.
+            if(attemptPlacement(testPiece, lastPiece, openConnector)) return true;
         }
-
-        // Re-attempt placement of this piece after flipping.
-        if(attemptPlacement(testPiece, lastPiece, openConnector)) return true;
     }
     return false;
 }
