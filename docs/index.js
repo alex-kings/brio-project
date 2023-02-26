@@ -1,4 +1,5 @@
-import { redraw } from "./draw.js";
+import { redraw } from "./draw.js"
+import {makeMeasurements} from "./measurements.js"
 
 function ref(id) {
     return document.getElementById(id);
@@ -49,8 +50,6 @@ ref('generateBtn').addEventListener('click',()=>{
     })
     let result
 
-    console.log(selection)
-
     // Get seed
     let seed = parseInt(ref("seedInput").value)
     if(isNaN(seed) || seed < 0) {
@@ -86,4 +85,19 @@ ref('generateBtn').addEventListener('click',()=>{
     })
 })
 
+
+// Measurements
+ref("measureBtn").addEventListener("click",()=>{
+    // Start loader
+    ref("loadingPane").style.display = "flex";
+    // Get selection
+    let selection = {}
+    pieces.forEach(piece => {
+        if(ref(`quantity${piece.id}`).value != ""){
+            selection[piece.id] = ref(`quantity${piece.id}`).value
+        }
+    })
+    // Get measurements
+    makeMeasurements(JSON.stringify(selection))
+})
 
