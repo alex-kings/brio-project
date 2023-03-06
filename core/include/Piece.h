@@ -67,7 +67,7 @@ public:
     const std::string& getId() const {
         return id;
     }
-    const bool isUsed() const {
+    bool isUsed() const {
         return this->used;
     }
     bool isFlippable() const {
@@ -119,7 +119,7 @@ public:
     */
     std::vector<Connector*> getOpenConnectors() {
         std::vector<Connector*> openConnectors;
-        for(int i = 0; i < this->connectors.size(); i++) {
+        for(unsigned int i = 0; i < this->connectors.size(); i++) {
             if(this->connectors.at(i).isFree()) openConnectors.push_back(&this->connectors.at(i));
         }   
         return openConnectors;
@@ -186,7 +186,9 @@ public:
 
     // Returns the euclidian distance between the two first connectors of this piece
     float getDist() const {
-        return connectors[0].getPosition().euclidianDist(connectors[1].getPosition());
+        // Old way
+        // return connectors[0].getPosition().euclidianDist(connectors[1].getPosition());
+        return maxLength;
     }
 
     // Place piece at origin

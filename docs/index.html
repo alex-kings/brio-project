@@ -16,7 +16,9 @@
     <noscript>Javascript is needed to run the app.</noscript>
     <div id="root">
         <div class="app">
-            <h1>The BRIO track generator!</h1>
+            <div class="top">
+                <h1>The BRIO track generator!</h1>
+            </div>
             <div class="main">
                 <div class="col">
                     <div class="scrollable">
@@ -69,14 +71,22 @@
                             <input type="radio" id="r3" name="validation-conditions" value="close">
                             <label for="r3">Close</label>
                         </div>
+                        <br/>
+                        <div>
+                            <div class="tooltip">
+                                Show bounding circles:
+                                <span class="tooltiptext">
+                                    Show the pieces' bounding circles, which serve in the collision calculations.
+                                </span>
+                            </div>
+                            <input id="showBoundingCircles" type="checkbox">
+                        </div>
                     </div>
+                    <button id="measureBtn">Measure</button>
+                    <p id="errorMsg" class="error-msg"></p>
                 </div>
                 <div class="canvas-container">
-                    
-                    <h3>track</h3>
-                    <canvas id="canvas" class="track-canvas"></canvas>
-                    <p id="errorMsg" class="error-msg"></p>
-                    
+                    <canvas id="canvas" class="track-canvas"></canvas>                    
                 </div>
             </div>
         </div>

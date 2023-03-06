@@ -83,7 +83,7 @@ bool Piece::levelBelowZero() const {
 
 int Piece::getLowestLevel() const {
     int lowestLevel = this->connectors.at(0).getLevel();
-    for(int i = 1; i < this->connectors.size(); i++) {
+    for(unsigned int i = 1; i < this->connectors.size(); i++) {
         if(this->connectors.at(i).getLevel() < lowestLevel) lowestLevel = this->connectors.at(i).getLevel();
     }
     return lowestLevel;

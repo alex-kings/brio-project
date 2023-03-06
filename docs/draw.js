@@ -1,22 +1,29 @@
 import { CanvasDragZoom } from "./scroll.js"
 import { Vec2d } from "./Vec2d.js";
 
+// Create drawing effect on canvas
+// Set width and height of canvas
+let canvas = document.getElementById("canvas")
+canvas.width = canvas.offsetWidth;
+canvas.height = canvas.offsetHeight;
+
+let initialDraw = true
+let startScreen = true;
 let pieces = []
+let circlesShowing = false;
 
 // Initial drawing on canvas
 function draw(options){    
-    
-    
-    
+    if(pieces.length != 0) startScreen = false;
+    if(startScreen) {
+        // Draw start screen
+        options.ctx.font = `${canvas.width/35}px serif`
+        options.ctx.fillText("Select pieces and click on \"Generate\" to build a circuit.",canvas.width/10,canvas.height/2)
+    }
     // Filter out unused pieces
     let usedPieces = pieces.filter(p=>p.used)   
 
-    // Draw all bounding circles
-    usedPieces.forEach(p => {
-        options.ctx.beginPath();
-        options.ctx.arc(p.circleX, p.circleY, p.radius, 0, 2*Math.PI)
-        options.ctx.stroke();
-    })
+    options.ctx.translate(canvas.width/2, canvas.height/2)
 
     // Give colour to each part
     usedPieces.forEach(piece => {
@@ -61,6 +68,21 @@ function draw(options){
             })
         }
     })
+
+    if(circlesShowing) {
+        // Draw all bounding circles
+        options.ctx.strokeStyle = 'black'
+        options.ctx.setLineDash([15,5]);
+        usedPieces.forEach(p => {
+            options.ctx.beginPath();
+            options.ctx.arc(p.circleX, p.circleY, p.radius, 0, 2*Math.PI)
+            options.ctx.stroke();
+        })
+        options.ctx.setLineDash([]);
+    }
+
+    options.ctx.translate(-canvas.width/2, -canvas.height/2)
+
 
     // // First sort the pieces by their level.
     // pieces.sort((a,b)=>(getLevel(a) > getLevel(b)));
@@ -224,16 +246,11 @@ function drawCurve(ctx, vertices, colour) {
 }
 
 
-// Create drawing effect on canvas
-// Set width and height of canvas
-let canvas = document.getElementById("canvas")
-canvas.width = canvas.offsetWidth;
-canvas.height = canvas.offsetHeight;
-
 let cdz = new CanvasDragZoom(canvas, draw)
 
-
-export function redraw(newPieces) {
+// Draw the given pieces on canvas.
+export function redraw(newPieces, showBoundingCircles) {
     pieces = newPieces
+    circlesShowing = showBoundingCircles
     cdz.redraw()
 }

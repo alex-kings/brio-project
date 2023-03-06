@@ -170,6 +170,7 @@ public:
     /**
      * Construct from a selection of pieces.
      * Puts maxLevel to be one if the track is specified to be two level only.
+     * vCondition is either loose, medium or close.
     */
     Circuit(std::vector<Piece> allPieces, const int seed, const bool isTwoLevel, const std::string vCondition);
 

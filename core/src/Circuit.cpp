@@ -55,11 +55,9 @@ bool Circuit::generate() {
     this->startTime = std::chrono::steady_clock::now();
 
     std::cout << "Maximum number of loops: "<< maxLoops << "\n";
-
-    // return launchLoopGenerations();
     
     for (currentLoop = 0; currentLoop < maxLoops; currentLoop++) {
-        std::cout << "Starting!\n";
+        // std::cout << "Starting!\n";
         if(!setupLoop()) {
             // Setup was unsuccessful
             std::cerr << "Setup was not successful!\n";
@@ -90,11 +88,11 @@ bool Circuit::generate() {
 bool Circuit::launchLoopGenerations() {
     while(true) {
         this->generationCount++;
-        // std::cout<<"Generation " << this->generationCount << " starting.\n";
+        std::cout << "iteration " <<this->generationCount << "; available dist: " << availableDist << "\n";
 
         // Generate the track!
         if(this->generateLoop(*(validationConditions.top().startPiece), *(validationConditions.top().startConnector))) {
-            std::cout << "Generation " << generationCount << " successful\n";
+            // std::cout << "Generation " << generationCount << " successful\n";
             return true;
         }
 
@@ -139,10 +137,9 @@ bool Circuit::generateLoop(const Piece& lastPiece, Connector& openConnector) {
 
         if(testPiece.isFlippable()) {
             testPiece.flip();
+            // Re-attempt placement of this piece after flipping.
+            if(attemptPlacement(testPiece, lastPiece, openConnector)) return true;
         }
-
-        // Re-attempt placement of this piece after flipping.
-        if(attemptPlacement(testPiece, lastPiece, openConnector)) return true;
     }
     return false;
 }
@@ -204,7 +201,7 @@ bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connect
             std::vector<Connector*> freeConnectors = testPiece.getOpenConnectors();
             if(freeConnectors.size() == 0) {
                 // This piece has no more available connectors. The track is built.
-                std::cout << "No more free connectors!\n";
+                // std::cout << "No more free connectors!\n";
                 return true;
             };
 
@@ -239,6 +236,8 @@ bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connect
 
             // Track is not validated. Check the max dist heuristic
             float distToSuccess = openCon.getPosition().euclidianDist(validationConditions.top().validationConnector -> getPosition()) - validationDist;
+
+            // WITH THE HEURISTIC
             if(distToSuccess < availableDist) {
                 // Place the next piece.
                 if(generateLoop(testPiece, openCon) ) {
@@ -246,6 +245,12 @@ bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connect
                     return true;
                 }
             }
+
+            // WITHOUT THE HEURISTIC
+            // if(generateLoop(testPiece, openCon) ) {
+            //     // The track got built! return true.
+            //     return true;
+            // }
             
             // The track could not be build. Unlink and remove piece.
             testPiece.setUsed(false);
@@ -297,7 +302,7 @@ void Circuit::setupInitialValidationConditions() {
 }
 
 bool Circuit::setupLoop() {
-    std::cout << "Setting up for loop "<< currentLoop << "\n";
+    // std::cout << "Setting up for loop "<< currentLoop << "\n";
 
     // Reset the number of generations.
     generationCount = 0;
@@ -309,15 +314,15 @@ bool Circuit::setupLoop() {
 
     // Position the placed end and availableEnd indices.
     setIndexLocations();
-    std::cout << "Indices setup: "<< pEnds.top() << " and "<< availableEnd<<"\n"; 
+    // std::cout << "Indices setup: "<< pEnds.top() << " and "<< availableEnd<<"\n"; 
 
     // Shuffles the pieces around.
     shufflePieces();
-    std::cout << "Pieces shuffled\n";
+    // std::cout << "Pieces shuffled\n";
 
     // Ensuring correct number of 3con and ascending pieces in the loop.
     sanitiseLoop();
-    std::cout << "Pieces sanitised\n";
+    // std::cout << "Pieces sanitised\n";
 
     // Setup validation conditions
     if(currentLoop != 0) {
@@ -330,9 +335,9 @@ bool Circuit::setupLoop() {
     for(int i = pEnds.top(); i < availableEnd; i++) {
         if(pieces[i].getId() == "N") numberAscending++;
     }
-    std::cout << "Now setting up maxLevel\n";
+    // std::cout << "Now setting up maxLevel\n";
     maxLevelLoop = (numberAscending / 2) + validationConditions.top().startConnector->getLevel();
-    std::cout << "Max level setup: "<<maxLevelLoop <<"\n";
+    // std::cout << "Max level setup: "<<maxLevelLoop <<"\n";
 
     // Setup minimum pieces placed condition
     this->minPieceNb = std::floor(0.6*(availableEnd - pEnds.top())) + nbPiecesPlaced; // 60% of the available pieces for this loop, plus the already placed pieces.
@@ -343,7 +348,7 @@ bool Circuit::setupLoop() {
         totalDist += pieces[i].getDist();        
     }
     availableDist = totalDist;
-    std::cout << "Available distance for this track: " << availableDist << "\n";
+    // std::cout << "Available distance for this track: " << availableDist << "\n";
 
     std::cout << "Pieces ready for loop " << currentLoop << "\n";
     // printTrack();
@@ -354,10 +359,10 @@ bool Circuit::setupLoop() {
 void Circuit::resetPreviousLoop() {
     // Get the previous placed end
     std::cout << "Going from generation " << currentLoop+1 << " to generation " << currentLoop <<"\n";
-    std::cout << "Previous placed end: " << pEnds.top() << "\n";
+    // std::cout << "Previous placed end: " << pEnds.top() << "\n";
     pEnds.pop();
-    std::cout << "POPPED PENDS\n";
-    std::cout << "Now placed end: " << pEnds.top() << "\n";
+    // std::cout << "POPPED PENDS\n";
+    // std::cout << "Now placed end: " << pEnds.top() << "\n";
     // int previousplaced end = pEnds.top();
 
     // Empty pieces placed during the last loop generation
@@ -365,7 +370,6 @@ void Circuit::resetPreviousLoop() {
         pieces[i].setUsed(false);
     }
     pEnds.pop(); // Need to pop a second time to avoid duplication of pEnds.
-    std::cout << "POPPED PENDS AGAIN \n";
 
     // Close the validation connectors of the previous loop
     // validationConnector->setConnected(false);
@@ -379,7 +383,7 @@ void Circuit::resetPreviousLoop() {
 
     // If resetting for loop 0, make sure the first piece's connectors are open
     if(currentLoop == 0) {
-        std::cout << "Setting up the initial validation conditions for the initial generation." << "\n";
+        // std::cout << "Setting up the initial validation conditions for the initial generation." << "\n";
         setupInitialValidationConditions();
     }
 }
@@ -423,7 +427,7 @@ void Circuit::setIndexLocations() {
         if(!pieces[i].isUsed()) {
             // Piece is not used.
             pEnds.push(i);
-            std::cout << "Pushed " << i << " onto pEnds\n";
+            // std::cout << "Pushed " << i << " onto pEnds\n";
             break;
         }
     }
@@ -474,7 +478,7 @@ bool Circuit::setValidationConditions() {
 void Circuit::sanitiseLoop() {
     if(currentLoop + 1 == maxLoops) {
         // Last loop does not need 3 con sanitisation.
-        std::cout << "Last loop does not need sanitisation\n";
+        // std::cout << "Last loop does not need sanitisation\n";
         return;
     }
 

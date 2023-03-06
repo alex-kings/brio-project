@@ -67,7 +67,7 @@ public:
     const Vec2D& getDirection() const {
         return direction;
     }
-    const int getLevel() const {
+    int getLevel() const {
         return this->level;
     }
 
@@ -102,10 +102,9 @@ public:
 
     // Checks whether the given validation conditions are met for the two connectors.
     bool validate(const Connector& con, const float validationAngle, const float validationDist) {
-        // Only euclidian distance for now...
+        if(this->type == con.type) return false;
         if(this->level != con.level) return false;
         return ( (position.euclidianDist(con.position) <= validationDist) && std::abs((direction.absoluteAngleDiff(con.direction)) - M_PI ) <= validationAngle );
-        // ;
     }
 
     // Changes the level by the given amount. It is trusted that the level will not be bought below 0.
