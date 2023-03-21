@@ -126,8 +126,11 @@
 .error-msg {
     color: red;
     text-align: center;
-    padding:.6rem;
+    padding: .6rem 0;
     font-size: 1.1rem;
+}
+.seed-msg {
+    padding: .6rem 0;
 }
 .input {
     width:6rem;
@@ -139,6 +142,8 @@
     gap:.4rem;
     background-color: var(--green-0);
     padding:.3rem;
+}
+.small-margin {
     margin:0 .5rem;
 }
 .options-container > div {

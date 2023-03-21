@@ -64,8 +64,9 @@ ref('generateBtn').addEventListener('click',()=>{
     // Get seed
     let seed = parseInt(ref("seedInput").value)
     if(isNaN(seed) || seed < 0) {
-        seed = -1;
-        console.log("Not a correct seed, using -1 instead.")
+        // No seed was mentioned. Use a random seed between 1 and 1000
+
+        seed = Math.floor(Math.random()*1000);
     }
 
     // Get validation condition category
@@ -83,11 +84,13 @@ ref('generateBtn').addEventListener('click',()=>{
         // Generate!
         const res = generateTrack(JSON.stringify(selection), seed, ref("twoLevel").checked, vCondition)
 
+        // Print the seed used.
+        displaySeed(seed);
+
         result = JSON.parse(res)
-        // console.log(result)
         if(result.error == null) {
+            // Success!
             redraw(result.pieces, showBoundingCircles)
-            console.log(result.pieces)
             resultPieces = result.pieces
         }
         else {
@@ -98,7 +101,6 @@ ref('generateBtn').addEventListener('click',()=>{
         }
     })
 })
-
 
 // Measurements
 ref("measureBtn").addEventListener("click",()=>{
@@ -128,4 +130,9 @@ function loadLocalStorage() {
     Object.keys(s).forEach((key)=>{
         document.getElementById(`quantity${key}`).value = s[key]
     })    
+}
+
+// print seed used
+function displaySeed(seed) {
+    ref("seedMsg").innerHTML = "Seed used: <mark>" + seed + "</mark>";
 }

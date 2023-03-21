@@ -7,13 +7,6 @@ let canvas = document.getElementById("canvas")
 canvas.width = canvas.offsetWidth;
 canvas.height = canvas.offsetHeight;
 
-// console.log("computed: " + canvas.width + "x" + canvas.height);
-// setTimeout(()=>{
-//     console.log("computed: " + canvas.offsetWidth + "x" + canvas.offsetHeight);
-//     canvas.height = canvas.offsetHeight;
-//     canvas.width = canvas.offsetWidth;
-// }, 10000)
-
 let initialDraw = true
 let startScreen = true;
 let pieces = []
