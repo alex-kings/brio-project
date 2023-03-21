@@ -40,14 +40,22 @@ pieces.forEach(piece => {
 
 // Kick off generation
 ref('generateBtn').addEventListener('click',()=>{
-    // Start loader
-    ref("loadingPane").style.display = "flex";
     let selection = {}
     pieces.forEach(piece => {
         if(ref(`quantity${piece.id}`).value != ""){
             selection[piece.id] = ref(`quantity${piece.id}`).value
         }
     })
+    // Can't generate if no piees are mentioned.
+    let n = 0;
+    Object.keys(selection).forEach((key)=>{
+        n += parseInt(selection[key])
+    })
+    if(n == 0)return;
+
+    // Start loader
+    ref("loadingPane").style.display = "flex";
+
     let result
 
     // Get seed
@@ -65,6 +73,9 @@ ref('generateBtn').addEventListener('click',()=>{
     createModule().then(({generateTrack}) => {
         // Stop loading
         ref("loadingPane").style.display = "none"
+
+        // Keep in local storage
+        locallyStore(selection);
 
         // Generate!
         const res = generateTrack(JSON.stringify(selection), seed, ref("twoLevel").checked, vCondition)
@@ -101,3 +112,8 @@ ref("measureBtn").addEventListener("click",()=>{
     makeMeasurements(JSON.stringify(selection))
 })
 
+
+// Store the input values in local storage.
+function locallyStore() {
+
+}
