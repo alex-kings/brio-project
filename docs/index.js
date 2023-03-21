@@ -103,19 +103,23 @@ ref('generateBtn').addEventListener('click',()=>{
 })
 
 // Measurements
-ref("measureBtn").addEventListener("click",()=>{
-    // Start loader
-    ref("loadingPane").style.display = "flex";
-    // Get selection
-    let selection = {}
-    pieces.forEach(piece => {
-        if(ref(`quantity${piece.id}`).value != ""){
-            selection[piece.id] = ref(`quantity${piece.id}`).value
-        }
+let btnRef = ref("measureBtn");
+if(btnRef != null) {
+    ref("measureBtn").addEventListener("click",()=>{
+        // Start loader
+        ref("loadingPane").style.display = "flex";
+        // Get selection
+        let selection = {}
+        pieces.forEach(piece => {
+            if(ref(`quantity${piece.id}`).value != ""){
+                selection[piece.id] = ref(`quantity${piece.id}`).value
+            }
+        })
+        // Get measurements
+        makeMeasurements(JSON.stringify(selection))
     })
-    // Get measurements
-    makeMeasurements(JSON.stringify(selection))
-})
+}
+
 
 
 // Store the input values in local storage.
