@@ -88,7 +88,7 @@ bool Circuit::generate() {
 bool Circuit::launchLoopGenerations() {
     while(true) {
         this->generationCount++;
-        std::cout << "iteration " <<this->generationCount << "; available dist: " << availableDist << "\n";
+        // std::cout << "iteration " <<this->generationCount << "; available dist: " << availableDist << "\n";
 
         // Generate the track!
         if(this->generateLoop(*(validationConditions.top().startPiece), *(validationConditions.top().startConnector))) {
@@ -208,8 +208,9 @@ bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connect
             Connector& openCon = *(freeConnectors.at(0)); // Get the open connector
 
             // Checks whether the validation conditions are met between the validation connector and the test piece's open connector.
+            //
             if(nbPiecesPlaced >= minPieceNb && openCon.validate(*validationConditions.top().validationConnector, validationAngle, validationDist)
-                && noPiecesInBetween(*validationConditions.top().validationPiece, *validationConditions.top().startPiece, *validationConditions.top().validationConnector, openCon)) {
+            && noPiecesInBetween(*validationConditions.top().validationPiece, testPiece, *validationConditions.top().validationConnector, openCon)) {
                 // Tests if there are pieces in between the two validation connectors
                 // if(!piecesInBetween(openCon, *validationConnector)) {
                 // }

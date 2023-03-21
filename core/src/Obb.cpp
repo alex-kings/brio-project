@@ -11,7 +11,7 @@ Obb::Obb(const Vec2D& v1, const Vec2D& v2) {
     // Find the coordinate system for v1 and v2
     Vec2D alongX = v2 - v1;
     Vec2D alongY(alongX.getY(), -alongX.getX());
-    alongY = alongY.scale(20.0 / alongY.getModulus());
+    alongY = alongY.scale(0.1 / alongY.getModulus());
     points[0] = v1 + alongY;
     points[1] = v1 - alongY;
     points[2] = v2 - alongY;

@@ -8,7 +8,7 @@ export function makeMeasurements(pieces) {
         document.getElementById("loadingPane").style.display = "none"
     
         // Generate!
-        const res = takeMeasurements(pieces, 100)
+        const res = takeMeasurements(pieces, 10)
         console.log("RESULTS:")
         console.log(res)
     })

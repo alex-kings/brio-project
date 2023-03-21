@@ -1,0 +1,46 @@
+Inputs: 12E, 2A, 12E1, 1L, 1M
+Without any prevention of pieces in between: good results
+26,64,1,1351,59,1286,1215,13,3,5
+With the naive version of pieces in between problem (a straight piece created): really bad
+1520,1556,219,3406,608,-1,1047,-1,1057,462
+This is because some valid tracks are prevented: show screenshot
+
+Slight modification
+
+
+Comparison with a normal circuit: 20E, 12A, 100 repetitions
+21,11,9,17,11,0,36,9,0,11,11,52,25,10,18,0,0,3,1,3,5,0,1,0,0,56,0,3,6,10,0,8,3,19,30,54,5,0,1,25,8,15,0,0,23,0,19,2,0,28,36,8,2,10,34,18,0,35,24,0,9,0,10,26,0,24,8,0,19,9,16,0,0,11,0,10,13,1,26,12,5,27,0,14,7,2,9,8,11,0,2,0,10,3,0,36,18,11,0,0
+Amazing performance
+With the addition:
+525,95,244,898,738,-1,184,20,150,295,196,551,542,375,335,176,-1,142,45,89,72,89,-1,-1,267,-1,806,306,240,358,896,273,91,186,212,444,248,57,-1,322,238,148,306,289,203,274,74,523,238,622,-1,424,224,150,261,35,735,45,662,84,695,-1,88,68,629,30,257,123,434,120,307,348,788,135,130,548,722,276,196,443,4,851,176,917,382,48,64,645,-1,1,698,330,78,231,446,559,258,125,-1,13
+That is seriously poor. Some generations even failed.
+Change of the width of the "phantom one" from 20 to 1
+43,31,76,124,151,8,43,8,93,98,64,67,144,16,57,114,20,3,37,17,16,4,83,21,71,66,3,30,166,25,11,76,38,155,83,132,25,49,16,155,100,32,68,0,62,39,37,2,41,137,65,202,14,80,110,27,31,46,33,24,56,106,19,67,4,29,10,49,22,86,91,172,28,97,64,11,30,6,47,86,5,33,36,32,16,4,57,90,12,1,154,0,78,16,37,155,20,12,70,4
+A hell of a lot better.
+Now made to be 0.1
+37,14,16,19,16,0,43,9,25,13,37,61,43,11,19,21,2,4,3,4,10,0,26,0,81,79,0,35,8,10,1,10,2,22,31,57,6,47,12,32,46,27,7,1,23,20,22,2,39,30,37,11,12,28,36,27,1,38,25,1,10,3,19,63,0,29,9,1,20,21,86,1,4,29,9,11,13,1,32,20,5,29,20,26,10,0,56,87,12,1,6,1,12,6,19,86,19,10,2,0
+Even better.
+
+
+Check one that failed with the 20 width (seed 6)
+
+
+
+Back to the previous track. now with width 0.1
+1321,56,1,1439,128,1333,9,1317,4,22
+a lot better. check each one separately
+Only 1 has piece in between (out of 10).
+Compared to how many previously?
+
+
+
+FIXED BUG
+Now all 10 are fine
+Measurements with the new thingy and track 1
+29,63,1,1355,61,1336,1294,13,3,5
+
+No more pieces in between
+How many before? 
+
+
+
