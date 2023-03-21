@@ -7,13 +7,28 @@ let canvas = document.getElementById("canvas")
 canvas.width = canvas.offsetWidth;
 canvas.height = canvas.offsetHeight;
 
+// console.log("computed: " + canvas.width + "x" + canvas.height);
+// setTimeout(()=>{
+//     console.log("computed: " + canvas.offsetWidth + "x" + canvas.offsetHeight);
+//     canvas.height = canvas.offsetHeight;
+//     canvas.width = canvas.offsetWidth;
+// }, 10000)
+
 let initialDraw = true
 let startScreen = true;
 let pieces = []
 let circlesShowing = false;
+// Set this canvas' height and width
+function setsize() {
+    canvas.height = canvas.offsetHeight;
+    canvas.width = canvas.offsetWidth;
+}
 
 // Initial drawing on canvas
 function draw(options){    
+    // Reset width and height
+    // canvas.width = canvas.offsetWidth;
+    // canvas.height = canvas.offsetHeight;
     if(pieces.length != 0) startScreen = false;
     if(startScreen) {
         // Draw start screen
@@ -245,12 +260,12 @@ function drawCurve(ctx, vertices, colour) {
     ctx.stroke()
 }
 
-
 let cdz = new CanvasDragZoom(canvas, draw)
 
 // Draw the given pieces on canvas.
 export function redraw(newPieces, showBoundingCircles) {
     pieces = newPieces
     circlesShowing = showBoundingCircles
+    setsize();
     cdz.redraw()
 }
