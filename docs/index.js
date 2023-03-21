@@ -38,6 +38,9 @@ pieces.forEach(piece => {
     ref("tableBody").appendChild(tr)
 })
 
+// Get previous inputs from local storage on load of the page.
+loadLocalStorage();
+
 // Kick off generation
 ref('generateBtn').addEventListener('click',()=>{
     let selection = {}
@@ -114,6 +117,15 @@ ref("measureBtn").addEventListener("click",()=>{
 
 
 // Store the input values in local storage.
-function locallyStore() {
-
+function locallyStore(s) {
+    localStorage.setItem("selection", JSON.stringify(s));
+}
+// Load inputs from local storage
+function loadLocalStorage() {
+    let s = localStorage.getItem("selection")
+    if(s == null) return;
+    s = JSON.parse(s)
+    Object.keys(s).forEach((key)=>{
+        document.getElementById(`quantity${key}`).value = s[key]
+    })    
 }
