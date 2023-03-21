@@ -19,7 +19,7 @@ let startScreen = true;
 let pieces = []
 let circlesShowing = false;
 // Set this canvas' height and width
-function setsize() {
+export function setsize() {
     canvas.height = canvas.offsetHeight;
     canvas.width = canvas.offsetWidth;
 }
@@ -261,11 +261,14 @@ function drawCurve(ctx, vertices, colour) {
 }
 
 let cdz = new CanvasDragZoom(canvas, draw)
-
+let firstTime = true;
 // Draw the given pieces on canvas.
 export function redraw(newPieces, showBoundingCircles) {
+    if(firstTime){
+        firstTime = false;
+        setsize()
+    }
     pieces = newPieces
     circlesShowing = showBoundingCircles
-    setsize();
     cdz.redraw()
 }
