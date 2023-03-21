@@ -7,6 +7,17 @@ Obb::Obb(const Json::Value& jsonRep) {
     }
 }
 
+Obb::Obb(const Vec2D& v1, const Vec2D& v2) {
+    // Find the coordinate system for v1 and v2
+    Vec2D alongX = v2 - v1;
+    Vec2D alongY(alongX.getY(), -alongX.getX());
+    alongY = alongY.scale(20.0 / alongY.getModulus());
+    points[0] = v1 + alongY;
+    points[1] = v1 - alongY;
+    points[2] = v2 - alongY;
+    points[3] = v2 + alongY;
+}
+
 void Obb::SATtest(const Vec2D& axis, const std::array<Vec2D, 4>& points, float& min, float& max) const {
     // Huge values.
     min = 100000000000000000000000000000000000.0, max = -100000000000000000000000000000000000.0;

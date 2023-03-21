@@ -166,6 +166,13 @@ private:
     */
     void printTrack();
 
+    /**
+     * Create a part between the two given open connectors.
+     * Check whether this part collides with any of the placed pieces,
+     * ignoring collisions with the two given pieces
+    */
+    bool noPiecesInBetween(const Piece& p1, const Piece& p2, const Connector c1, const Connector c2) const;
+
 public:
     /**
      * Construct from a selection of pieces.

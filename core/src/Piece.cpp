@@ -45,6 +45,11 @@ bool Piece::collides(const Piece& piece) const {
     return false;
 }
 
+bool Piece::collidesWithPart(const Part& part) const {
+    for(Part myPart : parts) if(myPart.collides(part)) return true;
+    return false;
+}
+
 bool Piece::intersects(const Vec2D& p1, const Vec2D& p2) const {
     for(const Part& part : this->parts) {
         if(part.intersects(p1, p2)) return true;

@@ -181,6 +181,9 @@ public:
     // Check whether this piece collides with the specified piece.
     bool collides(const Piece& piece) const;
 
+    // Check collision with the given part
+    bool collidesWithPart(const Part& part) const;
+
     // Flips this piece
     void flip();
 

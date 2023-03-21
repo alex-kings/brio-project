@@ -10,6 +10,12 @@ Part::Part(const Json::Value& jsonRep) {
     level = jsonRep["level"].asInt();
 }
 
+Part::Part(const Vec2D& v1, const Vec2D& v2, int lvl) {
+    // Make OBB from the two points
+    obbs.emplace_back(v1, v2);
+    level = lvl;
+}
+
 bool Part::collides(const Part& part) const {
     // If the levels aren't the same, the parts don't collide.
     if(this->level != part.level) return false;

@@ -208,7 +208,8 @@ bool Circuit::attemptPlacement(Piece& testPiece, const Piece& lastPiece, Connect
             Connector& openCon = *(freeConnectors.at(0)); // Get the open connector
 
             // Checks whether the validation conditions are met between the validation connector and the test piece's open connector.
-            if(nbPiecesPlaced >= minPieceNb && openCon.validate(*validationConditions.top().validationConnector, validationAngle, validationDist)) {
+            if(nbPiecesPlaced >= minPieceNb && openCon.validate(*validationConditions.top().validationConnector, validationAngle, validationDist)
+                && noPiecesInBetween(*validationConditions.top().validationPiece, *validationConditions.top().startPiece, *validationConditions.top().validationConnector, openCon)) {
                 // Tests if there are pieces in between the two validation connectors
                 // if(!piecesInBetween(openCon, *validationConnector)) {
                 // }
@@ -586,11 +587,16 @@ void Circuit::printTrack() {
     }
 }
 
+bool Circuit::noPiecesInBetween(const Piece& p1, const Piece& p2, const Connector c1, const Connector c2) const {
+    // Constructs a temporary Part between the two given Obbs
+    Part temp(c1.getPosition(), c2.getPosition(), c1.getLevel());
+    // Check collisions between this part and every previously placed piece
+    for(int i = 0; i < availableEnd; i++) {
+        const Piece& testPiece = this->pieces.at(i);
+        if(!testPiece.isUsed() || &testPiece == &p1 || &testPiece == &p2) continue; // Skip unplaced pieces.
 
-// // bool Circuit::piecesInBetween(const Connector& c1, const Connector& c2) const {
-// //     for(const Piece& p : this->pieces) {
-// //         if(!p.isUsed()) continue;
-// //         if(p.intersects(c1.getPosition(), c2.getPosition())) return true;
-// //     }
-// //     return false;
-// // }
+        if (testPiece.collidesWithPart(temp)) return false;
+    }
+    return true;
+}
+

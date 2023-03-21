@@ -38,6 +38,11 @@ public:
         return Vec2D(x-v.x, y-v.y);
     }
 
+    // Scale this vector by the given float and return the result
+    Vec2D scale(float n) {
+        return Vec2D(x*n, y*n);
+    }
+
     // Overload operator * for dot product
     float operator * (const Vec2D& v) const {
         return x*v.x + y*v.y;

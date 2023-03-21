@@ -27,6 +27,9 @@ public:
     // Initialise from json representation
     Part(const Json::Value &jsonRep);
 
+    // Construct a Part between the two given points and with the given level.
+    Part(const Vec2D& v1, const Vec2D& v2, int lvl);
+
     // Parse to json
     std::string toJson() const {
         std::string jsonRep = "{\"rectangles\":[";

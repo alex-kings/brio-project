@@ -35,6 +35,9 @@ public:
     // Initialise from json representation.
     Obb(const Json::Value& jsonRep);
 
+    // Construct between the two given points
+    Obb(const Vec2D& v1, const Vec2D& v2);
+
     // parse to json
     std::string toJson() const {
         std::string jsonRep = "[";
