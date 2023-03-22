@@ -173,6 +173,7 @@ private:
     */
     bool noPiecesInBetween(const Piece& p1, const Piece& p2, const Connector c1, const Connector c2) const;
 
+
 public:
     /**
      * Construct from a selection of pieces.

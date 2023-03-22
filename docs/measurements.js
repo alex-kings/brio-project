@@ -1,6 +1,7 @@
 /**
  * Make measurements
  */
+const NUMBER_MEASUREMENTS = 100;
 
 export function makeMeasurements(pieces) {
     createModule().then(({takeMeasurements}) => {
@@ -8,7 +9,7 @@ export function makeMeasurements(pieces) {
         document.getElementById("loadingPane").style.display = "none"
     
         // Generate!
-        const res = takeMeasurements(pieces, 10)
+        const res = takeMeasurements(pieces, NUMBER_MEASUREMENTS)
         console.log("RESULTS:")
         console.log(res)
     })

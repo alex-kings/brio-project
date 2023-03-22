@@ -340,6 +340,8 @@ bool Circuit::setupLoop() {
     // std::cout << "Now setting up maxLevel\n";
     maxLevelLoop = (numberAscending / 2) + validationConditions.top().startConnector->getLevel();
     // std::cout << "Max level setup: "<<maxLevelLoop <<"\n";
+    // If this is a two level track, setup to level 1 max.
+    if(isTwoLevel && maxLevelLoop > 1) maxLevelLoop = 1;
 
     // Setup minimum pieces placed condition
     this->minPieceNb = std::floor(0.6*(availableEnd - pEnds.top())) + nbPiecesPlaced; // 60% of the available pieces for this loop, plus the already placed pieces.
