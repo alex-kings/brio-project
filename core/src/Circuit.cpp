@@ -80,7 +80,8 @@ bool Circuit::generate() {
     }
     // Print elapsed time.
     std::chrono::steady_clock::time_point endTime = std::chrono::steady_clock::now();
-    std::cout << "Generated in " << std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count() << "ms\n";
+    std::cout   << "Generated in " << std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count() 
+                << "ms, " << generationCount << " generations, " << currentNumberRecursions << " recursions\n";
 
     return true;
 }
