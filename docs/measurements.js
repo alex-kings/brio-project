@@ -1,7 +1,7 @@
 /**
  * Make measurements
  */
-const NUMBER_MEASUREMENTS = 100;
+const NUMBER_MEASUREMENTS = 10;
 
 export function makeMeasurements(pieces) {
     createModule().then(({takeMeasurements}) => {
