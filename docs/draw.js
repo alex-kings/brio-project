@@ -7,10 +7,10 @@ let canvas = document.getElementById("canvas")
 canvas.width = canvas.offsetWidth;
 canvas.height = canvas.offsetHeight;
 
-let initialDraw = true
 let startScreen = true;
 let pieces = []
 let circlesShowing = false;
+
 // Set this canvas' height and width
 export function setsize() {
     canvas.height = canvas.offsetHeight;
@@ -18,10 +18,13 @@ export function setsize() {
 }
 
 // Initial drawing on canvas
+let firstTime = true;
 function draw(options){    
+    if(firstTime){
+        firstTime = false;
+        setsize()
+    }
     // Reset width and height
-    // canvas.width = canvas.offsetWidth;
-    // canvas.height = canvas.offsetHeight;
     if(pieces.length != 0) startScreen = false;
     if(startScreen) {
         // Draw start screen
@@ -90,32 +93,6 @@ function draw(options){
     }
 
     options.ctx.translate(-canvas.width/2, -canvas.height/2)
-
-
-    // // First sort the pieces by their level.
-    // pieces.sort((a,b)=>(getLevel(a) > getLevel(b)));
-
-    // pieces.forEach(piece => {
-    //     // Only draw used pieces!
-    //     if(piece.used) {
-    //         drawPiece(options.ctx, piece, getPieceColour(piece.id))
-    //     }            
-    //     // if(piece.used) drawPiece(options.ctx, piece, "blue")
-    //     // else drawPiece(options.ctx, piece, "gray")
-    // })
-}
-
-
-function getLevel(piece) {
-    let lowestLevel = piece.connectors[0].level
-    for(let i = 1; i < piece.connectors.length; i++) {
-        if(piece.connectors[i].level < lowestLevel) lowestLevel = piece.connectors[i].level
-    }
-    if(piece.id == "N") {
-        // Ascending pieces have half-integer level.
-        return lowestLevel + 0.5
-    }
-    return lowestLevel
 }
 
 // Piece-dependant colouring
@@ -189,31 +166,6 @@ function drawConnector(ctx,connector) {
     
 }
 
-// Draw a piece at position given on the canvas
-function drawPiece(ctx, piece, colour) {
-    // Draw each part
-    piece.parts.forEach(part => {
-        // Draw the bezier curve for this piece
-        // drawBezier(ctx, part.bezierPoints)
-
-        // Draw the rectangles for this part
-        part.rectangles.forEach(r=>{
-            drawRect(ctx,r,colour, part.level)
-        })
-    })
-
-    // Draw connectors
-    piece.connectors.forEach(con => {
-        // drawPoint(ctx, con.position.x, con.position.y, con.type? "red" : "green");
-
-        // Only draw connectors of male (true) type.
-        if(con.type) {
-            drawConnector(ctx,con)
-        }
-    })
-}
-
-
 // Draw point at given position on canvas
 function drawPoint(ctx, x, y, colour, size) {
     ctx.fillStyle = colour
@@ -241,26 +193,9 @@ function drawRect(ctx, rect, colour, pieceLevel){
     ctx.stroke(region)
 }
 
-
-// Draw curve
-function drawCurve(ctx, vertices, colour) {
-    ctx.strokeStyle = colour
-    ctx.beginPath()
-    ctx.moveTo(vertices[0].x, vertices[0].y)
-    for (let i = 1; i < vertices.length; i++) {
-        ctx.lineTo(vertices[i].x, vertices[i].y)
-    }
-    ctx.stroke()
-}
-
 let cdz = new CanvasDragZoom(canvas, draw)
-let firstTime = true;
 // Draw the given pieces on canvas.
 export function redraw(newPieces, showBoundingCircles) {
-    if(firstTime){
-        firstTime = false;
-        setsize()
-    }
     pieces = newPieces
     circlesShowing = showBoundingCircles
     cdz.redraw()
