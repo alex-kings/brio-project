@@ -1,4 +1,4 @@
-To get emsdk:
+Get emsdk:
 ```
 git clone https://github.com/emscripten-core/emsdk.git
 cd emsdk
@@ -8,7 +8,8 @@ git pull
 source ./emsdk_env.sh
 ```
 
-Compile with meson and emscripten:
+Compile the C++ program to WebAssembly, and place the compiled documents at the right location in the "docs" folder:
 ```
-meson setup build --cross-file=wasm.ini
+cd core
+./compile.sh
 ```
